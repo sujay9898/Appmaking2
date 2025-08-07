@@ -14,13 +14,23 @@ export default function HomePage() {
     queryKey: ["/api/movies"],
   });
 
-  // Organize movies into exactly 3 rows
-  const moviesPerRow = Math.ceil(movies.length / 3);
+  // Organize movies into 2 sections
+  const today = new Date().toISOString().split('T')[0];
   
-  // Split movies into 3 equal rows
-  const row1Movies = movies.slice(0, moviesPerRow);
-  const row2Movies = movies.slice(moviesPerRow, moviesPerRow * 2);
-  const row3Movies = movies.slice(moviesPerRow * 2);
+  // Today trending movies (movies with reminders for today or popular ones)
+  const todayTrendingMovies = movies.filter(movie => {
+    return movie.reminderDate === today;
+  });
+  
+  // If no movies for today, show first half of movies as trending
+  const trendingMovies = todayTrendingMovies.length > 0 
+    ? todayTrendingMovies 
+    : movies.slice(0, Math.ceil(movies.length / 2));
+  
+  // Recently added movies (sorted by creation date)
+  const recentlyAddedMovies = [...movies]
+    .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+    .slice(0, 10);
 
   const MovieRow = ({ title, movies: rowMovies }: { title: string; movies: Movie[] }) => {
     if (rowMovies.length === 0) return null;
@@ -105,9 +115,8 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="space-y-8">
-            <MovieRow title="Popular Movies" movies={row1Movies} />
-            <MovieRow title="Trending Now" movies={row2Movies} />
-            <MovieRow title="Recently Added" movies={row3Movies} />
+            <MovieRow title="Today Trending Movies" movies={trendingMovies} />
+            <MovieRow title="Recently Added Movies" movies={recentlyAddedMovies} />
           </div>
         )}
       </div>
