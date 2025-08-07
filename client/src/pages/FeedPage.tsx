@@ -229,20 +229,20 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 pb-20">
+    <div className="min-h-screen bg-background pb-20">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
       <div className="pt-20 max-w-4xl mx-auto px-4 py-6">
         {/* Feed Box */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold text-white mb-4 px-4">feed here</h2>
+          <h2 className="text-subheading text-foreground mb-4 px-4">feed here</h2>
           <div className="relative px-4">
             <Textarea
               value={feedText}
               onChange={(e) => setFeedText(e.target.value)}
               placeholder={placeholders[currentPlaceholder]}
               rows={3}
-              className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 pr-12 text-base resize-none"
+              className="night-input text-foreground placeholder-muted-foreground pr-12 text-body resize-none"
             />
             
             {/* Image Preview */}
@@ -251,12 +251,12 @@ export default function FeedPage() {
                 <img 
                   src={selectedImage} 
                   alt="Selected" 
-                  className="w-24 h-24 object-cover rounded border border-gray-600"
+                  className="w-24 h-24 object-cover rounded border border-border"
                 />
                 <Button
                   onClick={removeImage}
                   size="sm"
-                  className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 p-1 h-6 w-6 rounded-full"
+                  className="absolute -top-2 -right-2 bg-destructive hover:bg-destructive/90 p-1 h-6 w-6 rounded-full night-button"
                 >
                   ×
                 </Button>
@@ -275,14 +275,14 @@ export default function FeedPage() {
               <Button
                 onClick={() => fileInputRef.current?.click()}
                 size="sm"
-                className="bg-gray-600 hover:bg-gray-700 p-2 h-8 w-8"
+                className="bg-secondary hover:bg-secondary/80 p-2 h-8 w-8 night-button"
               >
                 <Image size={14} />
               </Button>
               <Button
                 onClick={handleSend}
                 size="sm"
-                className="bg-blue-600 hover:bg-blue-700 p-2 h-8 w-8"
+                className="bg-primary hover:bg-primary/90 p-2 h-8 w-8 night-button"
               >
                 <Send size={14} />
               </Button>
@@ -292,13 +292,13 @@ export default function FeedPage() {
 
         {/* Pick and Flex Section */}
         <div className="mb-8 relative">
-          <h3 className="text-lg font-semibold text-white mb-4 px-4">Pick and Flex</h3>
+          <h3 className="text-subheading text-foreground mb-4 px-4">Pick and Flex</h3>
           
           <div className="relative">
             {isLoadingTrending ? (
               <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
                 {[1, 2, 3, 4, 5, 6].map(i => (
-                  <div key={i} className="w-40 aspect-[2/3] bg-gray-700 rounded-lg animate-pulse flex-none"></div>
+                  <div key={i} className="w-40 aspect-[2/3] bg-secondary rounded-lg animate-pulse flex-none"></div>
                 ))}
               </div>
             ) : (
@@ -310,15 +310,15 @@ export default function FeedPage() {
                 >
                   {trendingAll.slice(0, 15).map((movie) => (
                     <div key={movie.tmdbId} className="w-32 flex-none cursor-pointer group">
-                      <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200">
+                      <div className="night-card overflow-hidden hover:scale-105 transition-all duration-200">
                         <img 
                           src={movie.posterPath || "https://via.placeholder.com/192x288?text=No+Poster"} 
                           alt={movie.title}
                           className="w-full aspect-[2/3] object-cover"
                         />
                         <div className="p-2">
-                          <h3 className="text-white text-xs font-medium truncate">{movie.title}</h3>
-                          <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
+                          <h3 className="text-foreground text-body-sm font-medium truncate">{movie.title}</h3>
+                          <p className="text-muted-foreground text-xs mt-1">{movie.releaseYear}</p>
                         </div>
                       </div>
                     </div>
@@ -329,7 +329,7 @@ export default function FeedPage() {
                 <div className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition-opacity duration-300 ${showSeeMore ? 'opacity-100' : 'opacity-0'}`}>
                   <Button
                     onClick={() => setLocation('/movies')}
-                    className="bg-black/80 hover:bg-black/90 text-white border border-gray-600 backdrop-blur-sm px-4 py-2 text-sm font-medium"
+                    className="night-button bg-card/80 hover:bg-card text-foreground border border-border backdrop-blur-sm px-4 py-2 btn-text"
                   >
                     See More <ArrowRight size={14} className="ml-1" />
                   </Button>
@@ -342,7 +342,7 @@ export default function FeedPage() {
         {/* Feed Posts */}
         <div className="space-y-6 px-4">
           {posts.map((post) => (
-            <Card key={post.id} className="bg-gray-800 border-gray-700">
+            <Card key={post.id} className="night-card">
               <CardContent className="p-6">
                 {/* Profile and Username */}
                 <div className="flex items-center mb-3">
