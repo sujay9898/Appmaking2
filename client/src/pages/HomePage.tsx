@@ -119,32 +119,35 @@ export default function HomePage() {
           </p>
         </div>
 
-        {movies.length === 0 ? (
-          <div className="text-center py-16" data-testid="empty-state">
-            <div className="bg-gray-800 mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-4">
-              <Film className="text-3xl text-gray-400" size={48} />
+        {/* Always show trending and popular movies */}
+        <div className="space-y-8">
+          <TrendingMovieRow title="Today Trending Movies" movies={trendingMovies} />
+          <TrendingMovieRow title="Popular Movies" movies={popularMovies} />
+          
+          {/* Show watchlist section or empty state */}
+          {movies.length === 0 ? (
+            <div className="text-center py-16 px-4" data-testid="empty-watchlist">
+              <div className="bg-gray-800 mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-4">
+                <Film className="text-3xl text-gray-400" size={48} />
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                No movies in your watchlist
+              </h3>
+              <p className="text-gray-400 mb-6">
+                Start building your watchlist by adding your first movie!
+              </p>
+              <Button 
+                onClick={() => setIsAddModalOpen(true)}
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 text-lg"
+                data-testid="button-add-first-movie"
+              >
+                Add Your First Movie
+              </Button>
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">
-              No movies in your watchlist
-            </h3>
-            <p className="text-gray-400 mb-6">
-              Start building your watchlist by adding your first movie!
-            </p>
-            <Button 
-              onClick={() => setIsAddModalOpen(true)}
-              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 text-lg"
-              data-testid="button-add-first-movie"
-            >
-              Add Your First Movie
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-8">
-            <TrendingMovieRow title="Today Trending Movies" movies={trendingMovies} />
-            <TrendingMovieRow title="Popular Movies" movies={popularMovies} />
+          ) : (
             <WatchlistMovieSection title="Recently Added Movies" movies={recentlyAddedMovies} />
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <AddMovieModal 
