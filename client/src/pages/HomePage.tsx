@@ -1,141 +1,131 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
-import StatsSection from "@/components/StatsSection";
-import Sidebar from "@/components/Sidebar";
 import MovieCard from "@/components/MovieCard";
 import AddMovieModal from "@/components/AddMovieModal";
-import { Film } from "lucide-react";
+import { Film, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Movie } from "@shared/schema";
 
 export default function HomePage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filterType, setFilterType] = useState("all");
 
   const { data: movies = [], isLoading } = useQuery<Movie[]>({
     queryKey: ["/api/movies"],
   });
 
-  const filteredMovies = movies.filter(movie => {
-    const matchesSearch = movie.title.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    if (!matchesSearch) return false;
-
+  // Organize movies by categories
+  const now = new Date();
+  const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  
+  const upcomingMovies = movies.filter(movie => {
     const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
-    const now = new Date();
-    const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-
-    switch (filterType) {
-      case "upcoming":
-        return reminderDate > now;
-      case "this-week":
-        return reminderDate > now && reminderDate <= weekFromNow;
-      case "past":
-        return reminderDate <= now;
-      default:
-        return true;
-    }
+    return reminderDate > now;
+  });
+  
+  const thisWeekMovies = movies.filter(movie => {
+    const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
+    return reminderDate > now && reminderDate <= weekFromNow;
+  });
+  
+  const recentlyAdded = [...movies].sort((a, b) => 
+    new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+  ).slice(0, 10);
+  
+  const pastReminders = movies.filter(movie => {
+    const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
+    return reminderDate <= now;
   });
 
-  const upcomingReminders = movies.filter(movie => {
-    const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
-    return reminderDate > new Date();
-  }).length;
-
-  const thisWeekReminders = movies.filter(movie => {
-    const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
-    const now = new Date();
-    const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-    return reminderDate > now && reminderDate <= weekFromNow;
-  }).length;
+  const MovieRow = ({ title, movies: rowMovies }: { title: string; movies: Movie[] }) => {
+    if (rowMovies.length === 0) return null;
+    
+    return (
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-4 px-4">{title}</h2>
+        <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
+          {rowMovies.map((movie) => (
+            <div key={movie.id} className="flex-none w-48">
+              <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200">
+                <img 
+                  src={movie.posterPath || "https://via.placeholder.com/300x450?text=No+Poster"} 
+                  alt={movie.title}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="p-3">
+                  <h3 className="text-white text-sm font-medium truncate">{movie.title}</h3>
+                  <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-900">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="bg-white rounded-xl shadow-sm p-6 border border-gray-200 animate-pulse">
-                <div className="h-16 bg-gray-200 rounded"></div>
+        <div className="pt-20">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="mb-8 px-4">
+              <div className="h-6 bg-gray-700 rounded w-48 mb-4 animate-pulse"></div>
+              <div className="flex space-x-4">
+                {[1, 2, 3, 4, 5].map(j => (
+                  <div key={j} className="flex-none w-48 h-64 bg-gray-700 rounded-lg animate-pulse"></div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-900">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <StatsSection 
-          totalMovies={movies.length}
-          upcomingReminders={upcomingReminders}
-          thisWeekCount={thisWeekReminders}
-        />
-        
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <Sidebar 
-            filterType={filterType}
-            onFilterChange={setFilterType}
-          />
-          
-          <div className="lg:col-span-3">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Your Watchlist</h2>
-              <div className="flex items-center space-x-3">
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    placeholder="Search movies..." 
-                    className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    data-testid="input-search-movies"
-                  />
-                  <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                </div>
-              </div>
-            </div>
-
-            {filteredMovies.length === 0 ? (
-              <div className="text-center py-16" data-testid="empty-state">
-                <div className="bg-gray-100 mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-4">
-                  <Film className="text-3xl text-gray-400" size={48} />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {movies.length === 0 ? "No movies in your watchlist" : "No movies match your search"}
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  {movies.length === 0 
-                    ? "Start building your watchlist by adding your first movie!" 
-                    : "Try adjusting your search or filter criteria"
-                  }
-                </p>
-                {movies.length === 0 && (
-                  <Button 
-                    onClick={() => setIsAddModalOpen(true)}
-                    className="bg-primary-600 hover:bg-primary-700"
-                    data-testid="button-add-first-movie"
-                  >
-                    Add Your First Movie
-                  </Button>
-                )}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="movie-grid">
-                {filteredMovies.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
-                ))}
-              </div>
-            )}
-          </div>
+      <div className="pt-20">
+        {/* Hero Section */}
+        <div className="text-center py-12 px-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+            Your Personal Watchlist
+          </h1>
+          <p className="text-xl text-gray-300 mb-8">
+            Never miss a movie you want to watch
+          </p>
         </div>
+
+        {movies.length === 0 ? (
+          <div className="text-center py-16" data-testid="empty-state">
+            <div className="bg-gray-800 mx-auto w-24 h-24 rounded-full flex items-center justify-center mb-4">
+              <Film className="text-3xl text-gray-400" size={48} />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              No movies in your watchlist
+            </h3>
+            <p className="text-gray-400 mb-6">
+              Start building your watchlist by adding your first movie!
+            </p>
+            <Button 
+              onClick={() => setIsAddModalOpen(true)}
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 text-lg"
+              data-testid="button-add-first-movie"
+            >
+              Add Your First Movie
+            </Button>
+          </div>
+        ) : (
+          <div className="space-y-8">
+            <MovieRow title="Watch This Week" movies={thisWeekMovies} />
+            <MovieRow title="Coming Up" movies={upcomingMovies} />
+            <MovieRow title="Recently Added" movies={recentlyAdded} />
+            <MovieRow title="Past Reminders" movies={pastReminders} />
+          </div>
+        )}
       </div>
 
       <AddMovieModal 

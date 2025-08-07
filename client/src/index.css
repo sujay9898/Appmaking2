@@ -130,3 +130,13 @@
 .hover\:text-primary-700:hover {
   color: var(--primary-700);
 }
+
+/* Netflix-style scrollbar hiding */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
