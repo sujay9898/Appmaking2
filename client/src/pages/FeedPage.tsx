@@ -140,8 +140,8 @@ export default function FeedPage() {
     const newPost: FeedPost = {
       id: Date.now().toString(),
       username: "you",
-      caption: "Shared a thought",
-      content: feedText.trim(),
+      caption: feedText.trim(),
+      content: "",
       timestamp: "just now",
       likes: 0,
       comments: 0
@@ -323,11 +323,11 @@ export default function FeedPage() {
                       )}
                     </div>
                   </div>
-                ) : (
+                ) : post.content ? (
                   <div className="mb-4 p-4 bg-gray-700 rounded-lg">
                     <p className="text-gray-300 leading-relaxed whitespace-pre-line">{post.content}</p>
                   </div>
-                )}
+                ) : null}
 
                 {/* Like and Comment Buttons */}
                 <div className="flex space-x-4">
