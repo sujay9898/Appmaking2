@@ -317,7 +317,7 @@ export default function FeedPage() {
                             )}
                           </h5>
                           {post.movieSynopsis && (
-                            <p className="text-gray-400 text-xs mt-1 line-clamp-2">{post.movieSynopsis}</p>
+                            <p className="text-gray-400 text-xs mt-1">{post.movieSynopsis}</p>
                           )}
                         </div>
                       )}
