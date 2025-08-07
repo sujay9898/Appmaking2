@@ -15,7 +15,7 @@ export class TMDBService {
   private imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
 
   constructor() {
-    this.apiKey = process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY || '';
+    this.apiKey = process.env.TMDB_API_KEY || process.env.VITE_TMDB_API_KEY || '19861d6a9e6917178763eb4dadcc1b2f';
     if (!this.apiKey) {
       console.warn('TMDB API key not found. Movie search will not work.');
     }
