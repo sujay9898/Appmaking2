@@ -52,7 +52,7 @@ export default function AddMovieModal({ isOpen, onClose }: AddMovieModalProps) {
 
   // Search movies from TMDB
   const { data: searchResults = [], isLoading: isSearching } = useQuery<SearchResult[]>({
-    queryKey: ["/api/movies/search", { q: searchQuery }],
+    queryKey: [`/api/movies/search?q=${encodeURIComponent(searchQuery)}`],
     enabled: searchQuery.length > 2,
   });
 
