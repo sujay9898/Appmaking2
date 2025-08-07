@@ -91,7 +91,8 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
       likes: 0,
       comments: 0,
       moviePoster: movie.posterPath || null,
-      movieTitle: movie.title
+      movieTitle: movie.title,
+      movieYear: movie.releaseYear
     };
     
     // Store in localStorage to be picked up by FeedPage

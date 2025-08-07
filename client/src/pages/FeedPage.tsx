@@ -30,6 +30,7 @@ interface FeedPost {
   comments: number;
   moviePoster?: string | null;
   movieTitle?: string;
+  movieYear?: string;
 }
 
 // Dummy data for posts
@@ -308,7 +309,12 @@ export default function FeedPage() {
                       />
                       {post.movieTitle && (
                         <div className="flex-1 min-w-0">
-                          <h5 className="font-semibold text-white text-sm">{post.movieTitle}</h5>
+                          <h5 className="font-semibold text-white text-sm">
+                            {post.movieTitle}
+                            {post.movieYear && (
+                              <span className="text-gray-400 font-normal ml-2">({post.movieYear})</span>
+                            )}
+                          </h5>
                         </div>
                       )}
                     </div>
