@@ -68,28 +68,16 @@ export default function HomePage() {
     );
   };
 
-  // Component for user's watchlist movies
-  const MovieRow = ({ title, movies: rowMovies }: { title: string; movies: Movie[] }) => {
+  // Component for user's watchlist movies - now using the full MovieCard component
+  const WatchlistMovieSection = ({ title, movies: rowMovies }: { title: string; movies: Movie[] }) => {
     if (rowMovies.length === 0) return null;
     
     return (
       <div className="mb-8">
         <h2 className="text-xl font-semibold text-white mb-4 px-4">{title}</h2>
-        <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
           {rowMovies.map((movie) => (
-            <div key={movie.id} className="flex-none w-48">
-              <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200">
-                <img 
-                  src={movie.posterPath || "https://via.placeholder.com/300x450?text=No+Poster"} 
-                  alt={movie.title}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="text-white text-sm font-medium truncate">{movie.title}</h3>
-                  <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
-                </div>
-              </div>
-            </div>
+            <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
       </div>
@@ -154,7 +142,7 @@ export default function HomePage() {
           <div className="space-y-8">
             <TrendingMovieRow title="Today Trending Movies" movies={trendingMovies} />
             <TrendingMovieRow title="Popular Movies" movies={popularMovies} />
-            <MovieRow title="Recently Added Movies" movies={recentlyAddedMovies} />
+            <WatchlistMovieSection title="Recently Added Movies" movies={recentlyAddedMovies} />
           </div>
         )}
       </div>
