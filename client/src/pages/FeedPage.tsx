@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, MessageCircle, Send, User, ArrowRight } from "lucide-react";
+import { Heart, MessageCircle, Send, User, ArrowRight, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
@@ -221,13 +221,21 @@ export default function FeedPage() {
               rows={3}
               className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 pr-12 text-base resize-none"
             />
-            <Button
-              onClick={handleSend}
-              size="sm"
-              className="absolute right-6 bottom-3 bg-blue-600 hover:bg-blue-700 p-2 h-8 w-8"
-            >
-              <Send size={14} />
-            </Button>
+            <div className="absolute right-6 bottom-3 flex gap-2">
+              <Button
+                size="sm"
+                className="bg-gray-600 hover:bg-gray-700 p-2 h-8 w-8"
+              >
+                <Image size={14} />
+              </Button>
+              <Button
+                onClick={handleSend}
+                size="sm"
+                className="bg-blue-600 hover:bg-blue-700 p-2 h-8 w-8"
+              >
+                <Send size={14} />
+              </Button>
+            </div>
           </div>
         </div>
 
