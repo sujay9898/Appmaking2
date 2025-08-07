@@ -96,16 +96,6 @@ export default function HomePage() {
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
       <div className="pt-20">
-        {/* Hero Section */}
-        <div className="text-center py-12 px-4">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            Your Personal Watchlist
-          </h1>
-          <p className="text-xl text-gray-300 mb-8">
-            Never miss a movie you want to watch
-          </p>
-        </div>
-
         {/* Always show trending content and genres */}
         <div className="space-y-8">
           <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
