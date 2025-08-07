@@ -1,12 +1,12 @@
 import { Link, useLocation } from "wouter";
-import { Home, FileText, Film, User } from "lucide-react";
+import { FileText, Film, User } from "lucide-react";
 
 export default function FooterNavigation() {
   const [location] = useLocation();
 
   const navItems = [
-    { icon: Home, label: "Home", path: "/" },
-    { icon: FileText, label: "Feed", path: "/feed" },
+    { icon: FileText, label: "Feed", path: "/" },
+    { icon: Film, label: "Pick Movie", path: "/movies" },
     { icon: Film, label: "Watchlist", path: "/watchlist" },
     { icon: User, label: "Profile", path: "/profile" }
   ];
