@@ -220,11 +220,19 @@ export default function FeedPage() {
                   onScroll={handleScroll}
                 >
                   {trendingAll.slice(0, 15).map((movie) => (
-                    <ClickableMovieCard 
-                      key={movie.tmdbId} 
-                      movie={movie} 
-                      size="medium"
-                    />
+                    <div key={movie.tmdbId} className="w-32 flex-none cursor-pointer group">
+                      <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200">
+                        <img 
+                          src={movie.posterPath || "https://via.placeholder.com/192x288?text=No+Poster"} 
+                          alt={movie.title}
+                          className="w-full aspect-[2/3] object-cover"
+                        />
+                        <div className="p-2">
+                          <h3 className="text-white text-xs font-medium truncate">{movie.title}</h3>
+                          <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
+                        </div>
+                      </div>
+                    </div>
                   ))}
                 </div>
                 
