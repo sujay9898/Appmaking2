@@ -85,7 +85,7 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
     const feedPost = {
       id: Date.now().toString(),
       username: "you",
-      caption: data.note ? `📝 ${data.note}` : "📝 Eager to watch",
+      caption: data.note ? `📝 ${data.note}` : "",
       content: "",
       timestamp: "just now",
       likes: 0,
