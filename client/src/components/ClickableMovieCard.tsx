@@ -20,8 +20,8 @@ export default function ClickableMovieCard({ movie, size = "medium" }: Clickable
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showAddButton, setShowAddButton] = useState(false);
 
-  const cardClasses = size === "small" ? "w-36 h-52" : "w-48 h-64";
-  const imageClasses = size === "small" ? "h-40" : "h-48";
+  const cardClasses = size === "small" ? "w-36" : "w-48";
+  const imageClasses = size === "small" ? "aspect-[2/3]" : "aspect-[2/3]";
 
   return (
     <>
@@ -31,7 +31,7 @@ export default function ClickableMovieCard({ movie, size = "medium" }: Clickable
         onMouseEnter={() => setShowAddButton(true)}
         onMouseLeave={() => setShowAddButton(false)}
       >
-        <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200 h-full relative">
+        <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200 relative">
           <img 
             src={movie.posterPath || "https://via.placeholder.com/300x450?text=No+Poster"} 
             alt={movie.title}

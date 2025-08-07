@@ -24,11 +24,7 @@ export default function HomePage() {
     queryKey: ["/api/movies"],
   });
 
-  // Fetch trending movies from TMDB
-  const { data: trendingMovies = [], isLoading: isLoadingTrending } = useQuery<TrendingMovie[]>({
-    queryKey: ["/api/movies/trending"],
-    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
-  });
+
 
   // Fetch trending movies & series from TMDB
   const { data: trendingAll = [], isLoading: isLoadingTrendingAll } = useQuery<TrendingMovie[]>({
@@ -75,17 +71,17 @@ export default function HomePage() {
     );
   };
 
-  if (isLoading || isLoadingTrending || isLoadingTrendingAll) {
+  if (isLoading || isLoadingTrendingAll) {
     return (
       <div className="min-h-screen bg-gray-900">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
         <div className="pt-20">
-          {[1, 2, 3, 4].map(i => (
+          {[1, 2, 3].map(i => (
             <div key={i} className="mb-8 px-4">
               <div className="h-6 bg-gray-700 rounded w-48 mb-4 animate-pulse"></div>
               <div className="flex space-x-4">
                 {[1, 2, 3, 4, 5].map(j => (
-                  <div key={j} className="flex-none w-48 h-64 bg-gray-700 rounded-lg animate-pulse"></div>
+                  <div key={j} className="flex-none w-48 aspect-[2/3] bg-gray-700 rounded-lg animate-pulse"></div>
                 ))}
               </div>
             </div>
@@ -112,7 +108,6 @@ export default function HomePage() {
 
         {/* Always show trending content and genres */}
         <div className="space-y-8">
-          <TrendingMovieRow title="Today Trending Movies" movies={trendingMovies} />
           <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
           <GenreSection />
           
