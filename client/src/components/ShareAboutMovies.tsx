@@ -23,10 +23,12 @@ export default function ShareAboutMovies() {
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
       {/* Feed here section */}
       <div className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4 px-4">feed here</h2>
         <div className="px-4">
           <Card className="bg-gray-800 border-gray-700 border-opacity-50">
             <CardContent className="p-4">
+              <div className="mb-3">
+                <h2 className="text-xl font-semibold text-white">feed here</h2>
+              </div>
               <div className="flex items-center gap-3">
                 <MessageCircle size={18} className="text-gray-400 flex-shrink-0" />
                 <div className="flex-1 bg-gray-700 border border-gray-600 rounded-sm px-3 py-2 min-h-[40px] flex items-center">
