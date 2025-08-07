@@ -14,28 +14,13 @@ export default function HomePage() {
     queryKey: ["/api/movies"],
   });
 
-  // Organize movies by categories
-  const now = new Date();
-  const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  // Organize movies into exactly 3 rows
+  const moviesPerRow = Math.ceil(movies.length / 3);
   
-  const upcomingMovies = movies.filter(movie => {
-    const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
-    return reminderDate > now;
-  });
-  
-  const thisWeekMovies = movies.filter(movie => {
-    const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
-    return reminderDate > now && reminderDate <= weekFromNow;
-  });
-  
-  const recentlyAdded = [...movies].sort((a, b) => 
-    new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
-  ).slice(0, 10);
-  
-  const pastReminders = movies.filter(movie => {
-    const reminderDate = new Date(`${movie.reminderDate} ${movie.reminderTime}`);
-    return reminderDate <= now;
-  });
+  // Split movies into 3 equal rows
+  const row1Movies = movies.slice(0, moviesPerRow);
+  const row2Movies = movies.slice(moviesPerRow, moviesPerRow * 2);
+  const row3Movies = movies.slice(moviesPerRow * 2);
 
   const MovieRow = ({ title, movies: rowMovies }: { title: string; movies: Movie[] }) => {
     if (rowMovies.length === 0) return null;
@@ -120,10 +105,9 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="space-y-8">
-            <MovieRow title="Watch This Week" movies={thisWeekMovies} />
-            <MovieRow title="Coming Up" movies={upcomingMovies} />
-            <MovieRow title="Recently Added" movies={recentlyAdded} />
-            <MovieRow title="Past Reminders" movies={pastReminders} />
+            <MovieRow title="Popular Movies" movies={row1Movies} />
+            <MovieRow title="Trending Now" movies={row2Movies} />
+            <MovieRow title="Recently Added" movies={row3Movies} />
           </div>
         )}
       </div>
