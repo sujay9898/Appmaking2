@@ -8,6 +8,7 @@ import { Heart, MessageCircle, Send, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import Navigation from "@/components/Navigation";
+import FooterNavigation from "@/components/FooterNavigation";
 import type { MovieComment, InsertMovieComment } from "@shared/schema";
 
 export default function FeedPage() {
@@ -105,7 +106,7 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div className="min-h-screen bg-gray-900 pb-20">
       <Navigation onAddMovie={() => {}} />
       
       <div className="pt-20 max-w-4xl mx-auto px-4 py-6">
@@ -251,6 +252,8 @@ export default function FeedPage() {
           )}
         </div>
       </div>
+      
+      <FooterNavigation />
     </div>
   );
 }
