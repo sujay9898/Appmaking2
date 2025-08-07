@@ -341,14 +341,14 @@ export default function FeedPage() {
                         : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600"
                     }`}
                   >
-                    👍 LIKE ({post.likes})
+                    ❤️ {post.likes}
                   </Button>
                   <Button
                     variant="outline"
                     size="lg"
                     className="flex-1 py-3 text-base font-semibold bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600"
                   >
-                    💬 COMMENT ({post.comments})
+                    💬 {post.comments}
                   </Button>
                 </div>
               </CardContent>
