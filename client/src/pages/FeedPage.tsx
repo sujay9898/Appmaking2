@@ -32,6 +32,7 @@ interface FeedPost {
   movieTitle?: string;
   movieYear?: string;
   movieInfo?: string;
+  image?: string | null;
 }
 
 // Dummy data for posts
@@ -72,9 +73,11 @@ export default function FeedPage() {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [, setLocation] = useLocation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   // Fetch trending movies & series from TMDB
@@ -135,7 +138,7 @@ export default function FeedPage() {
   }, [toast]);
 
   const handleSend = () => {
-    if (!feedText.trim()) return;
+    if (!feedText.trim() && !selectedImage) return;
 
     const newPost: FeedPost = {
       id: Date.now().toString(),
@@ -144,16 +147,36 @@ export default function FeedPage() {
       content: "",
       timestamp: "just now",
       likes: 0,
-      comments: 0
+      comments: 0,
+      image: selectedImage
     };
 
     setPosts([newPost, ...posts]);
     setFeedText("");
+    setSelectedImage(null);
     
     toast({
       title: "Post shared!",
       description: "Your post has been added to the feed.",
     });
+  };
+
+  const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleLike = (postId: string) => {
@@ -221,8 +244,36 @@ export default function FeedPage() {
               rows={3}
               className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 pr-12 text-base resize-none"
             />
+            
+            {/* Image Preview */}
+            {selectedImage && (
+              <div className="mt-2 relative inline-block">
+                <img 
+                  src={selectedImage} 
+                  alt="Selected" 
+                  className="w-24 h-24 object-cover rounded border border-gray-600"
+                />
+                <Button
+                  onClick={removeImage}
+                  size="sm"
+                  className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 p-1 h-6 w-6 rounded-full"
+                >
+                  ×
+                </Button>
+              </div>
+            )}
+            
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageSelect}
+              accept="image/*"
+              className="hidden"
+            />
+            
             <div className="absolute right-6 bottom-3 flex gap-2">
               <Button
+                onClick={() => fileInputRef.current?.click()}
                 size="sm"
                 className="bg-gray-600 hover:bg-gray-700 p-2 h-8 w-8"
               >
@@ -330,6 +381,14 @@ export default function FeedPage() {
                         </div>
                       )}
                     </div>
+                  </div>
+                ) : post.image ? (
+                  <div className="mb-4">
+                    <img 
+                      src={post.image} 
+                      alt="Post image" 
+                      className="w-full max-w-md rounded-lg"
+                    />
                   </div>
                 ) : post.content ? (
                   <div className="mb-4 p-4 bg-gray-700 rounded-lg">
