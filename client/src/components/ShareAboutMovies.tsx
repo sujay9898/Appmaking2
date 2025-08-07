@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MessageCircle, Send } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function ShareAboutMovies() {
   const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
+  const [, setLocation] = useLocation();
   
   const prompts = [
     "What you wanna watch today?",
@@ -18,6 +21,10 @@ export default function ShareAboutMovies() {
 
     return () => clearInterval(interval);
   }, [prompts.length]);
+
+  const handleSendClick = () => {
+    setLocation("/feed");
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-6 space-y-8">
@@ -36,6 +43,13 @@ export default function ShareAboutMovies() {
                     {prompts[currentPromptIndex]}
                   </span>
                 </div>
+                <Button 
+                  onClick={handleSendClick}
+                  size="sm"
+                  className="bg-blue-600 hover:bg-blue-700 px-3 py-2 h-[40px]"
+                >
+                  <Send size={16} />
+                </Button>
               </div>
             </CardContent>
           </Card>
