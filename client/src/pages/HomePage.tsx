@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import Navigation from "@/components/Navigation";
 import MovieCard from "@/components/MovieCard";
 import AddMovieModal from "@/components/AddMovieModal";
+import ClickableMovieCard from "@/components/ClickableMovieCard";
+import GenreSection from "@/components/GenreSection";
 import { Film, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Movie } from "@shared/schema";
@@ -12,6 +14,7 @@ interface TrendingMovie {
   title: string;
   posterPath: string | null;
   releaseYear: string;
+  overview?: string;
 }
 
 export default function HomePage() {
@@ -27,9 +30,9 @@ export default function HomePage() {
     staleTime: 1000 * 60 * 30, // Cache for 30 minutes
   });
 
-  // Fetch popular movies from TMDB
-  const { data: popularMovies = [], isLoading: isLoadingPopular } = useQuery<TrendingMovie[]>({
-    queryKey: ["/api/movies/popular"],
+  // Fetch trending movies & series from TMDB
+  const { data: trendingAll = [], isLoading: isLoadingTrendingAll } = useQuery<TrendingMovie[]>({
+    queryKey: ["/api/movies/trending-all"],
     staleTime: 1000 * 60 * 30, // Cache for 30 minutes
   });
 
@@ -40,7 +43,7 @@ export default function HomePage() {
     .slice(0, 10);
   
 
-  // Component for trending movies from TMDB
+  // Component for trending movies from TMDB with clickable cards
   const TrendingMovieRow = ({ title, movies: rowMovies }: { title: string; movies: TrendingMovie[] }) => {
     if (rowMovies.length === 0) return null;
     
@@ -49,19 +52,7 @@ export default function HomePage() {
         <h2 className="text-xl font-semibold text-white mb-4 px-4">{title}</h2>
         <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
           {rowMovies.map((movie) => (
-            <div key={movie.tmdbId} className="flex-none w-48">
-              <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200">
-                <img 
-                  src={movie.posterPath || "https://via.placeholder.com/300x450?text=No+Poster"} 
-                  alt={movie.title}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-3">
-                  <h3 className="text-white text-sm font-medium truncate">{movie.title}</h3>
-                  <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
-                </div>
-              </div>
-            </div>
+            <ClickableMovieCard key={movie.tmdbId} movie={movie} size="medium" />
           ))}
         </div>
       </div>
@@ -84,12 +75,12 @@ export default function HomePage() {
     );
   };
 
-  if (isLoading || isLoadingTrending || isLoadingPopular) {
+  if (isLoading || isLoadingTrending || isLoadingTrendingAll) {
     return (
       <div className="min-h-screen bg-gray-900">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
         <div className="pt-20">
-          {[1, 2, 3].map(i => (
+          {[1, 2, 3, 4].map(i => (
             <div key={i} className="mb-8 px-4">
               <div className="h-6 bg-gray-700 rounded w-48 mb-4 animate-pulse"></div>
               <div className="flex space-x-4">
@@ -119,10 +110,11 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Always show trending and popular movies */}
+        {/* Always show trending content and genres */}
         <div className="space-y-8">
           <TrendingMovieRow title="Today Trending Movies" movies={trendingMovies} />
-          <TrendingMovieRow title="Popular Movies" movies={popularMovies} />
+          <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
+          <GenreSection />
           
           {/* Show watchlist section or empty state */}
           {movies.length === 0 ? (

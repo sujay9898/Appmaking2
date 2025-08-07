@@ -32,6 +32,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title: movie.title,
         posterPath: tmdbService.getImageUrl(movie.poster_path),
         releaseYear: movie.release_date ? new Date(movie.release_date).getFullYear().toString() : '',
+        overview: movie.overview || '',
       }));
 
       res.json(transformedMovies);
@@ -41,10 +42,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get popular movies from TMDB
-  app.get("/api/movies/popular", async (req, res) => {
+  // Get genres from TMDB
+  app.get("/api/movies/genres", async (req, res) => {
     try {
-      const movies = await tmdbService.getPopularMovies();
+      const genres = await tmdbService.getGenres();
+      res.json(genres);
+    } catch (error) {
+      console.error("Error fetching genres:", error);
+      res.status(500).json({ message: "Failed to fetch genres" });
+    }
+  });
+
+  // Get movies by genre from TMDB
+  app.get("/api/movies/genre/:genreId", async (req, res) => {
+    try {
+      const genreId = parseInt(req.params.genreId);
+      const movies = await tmdbService.getMoviesByGenre(genreId);
       
       // Transform the data for frontend
       const transformedMovies = movies.map(movie => ({
@@ -52,12 +65,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
         title: movie.title,
         posterPath: tmdbService.getImageUrl(movie.poster_path),
         releaseYear: movie.release_date ? new Date(movie.release_date).getFullYear().toString() : '',
+        overview: movie.overview || '',
       }));
 
       res.json(transformedMovies);
     } catch (error) {
-      console.error("Error fetching popular movies:", error);
-      res.status(500).json({ message: "Failed to fetch popular movies" });
+      console.error("Error fetching movies by genre:", error);
+      res.status(500).json({ message: "Failed to fetch movies by genre" });
+    }
+  });
+
+  // Get trending movies & series from TMDB
+  app.get("/api/movies/trending-all", async (req, res) => {
+    try {
+      const content = await tmdbService.getTrendingAll();
+      
+      // Transform the data for frontend
+      const transformedContent = content.map(item => ({
+        tmdbId: item.id.toString(),
+        title: item.title || (item as any).name, // TV shows use 'name' instead of 'title'
+        posterPath: tmdbService.getImageUrl(item.poster_path),
+        releaseYear: item.release_date ? new Date(item.release_date).getFullYear().toString() : 
+                    (item as any).first_air_date ? new Date((item as any).first_air_date).getFullYear().toString() : '',
+        overview: item.overview || '',
+      }));
+
+      res.json(transformedContent);
+    } catch (error) {
+      console.error("Error fetching trending content:", error);
+      res.status(500).json({ message: "Failed to fetch trending content" });
     }
   });
 

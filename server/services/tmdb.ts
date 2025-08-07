@@ -3,6 +3,17 @@ interface TMDBMovie {
   title: string;
   poster_path: string | null;
   release_date: string;
+  overview?: string;
+  genre_ids?: number[];
+}
+
+interface TMDBGenre {
+  id: number;
+  name: string;
+}
+
+interface TMDBGenreResponse {
+  genres: TMDBGenre[];
 }
 
 interface TMDBSearchResponse {
@@ -66,6 +77,72 @@ export class TMDBService {
       return data.results.slice(0, 10); // Limit to 10 results
     } catch (error) {
       console.error('Error fetching trending movies:', error);
+      throw error;
+    }
+  }
+
+  async getTrendingAll(): Promise<TMDBMovie[]> {
+    if (!this.apiKey) {
+      throw new Error('TMDB API key not configured');
+    }
+
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/trending/all/day?api_key=${this.apiKey}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`TMDB API error: ${response.status}`);
+      }
+
+      const data: TMDBSearchResponse = await response.json();
+      return data.results.slice(0, 10); // Limit to 10 results
+    } catch (error) {
+      console.error('Error fetching trending content:', error);
+      throw error;
+    }
+  }
+
+  async getGenres(): Promise<TMDBGenre[]> {
+    if (!this.apiKey) {
+      throw new Error('TMDB API key not configured');
+    }
+
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/genre/movie/list?api_key=${this.apiKey}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`TMDB API error: ${response.status}`);
+      }
+
+      const data: TMDBGenreResponse = await response.json();
+      return data.genres;
+    } catch (error) {
+      console.error('Error fetching genres:', error);
+      throw error;
+    }
+  }
+
+  async getMoviesByGenre(genreId: number): Promise<TMDBMovie[]> {
+    if (!this.apiKey) {
+      throw new Error('TMDB API key not configured');
+    }
+
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/discover/movie?api_key=${this.apiKey}&with_genres=${genreId}&sort_by=popularity.desc`
+      );
+
+      if (!response.ok) {
+        throw new Error(`TMDB API error: ${response.status}`);
+      }
+
+      const data: TMDBSearchResponse = await response.json();
+      return data.results.slice(0, 10); // Limit to 10 results
+    } catch (error) {
+      console.error('Error fetching movies by genre:', error);
       throw error;
     }
   }
