@@ -168,22 +168,36 @@ export default function FeedPage() {
           </div>
         </div>
 
-        {/* Mini Trending Movies Section */}
+        {/* Pick and Flex Section */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold text-white mb-3 px-4">Today Trending Movies & Series</h3>
-          {isLoadingTrending ? (
-            <div className="flex overflow-x-auto pb-2 px-4 space-x-3 scrollbar-hide">
-              {[1, 2, 3, 4, 5].map(i => (
-                <div key={i} className="w-32 aspect-[2/3] bg-gray-700 rounded-lg animate-pulse flex-none"></div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex overflow-x-auto pb-2 px-4 space-x-3 scrollbar-hide">
-              {trendingAll.slice(0, 8).map((movie) => (
-                <ClickableMovieCard key={movie.tmdbId} movie={movie} size="small" />
-              ))}
-            </div>
-          )}
+          <h3 className="text-lg font-semibold text-white mb-4 px-4">Pick and Flex</h3>
+          
+          {/* Compact Trending List */}
+          <div className="px-4">
+            <h4 className="text-sm font-medium text-gray-300 mb-2">Today Trending Movies & Series</h4>
+            {isLoadingTrending ? (
+              <div className="flex overflow-x-auto pb-2 space-x-2 scrollbar-hide">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div key={i} className="w-24 aspect-[2/3] bg-gray-700 rounded-md animate-pulse flex-none"></div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex overflow-x-auto pb-2 space-x-2 scrollbar-hide">
+                {trendingAll.slice(0, 10).map((movie) => (
+                  <div key={movie.tmdbId} className="w-24 flex-none">
+                    <div className="bg-gray-800 rounded-md overflow-hidden hover:scale-105 transition-transform duration-200">
+                      <img 
+                        src={movie.posterPath || "https://via.placeholder.com/150x225?text=No+Poster"} 
+                        alt={movie.title}
+                        className="w-full aspect-[2/3] object-cover"
+                      />
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1 truncate" title={movie.title}>{movie.title}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Feed Posts */}
