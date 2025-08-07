@@ -31,7 +31,7 @@ interface FeedPost {
   moviePoster?: string | null;
   movieTitle?: string;
   movieYear?: string;
-  movieSynopsis?: string;
+  movieInfo?: string;
 }
 
 // Dummy data for posts
@@ -300,9 +300,9 @@ export default function FeedPage() {
                 <h4 className="font-bold text-white mb-3 text-lg">{post.caption}</h4>
 
                 {/* Movie Poster and Content */}
-                <div className="mb-4 p-4 bg-gray-700 rounded-lg">
-                  {post.moviePoster && (
-                    <div className="flex gap-3 mb-3">
+                {post.moviePoster ? (
+                  <div className="mb-4 p-4 bg-gray-700 rounded-lg">
+                    <div className="flex gap-3">
                       <img 
                         src={post.moviePoster} 
                         alt={post.movieTitle || 'Movie poster'}
@@ -316,15 +316,18 @@ export default function FeedPage() {
                               <span className="text-gray-400 font-normal ml-2">({post.movieYear})</span>
                             )}
                           </h5>
-                          {post.movieSynopsis && (
-                            <p className="text-gray-400 text-xs mt-1">{post.movieSynopsis}</p>
+                          {post.movieInfo && (
+                            <p className="text-gray-400 text-xs mt-1 whitespace-pre-line">{post.movieInfo}</p>
                           )}
                         </div>
                       )}
                     </div>
-                  )}
-                  <p className="text-gray-300 leading-relaxed whitespace-pre-line">{post.content}</p>
-                </div>
+                  </div>
+                ) : (
+                  <div className="mb-4 p-4 bg-gray-700 rounded-lg">
+                    <p className="text-gray-300 leading-relaxed whitespace-pre-line">{post.content}</p>
+                  </div>
+                )}
 
                 {/* Like and Comment Buttons */}
                 <div className="flex space-x-4">

@@ -86,14 +86,14 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
       id: Date.now().toString(),
       username: "you",
       caption: data.note ? `📝 ${data.note}` : "📝 Eager to watch",
-      content: `Added to watchlist\nWatching on: ${formatDateTime(data.reminderDate, data.reminderTime)}`,
+      content: "",
       timestamp: "just now",
       likes: 0,
       comments: 0,
       moviePoster: movie.posterPath || null,
       movieTitle: movie.title,
       movieYear: movie.releaseYear,
-      movieSynopsis: movie.overview
+      movieInfo: `Added to watchlist\nWatching on: ${formatDateTime(data.reminderDate, data.reminderTime)}`
     };
     
     // Store in localStorage to be picked up by FeedPage
