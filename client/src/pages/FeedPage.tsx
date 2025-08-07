@@ -306,7 +306,7 @@ export default function FeedPage() {
                       <img 
                         src={post.moviePoster} 
                         alt={post.movieTitle || 'Movie poster'}
-                        className="w-16 h-24 object-cover rounded"
+                        className="w-20 h-30 object-cover rounded"
                       />
                       {post.movieTitle && (
                         <div className="flex-1 min-w-0">
