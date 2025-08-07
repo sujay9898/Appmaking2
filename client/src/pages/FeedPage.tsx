@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, MessageCircle, Send, User } from "lucide-react";
+import { Heart, MessageCircle, Send, User, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
 import Navigation from "@/components/Navigation";
 import AddMovieModal from "@/components/AddMovieModal";
@@ -66,6 +67,10 @@ export default function FeedPage() {
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [showSeeMore, setShowSeeMore] = useState(false);
+  const [, setLocation] = useLocation();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
   // Fetch trending movies & series from TMDB
@@ -88,6 +93,15 @@ export default function FeedPage() {
     }, 1000);
 
     return () => clearInterval(interval);
+  }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
   }, []);
 
   const handleSend = () => {
@@ -142,6 +156,25 @@ export default function FeedPage() {
     }
   };
 
+  // Handle scroll detection for "See More" button
+  const handleScroll = () => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    const { scrollLeft } = container;
+    const isScrolling = scrollLeft > 50; // Show after 50px of scroll
+    
+    setShowSeeMore(isScrolling);
+    
+    // Auto-hide after scroll stops
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    scrollTimeoutRef.current = setTimeout(() => {
+      setShowSeeMore(false);
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 pb-20">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
@@ -169,33 +202,42 @@ export default function FeedPage() {
         </div>
 
         {/* Pick and Flex Section */}
-        <div className="mb-8">
+        <div className="mb-8 relative">
           <h3 className="text-lg font-semibold text-white mb-4 px-4">Pick and Flex</h3>
           
-          {/* Compact Trending List */}
-          <div className="px-4">
-            <h4 className="text-sm font-medium text-gray-300 mb-2">Today Trending Movies & Series</h4>
+          <div className="relative">
             {isLoadingTrending ? (
-              <div className="flex overflow-x-auto pb-2 space-x-2 scrollbar-hide">
+              <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
                 {[1, 2, 3, 4, 5, 6].map(i => (
-                  <div key={i} className="w-24 aspect-[2/3] bg-gray-700 rounded-md animate-pulse flex-none"></div>
+                  <div key={i} className="w-40 aspect-[2/3] bg-gray-700 rounded-lg animate-pulse flex-none"></div>
                 ))}
               </div>
             ) : (
-              <div className="flex overflow-x-auto pb-2 space-x-2 scrollbar-hide">
-                {trendingAll.slice(0, 10).map((movie) => (
-                  <div key={movie.tmdbId} className="w-24 flex-none">
-                    <div className="bg-gray-800 rounded-md overflow-hidden hover:scale-105 transition-transform duration-200">
-                      <img 
-                        src={movie.posterPath || "https://via.placeholder.com/150x225?text=No+Poster"} 
-                        alt={movie.title}
-                        className="w-full aspect-[2/3] object-cover"
-                      />
-                    </div>
-                    <p className="text-xs text-gray-400 mt-1 truncate" title={movie.title}>{movie.title}</p>
-                  </div>
-                ))}
-              </div>
+              <>
+                <div 
+                  ref={scrollContainerRef}
+                  className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide"
+                  onScroll={handleScroll}
+                >
+                  {trendingAll.slice(0, 15).map((movie) => (
+                    <ClickableMovieCard 
+                      key={movie.tmdbId} 
+                      movie={movie} 
+                      size="medium"
+                    />
+                  ))}
+                </div>
+                
+                {/* See More Button - fades in during scroll */}
+                <div className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition-opacity duration-300 ${showSeeMore ? 'opacity-100' : 'opacity-0'}`}>
+                  <Button
+                    onClick={() => setLocation('/movies')}
+                    className="bg-black/80 hover:bg-black/90 text-white border border-gray-600 backdrop-blur-sm px-4 py-2 text-sm font-medium"
+                  >
+                    See More <ArrowRight size={14} className="ml-1" />
+                  </Button>
+                </div>
+              </>
             )}
           </div>
         </div>
