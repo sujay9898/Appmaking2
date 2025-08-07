@@ -31,6 +31,7 @@ interface FeedPost {
   moviePoster?: string | null;
   movieTitle?: string;
   movieYear?: string;
+  movieSynopsis?: string;
 }
 
 // Dummy data for posts
@@ -315,6 +316,9 @@ export default function FeedPage() {
                               <span className="text-gray-400 font-normal ml-2">({post.movieYear})</span>
                             )}
                           </h5>
+                          {post.movieSynopsis && (
+                            <p className="text-gray-400 text-xs mt-1 line-clamp-2">{post.movieSynopsis}</p>
+                          )}
                         </div>
                       )}
                     </div>

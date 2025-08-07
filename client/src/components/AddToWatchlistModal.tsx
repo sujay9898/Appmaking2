@@ -92,7 +92,8 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
       comments: 0,
       moviePoster: movie.posterPath || null,
       movieTitle: movie.title,
-      movieYear: movie.releaseYear
+      movieYear: movie.releaseYear,
+      movieSynopsis: movie.overview
     };
     
     // Store in localStorage to be picked up by FeedPage
@@ -107,7 +108,6 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
   const formatDateTime = (date: string, time: string) => {
     const dateObj = new Date(`${date}T${time}`);
     const options: Intl.DateTimeFormatOptions = {
-      weekday: 'short',
       month: 'short', 
       day: 'numeric',
       hour: 'numeric',
