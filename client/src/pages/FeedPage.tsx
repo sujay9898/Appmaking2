@@ -142,11 +142,6 @@ export default function FeedPage() {
   return (
     <div className="min-h-screen bg-gray-900 pb-20">
       <div className="max-w-4xl mx-auto px-4 py-6">
-        {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="text-5xl font-bold text-white mb-2">Filmycup</h1>
-        </div>
-
         {/* Feed Box */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-white mb-4 px-4">feed here</h2>
