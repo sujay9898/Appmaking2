@@ -17,6 +17,7 @@ const formSchema = insertMovieSchema.extend({
   reminderDate: z.string().min(1, "Reminder date is required"),
   reminderTime: z.string().min(1, "Reminder time is required"),
   userEmail: z.string().email("Valid email is required"),
+  note: z.string().optional(),
 });
 
 interface TrendingMovie {
@@ -47,6 +48,7 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
       reminderDate: "",
       reminderTime: "",
       userEmail: "",
+      note: "",
     },
   });
 
@@ -74,6 +76,44 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     addMovieMutation.mutate(data);
+    
+    // Auto-post to feed when movie is added
+    createFeedPost(data);
+  };
+
+  const createFeedPost = (data: z.infer<typeof formSchema>) => {
+    const feedPost = {
+      id: Date.now().toString(),
+      username: "you",
+      caption: "Added to watchlist",
+      content: `🕒 ${formatDateTime(data.reminderDate, data.reminderTime)}${data.note ? `\n📝 ${data.note}` : ''}`,
+      timestamp: "just now",
+      likes: 0,
+      comments: 0,
+      moviePoster: movie.posterPath || null,
+      movieTitle: movie.title
+    };
+    
+    // Store in localStorage to be picked up by FeedPage
+    const existingPosts = JSON.parse(localStorage.getItem('feedPosts') || '[]');
+    existingPosts.unshift(feedPost);
+    localStorage.setItem('feedPosts', JSON.stringify(existingPosts));
+    
+    // Dispatch custom event to notify FeedPage
+    window.dispatchEvent(new CustomEvent('newFeedPost', { detail: feedPost }));
+  };
+
+  const formatDateTime = (date: string, time: string) => {
+    const dateObj = new Date(`${date}T${time}`);
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'short',
+      month: 'short', 
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    };
+    return dateObj.toLocaleDateString('en-US', options);
   };
 
   const getTomorrowDate = () => {
@@ -170,6 +210,21 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
               {form.formState.errors.userEmail && (
                 <p className="text-xs text-red-500 mt-1">{form.formState.errors.userEmail.message}</p>
               )}
+            </div>
+
+            <div>
+              <Label htmlFor="note" className="flex items-center gap-2 text-sm font-medium">
+                📝 Optional note for your feed
+              </Label>
+              <Textarea
+                id="note"
+                placeholder="Add a note about why you want to watch this movie..."
+                {...form.register("note")}
+                className="mt-1 min-h-[80px] resize-none"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                This note will appear in your feed post when the movie is added to your watchlist.
+              </p>
             </div>
 
             <div className="flex gap-2 pt-4">

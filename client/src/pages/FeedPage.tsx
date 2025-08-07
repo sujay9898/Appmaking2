@@ -28,6 +28,8 @@ interface FeedPost {
   timestamp: string;
   likes: number;
   comments: number;
+  moviePoster?: string | null;
+  movieTitle?: string;
 }
 
 // Dummy data for posts
@@ -103,6 +105,32 @@ export default function FeedPage() {
       }
     };
   }, []);
+
+  // Load saved posts from localStorage and listen for new posts
+  useEffect(() => {
+    const savedPosts = JSON.parse(localStorage.getItem('feedPosts') || '[]');
+    if (savedPosts.length > 0) {
+      setPosts(prevPosts => [...savedPosts, ...prevPosts]);
+      localStorage.removeItem('feedPosts'); // Clear after loading
+    }
+
+    // Listen for new feed posts from watchlist additions
+    const handleNewFeedPost = (event: CustomEvent) => {
+      const newPost = event.detail;
+      setPosts(prevPosts => [newPost, ...prevPosts]);
+      
+      toast({
+        title: "Added to feed!",
+        description: "Your movie has been posted to your feed.",
+      });
+    };
+
+    window.addEventListener('newFeedPost', handleNewFeedPost as EventListener);
+    
+    return () => {
+      window.removeEventListener('newFeedPost', handleNewFeedPost as EventListener);
+    };
+  }, [toast]);
 
   const handleSend = () => {
     if (!feedText.trim()) return;
@@ -269,9 +297,23 @@ export default function FeedPage() {
                 {/* Bold Caption */}
                 <h4 className="font-bold text-white mb-3 text-lg">{post.caption}</h4>
 
-                {/* Post Content */}
+                {/* Movie Poster and Content */}
                 <div className="mb-4 p-4 bg-gray-700 rounded-lg">
-                  <p className="text-gray-300 leading-relaxed">{post.content}</p>
+                  {post.moviePoster && (
+                    <div className="flex gap-3 mb-3">
+                      <img 
+                        src={post.moviePoster} 
+                        alt={post.movieTitle || 'Movie poster'}
+                        className="w-16 h-24 object-cover rounded"
+                      />
+                      {post.movieTitle && (
+                        <div className="flex-1 min-w-0">
+                          <h5 className="font-semibold text-white text-sm">{post.movieTitle}</h5>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <p className="text-gray-300 leading-relaxed whitespace-pre-line">{post.content}</p>
                 </div>
 
                 {/* Like and Comment Buttons */}
