@@ -5,7 +5,7 @@ export default function FooterNavigation() {
   const [location] = useLocation();
 
   const navItems = [
-    { icon: FileText, label: "Feed", path: "/" },
+    { icon: FileText, label: "Home", path: "/" },
     { icon: Film, label: "Pick Movie", path: "/movies" },
     { icon: Film, label: "Watchlist", path: "/watchlist" },
     { icon: User, label: "Profile", path: "/profile" }

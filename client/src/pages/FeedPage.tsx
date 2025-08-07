@@ -1,10 +1,21 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Heart, MessageCircle, Send, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ClickableMovieCard from "@/components/ClickableMovieCard";
 import FooterNavigation from "@/components/FooterNavigation";
+
+interface TrendingMovie {
+  tmdbId: string;
+  title: string;
+  posterPath: string | null;
+  releaseYear: string;
+  overview?: string;
+}
 
 interface FeedPost {
   id: string;
@@ -53,6 +64,12 @@ export default function FeedPage() {
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const { toast } = useToast();
+
+  // Fetch trending movies & series from TMDB
+  const { data: trendingAll = [], isLoading: isLoadingTrending } = useQuery<TrendingMovie[]>({
+    queryKey: ["/api/movies/trending-all"],
+    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
+  });
 
   // Cycling placeholder texts
   const placeholders = [
@@ -134,21 +151,39 @@ export default function FeedPage() {
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-white mb-4 px-4">feed here</h2>
           <div className="relative px-4">
-            <Input
+            <Textarea
               value={feedText}
               onChange={(e) => setFeedText(e.target.value)}
-              onKeyPress={handleKeyPress}
               placeholder={placeholders[currentPlaceholder]}
-              className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 pr-12 h-12 text-base"
+              rows={3}
+              className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 pr-12 text-base resize-none"
             />
             <Button
               onClick={handleSend}
               size="sm"
-              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 p-2 h-8 w-8"
+              className="absolute right-6 bottom-3 bg-blue-600 hover:bg-blue-700 p-2 h-8 w-8"
             >
               <Send size={14} />
             </Button>
           </div>
+        </div>
+
+        {/* Mini Trending Movies Section */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold text-white mb-3 px-4">Today Trending Movies & Series</h3>
+          {isLoadingTrending ? (
+            <div className="flex overflow-x-auto pb-2 px-4 space-x-3 scrollbar-hide">
+              {[1, 2, 3, 4, 5].map(i => (
+                <div key={i} className="w-32 aspect-[2/3] bg-gray-700 rounded-lg animate-pulse flex-none"></div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex overflow-x-auto pb-2 px-4 space-x-3 scrollbar-hide">
+              {trendingAll.slice(0, 8).map((movie) => (
+                <ClickableMovieCard key={movie.tmdbId} movie={movie} size="small" />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Feed Posts */}
