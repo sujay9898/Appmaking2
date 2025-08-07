@@ -7,6 +7,13 @@ import { Film, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Movie } from "@shared/schema";
 
+interface TrendingMovie {
+  tmdbId: string;
+  title: string;
+  posterPath: string | null;
+  releaseYear: string;
+}
+
 export default function HomePage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
@@ -14,27 +21,48 @@ export default function HomePage() {
     queryKey: ["/api/movies"],
   });
 
+  // Fetch trending movies from TMDB
+  const { data: trendingMovies = [], isLoading: isLoadingTrending } = useQuery<TrendingMovie[]>({
+    queryKey: ["/api/movies/trending"],
+    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
+  });
+
   // Organize movies into 2 sections
-  const now = new Date();
-  const today = now.toISOString().split('T')[0];
-  const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-  
-  // Today trending movies - show movies with upcoming reminders (next 7 days) or recently added
-  const trendingMovies = movies.filter(movie => {
-    const reminderDate = new Date(movie.reminderDate);
-    return reminderDate >= now && reminderDate <= nextWeek;
-  }).slice(0, 10);
-  
-  // If no upcoming movies, show the most recently added ones as trending
-  const finalTrendingMovies = trendingMovies.length > 0 
-    ? trendingMovies 
-    : movies.slice(0, Math.min(6, movies.length));
-  
-  // Recently added movies (sorted by creation date)
+  // Recently added movies from user's watchlist (sorted by creation date)
   const recentlyAddedMovies = [...movies]
     .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
     .slice(0, 10);
+  
 
+  // Component for trending movies from TMDB
+  const TrendingMovieRow = ({ title, movies: rowMovies }: { title: string; movies: TrendingMovie[] }) => {
+    if (rowMovies.length === 0) return null;
+    
+    return (
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold text-white mb-4 px-4">{title}</h2>
+        <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
+          {rowMovies.map((movie) => (
+            <div key={movie.tmdbId} className="flex-none w-48">
+              <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200">
+                <img 
+                  src={movie.posterPath || "https://via.placeholder.com/300x450?text=No+Poster"} 
+                  alt={movie.title}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="p-3">
+                  <h3 className="text-white text-sm font-medium truncate">{movie.title}</h3>
+                  <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // Component for user's watchlist movies
   const MovieRow = ({ title, movies: rowMovies }: { title: string; movies: Movie[] }) => {
     if (rowMovies.length === 0) return null;
     
@@ -62,7 +90,7 @@ export default function HomePage() {
     );
   };
 
-  if (isLoading) {
+  if (isLoading || isLoadingTrending) {
     return (
       <div className="min-h-screen bg-gray-900">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
@@ -118,7 +146,7 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="space-y-8">
-            <MovieRow title="Today Trending Movies" movies={finalTrendingMovies} />
+            <TrendingMovieRow title="Today Trending Movies" movies={trendingMovies} />
             <MovieRow title="Recently Added Movies" movies={recentlyAddedMovies} />
           </div>
         )}
