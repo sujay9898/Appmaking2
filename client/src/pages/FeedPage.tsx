@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Heart, MessageCircle, Send, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
+import Navigation from "@/components/Navigation";
+import AddMovieModal from "@/components/AddMovieModal";
 import FooterNavigation from "@/components/FooterNavigation";
 
 interface TrendingMovie {
@@ -63,6 +65,7 @@ export default function FeedPage() {
   const [posts, setPosts] = useState<FeedPost[]>(dummyPosts);
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const { toast } = useToast();
 
   // Fetch trending movies & series from TMDB
@@ -141,7 +144,9 @@ export default function FeedPage() {
 
   return (
     <div className="min-h-screen bg-gray-900 pb-20">
-      <div className="max-w-4xl mx-auto px-4 py-6">
+      <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
+      
+      <div className="pt-20 max-w-4xl mx-auto px-4 py-6">
         {/* Feed Box */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-white mb-4 px-4">feed here</h2>
@@ -246,6 +251,11 @@ export default function FeedPage() {
           ))}
         </div>
       </div>
+      
+      <AddMovieModal 
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+      />
       
       <FooterNavigation />
     </div>
