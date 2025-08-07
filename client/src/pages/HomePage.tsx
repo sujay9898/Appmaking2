@@ -27,6 +27,12 @@ export default function HomePage() {
     staleTime: 1000 * 60 * 30, // Cache for 30 minutes
   });
 
+  // Fetch popular movies from TMDB
+  const { data: popularMovies = [], isLoading: isLoadingPopular } = useQuery<TrendingMovie[]>({
+    queryKey: ["/api/movies/popular"],
+    staleTime: 1000 * 60 * 30, // Cache for 30 minutes
+  });
+
   // Organize movies into 2 sections
   // Recently added movies from user's watchlist (sorted by creation date)
   const recentlyAddedMovies = [...movies]
@@ -90,7 +96,7 @@ export default function HomePage() {
     );
   };
 
-  if (isLoading || isLoadingTrending) {
+  if (isLoading || isLoadingTrending || isLoadingPopular) {
     return (
       <div className="min-h-screen bg-gray-900">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
@@ -147,6 +153,7 @@ export default function HomePage() {
         ) : (
           <div className="space-y-8">
             <TrendingMovieRow title="Today Trending Movies" movies={trendingMovies} />
+            <TrendingMovieRow title="Popular Movies" movies={popularMovies} />
             <MovieRow title="Recently Added Movies" movies={recentlyAddedMovies} />
           </div>
         )}

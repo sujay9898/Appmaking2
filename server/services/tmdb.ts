@@ -70,6 +70,28 @@ export class TMDBService {
     }
   }
 
+  async getPopularMovies(): Promise<TMDBMovie[]> {
+    if (!this.apiKey) {
+      throw new Error('TMDB API key not configured');
+    }
+
+    try {
+      const response = await fetch(
+        `${this.baseUrl}/movie/popular?api_key=${this.apiKey}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`TMDB API error: ${response.status}`);
+      }
+
+      const data: TMDBSearchResponse = await response.json();
+      return data.results.slice(0, 10); // Limit to 10 results
+    } catch (error) {
+      console.error('Error fetching popular movies:', error);
+      throw error;
+    }
+  }
+
   async getMovieDetails(tmdbId: string): Promise<TMDBMovie | null> {
     if (!this.apiKey) {
       throw new Error('TMDB API key not configured');

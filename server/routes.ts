@@ -41,6 +41,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get popular movies from TMDB
+  app.get("/api/movies/popular", async (req, res) => {
+    try {
+      const movies = await tmdbService.getPopularMovies();
+      
+      // Transform the data for frontend
+      const transformedMovies = movies.map(movie => ({
+        tmdbId: movie.id.toString(),
+        title: movie.title,
+        posterPath: tmdbService.getImageUrl(movie.poster_path),
+        releaseYear: movie.release_date ? new Date(movie.release_date).getFullYear().toString() : '',
+      }));
+
+      res.json(transformedMovies);
+    } catch (error) {
+      console.error("Error fetching popular movies:", error);
+      res.status(500).json({ message: "Failed to fetch popular movies" });
+    }
+  });
+
   // Search movies using TMDB API
   app.get("/api/movies/search", async (req, res) => {
     try {
