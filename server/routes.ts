@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { tmdbService } from "./services/tmdb";
 import { reminderScheduler } from "./services/reminderScheduler";
-import { insertMovieSchema } from "@shared/schema";
+import { insertMovieSchema, insertMovieCommentSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -173,6 +173,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(updatedMovie);
     } catch (error) {
       console.error("Error updating movie:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Movie comments routes
+  app.get("/api/comments", async (req, res) => {
+    try {
+      const comments = await storage.getAllMovieComments();
+      res.json(comments);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/comments", async (req, res) => {
+    try {
+      const validatedData = insertMovieCommentSchema.parse(req.body);
+      const comment = await storage.createMovieComment(validatedData);
+      res.status(201).json(comment);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid comment data", errors: error.errors });
+      } else {
+        console.error("Error creating comment:", error);
+        res.status(500).json({ message: "Internal server error" });
+      }
+    }
+  });
+
+  app.get("/api/comments/:tmdbId", async (req, res) => {
+    try {
+      const { tmdbId } = req.params;
+      const comments = await storage.getMovieComments(tmdbId);
+      res.json(comments);
+    } catch (error) {
+      console.error("Error fetching movie comments:", error);
       res.status(500).json({ message: "Internal server error" });
     }
   });

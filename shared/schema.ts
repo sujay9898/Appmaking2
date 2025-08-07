@@ -15,6 +15,15 @@ export const movies = pgTable("movies", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const movieComments = pgTable("movie_comments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  tmdbId: text("tmdb_id").notNull(),
+  movieTitle: text("movie_title").notNull(),
+  userName: text("user_name").notNull(),
+  comment: text("comment").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertMovieSchema = createInsertSchema(movies).pick({
   tmdbId: true,
   title: true,
@@ -25,5 +34,14 @@ export const insertMovieSchema = createInsertSchema(movies).pick({
   userEmail: true,
 });
 
+export const insertMovieCommentSchema = createInsertSchema(movieComments).pick({
+  tmdbId: true,
+  movieTitle: true,
+  userName: true,
+  comment: true,
+});
+
 export type InsertMovie = z.infer<typeof insertMovieSchema>;
 export type Movie = typeof movies.$inferSelect;
+export type InsertMovieComment = z.infer<typeof insertMovieCommentSchema>;
+export type MovieComment = typeof movieComments.$inferSelect;

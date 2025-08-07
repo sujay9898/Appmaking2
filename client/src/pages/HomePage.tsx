@@ -5,6 +5,7 @@ import MovieCard from "@/components/MovieCard";
 import AddMovieModal from "@/components/AddMovieModal";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
 import GenreSection from "@/components/GenreSection";
+import ShareAboutMovies from "@/components/ShareAboutMovies";
 import { Film, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Movie } from "@shared/schema";
@@ -96,6 +97,9 @@ export default function HomePage() {
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
       <div className="pt-20">
+        {/* Share About Movies Section */}
+        <ShareAboutMovies />
+        
         {/* Always show trending content and genres */}
         <div className="space-y-8">
           <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />

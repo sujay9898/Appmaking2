@@ -1,4 +1,4 @@
-import { type Movie, type InsertMovie } from "@shared/schema";
+import { type Movie, type InsertMovie, type MovieComment, type InsertMovieComment } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -7,13 +7,20 @@ export interface IStorage {
   createMovie(movie: InsertMovie): Promise<Movie>;
   deleteMovie(id: string): Promise<boolean>;
   updateMovie(id: string, updates: Partial<InsertMovie>): Promise<Movie | undefined>;
+  
+  // Movie comments
+  getAllMovieComments(): Promise<MovieComment[]>;
+  createMovieComment(comment: InsertMovieComment): Promise<MovieComment>;
+  getMovieComments(tmdbId: string): Promise<MovieComment[]>;
 }
 
 export class MemStorage implements IStorage {
   private movies: Map<string, Movie>;
+  private movieComments: Map<string, MovieComment>;
 
   constructor() {
     this.movies = new Map();
+    this.movieComments = new Map();
   }
 
   async getMovie(id: string): Promise<Movie | undefined> {
@@ -32,6 +39,8 @@ export class MemStorage implements IStorage {
     const movie: Movie = { 
       ...insertMovie, 
       id,
+      posterPath: insertMovie.posterPath || null,
+      releaseYear: insertMovie.releaseYear || null,
       createdAt: new Date()
     };
     this.movies.set(id, movie);
@@ -49,6 +58,28 @@ export class MemStorage implements IStorage {
     const updatedMovie = { ...existingMovie, ...updates };
     this.movies.set(id, updatedMovie);
     return updatedMovie;
+  }
+
+  async getAllMovieComments(): Promise<MovieComment[]> {
+    return Array.from(this.movieComments.values()).sort((a, b) => 
+      new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
+    );
+  }
+
+  async createMovieComment(insertComment: InsertMovieComment): Promise<MovieComment> {
+    const id = randomUUID();
+    const comment: MovieComment = { 
+      ...insertComment, 
+      id,
+      createdAt: new Date()
+    };
+    this.movieComments.set(id, comment);
+    return comment;
+  }
+
+  async getMovieComments(tmdbId: string): Promise<MovieComment[]> {
+    const allComments = await this.getAllMovieComments();
+    return allComments.filter(comment => comment.tmdbId === tmdbId);
   }
 }
 
