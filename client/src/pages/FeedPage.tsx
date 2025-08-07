@@ -1,82 +1,94 @@
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Heart, MessageCircle, Send, ArrowLeft } from "lucide-react";
+import { Heart, MessageCircle, Send, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "wouter";
-import Navigation from "@/components/Navigation";
 import FooterNavigation from "@/components/FooterNavigation";
-import type { MovieComment, InsertMovieComment } from "@shared/schema";
+
+interface FeedPost {
+  id: string;
+  username: string;
+  caption: string;
+  content: string;
+  timestamp: string;
+  likes: number;
+  comments: number;
+}
+
+// Dummy data for posts
+const dummyPosts: FeedPost[] = [
+  {
+    id: "1",
+    username: "moviebuff23",
+    caption: "Just watched this masterpiece!",
+    content: "Inception blew my mind! The layers of dreams within dreams were perfectly executed. Nolan really outdid himself with this one. Anyone else think the ending was ambiguous on purpose?",
+    timestamp: "2 hours ago",
+    likes: 12,
+    comments: 5
+  },
+  {
+    id: "2", 
+    username: "cinephile_sarah",
+    caption: "Weekend movie recommendation",
+    content: "If you haven't seen Parasite yet, you're missing out! The cinematography, the story, the social commentary - everything is perfection. Bong Joon-ho is a genius.",
+    timestamp: "4 hours ago",
+    likes: 28,
+    comments: 9
+  },
+  {
+    id: "3",
+    username: "film_critic_joe",
+    caption: "Unpopular opinion alert",
+    content: "I think Marvel movies are getting repetitive. Don't get me wrong, the action is great, but I miss when superhero movies had more depth like The Dark Knight.",
+    timestamp: "6 hours ago", 
+    likes: 7,
+    comments: 15
+  }
+];
 
 export default function FeedPage() {
-  const [newPost, setNewPost] = useState("");
-  const [userName, setUserName] = useState("");
-  const [movieTitle, setMovieTitle] = useState("");
-  const [commentTexts, setCommentTexts] = useState<{[key: string]: string}>({});
+  const [feedText, setFeedText] = useState("");
+  const [posts, setPosts] = useState<FeedPost[]>(dummyPosts);
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
-  // Fetch all comments/posts
-  const { data: posts = [], isLoading } = useQuery<MovieComment[]>({
-    queryKey: ["/api/comments"],
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
-  });
+  // Cycling placeholder texts
+  const placeholders = [
+    "What you wanna watch today?",
+    "Share your opinion on a movie",
+    "Suggest a movie to others"
+  ];
 
-  // Mutation to create a new post
-  const createPostMutation = useMutation({
-    mutationFn: async (newComment: InsertMovieComment) => {
-      const response = await fetch("/api/comments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newComment),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to create post");
-      }
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/comments"] });
-      setNewPost("");
-      setUserName("");
-      setMovieTitle("");
-      toast({
-        title: "Post shared!",
-        description: "Your movie post has been shared successfully.",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Error",
-        description: "Failed to share your post. Please try again.",
-        variant: "destructive",
-      });
-    },
-  });
+  // Cycle placeholder text every 1 second
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPlaceholder((prev) => (prev + 1) % placeholders.length);
+    }, 1000);
 
-  const handleSubmitPost = (e: React.FormEvent) => {
-    e.preventDefault();
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleSend = () => {
+    if (!feedText.trim()) return;
+
+    const newPost: FeedPost = {
+      id: Date.now().toString(),
+      username: "you",
+      caption: "Shared a thought",
+      content: feedText.trim(),
+      timestamp: "just now",
+      likes: 0,
+      comments: 0
+    };
+
+    setPosts([newPost, ...posts]);
+    setFeedText("");
     
-    if (!userName.trim() || !movieTitle.trim() || !newPost.trim()) {
-      toast({
-        title: "Please fill all fields",
-        description: "All fields are required to share your post.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    createPostMutation.mutate({
-      tmdbId: "feed", // Using "feed" to identify feed posts
-      movieTitle: movieTitle.trim(),
-      userName: userName.trim(),
-      comment: newPost.trim(),
+    toast({
+      title: "Post shared!",
+      description: "Your post has been added to the feed.",
     });
   };
 
@@ -90,166 +102,104 @@ export default function FeedPage() {
       }
       return newSet;
     });
+
+    // Update like count
+    setPosts(prevPosts => 
+      prevPosts.map(post => 
+        post.id === postId 
+          ? { 
+              ...post, 
+              likes: likedPosts.has(postId) ? post.likes - 1 : post.likes + 1 
+            }
+          : post
+      )
+    );
   };
 
-  const handleCommentChange = (postId: string, value: string) => {
-    setCommentTexts(prev => ({
-      ...prev,
-      [postId]: value
-    }));
-  };
-
-  const formatDate = (date: Date | string | null) => {
-    if (!date) return "";
-    const d = new Date(date);
-    return d.toLocaleDateString() + " at " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-900 pb-20">
-      <Navigation onAddMovie={() => {}} />
-      
-      <div className="pt-20 max-w-4xl mx-auto px-4 py-6">
-        {/* Header with back link */}
-        <div className="mb-6">
-          <Link href="/">
-            <Button variant="ghost" className="text-gray-400 hover:text-white mb-4">
-              <ArrowLeft size={16} className="mr-2" />
-              Back to Home
-            </Button>
-          </Link>
-          <h1 className="text-3xl font-bold text-white mb-2">Feed</h1>
-          <p className="text-gray-400">Share and discover movie thoughts from the community</p>
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <h1 className="text-5xl font-bold text-white mb-2">Filmycup</h1>
         </div>
 
-        {/* Create Post Form */}
-        <Card className="mb-8 bg-gray-800 border-gray-700">
-          <CardContent className="p-6">
-            <h2 className="text-xl font-semibold text-white mb-4">Share Your Movie Thoughts</h2>
-            <form onSubmit={handleSubmitPost} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  placeholder="Your name"
-                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                />
-                <Input
-                  value={movieTitle}
-                  onChange={(e) => setMovieTitle(e.target.value)}
-                  placeholder="Movie title"
-                  className="bg-gray-700 border-gray-600 text-white placeholder-gray-400"
-                />
-              </div>
-              <Textarea
-                value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
-                placeholder="What's your movie thought? Share your opinion, recommendation, or what you want to watch..."
-                rows={3}
-                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 resize-none"
-              />
-              <Button 
-                type="submit" 
-                disabled={createPostMutation.isPending}
-                className="bg-blue-600 hover:bg-blue-700"
-              >
-                {createPostMutation.isPending ? (
-                  "Sharing..."
-                ) : (
-                  <>
-                    <Send size={16} className="mr-2" />
-                    Share Post
-                  </>
-                )}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+        {/* Feed Box */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold text-white mb-4 px-4">feed here</h2>
+          <div className="relative px-4">
+            <Input
+              value={feedText}
+              onChange={(e) => setFeedText(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder={placeholders[currentPlaceholder]}
+              className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 pr-12 h-12 text-base"
+            />
+            <Button
+              onClick={handleSend}
+              size="sm"
+              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 p-2 h-8 w-8"
+            >
+              <Send size={14} />
+            </Button>
+          </div>
+        </div>
 
-        {/* Posts List */}
-        <div className="space-y-6">
-          {isLoading ? (
-            <div className="space-y-6">
-              {[1, 2, 3].map(i => (
-                <Card key={i} className="bg-gray-800 border-gray-700">
-                  <CardContent className="p-6">
-                    <div className="animate-pulse">
-                      <div className="h-4 bg-gray-700 rounded w-1/4 mb-2"></div>
-                      <div className="h-4 bg-gray-700 rounded w-1/3 mb-4"></div>
-                      <div className="h-20 bg-gray-700 rounded mb-4"></div>
-                      <div className="h-8 bg-gray-700 rounded w-1/2"></div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : posts.length === 0 ? (
-            <Card className="bg-gray-800 border-gray-700">
-              <CardContent className="p-12 text-center">
-                <MessageCircle size={64} className="mx-auto text-gray-500 mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No posts yet</h3>
-                <p className="text-gray-400">Be the first to share your movie thoughts!</p>
+        {/* Feed Posts */}
+        <div className="space-y-6 px-4">
+          {posts.map((post) => (
+            <Card key={post.id} className="bg-gray-800 border-gray-700">
+              <CardContent className="p-6">
+                {/* Profile and Username */}
+                <div className="flex items-center mb-3">
+                  <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center mr-3">
+                    <User size={20} className="text-gray-300" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">{post.username}</h3>
+                    <p className="text-gray-400 text-sm">{post.timestamp}</p>
+                  </div>
+                </div>
+
+                {/* Bold Caption */}
+                <h4 className="font-bold text-white mb-3 text-lg">{post.caption}</h4>
+
+                {/* Post Content */}
+                <div className="mb-4 p-4 bg-gray-700 rounded-lg">
+                  <p className="text-gray-300 leading-relaxed">{post.content}</p>
+                </div>
+
+                {/* Like and Comment Buttons */}
+                <div className="flex space-x-4">
+                  <Button
+                    onClick={() => handleLike(post.id)}
+                    variant="outline"
+                    size="lg"
+                    className={`flex-1 py-3 text-base font-semibold ${
+                      likedPosts.has(post.id)
+                        ? "bg-red-600 text-white border-red-600 hover:bg-red-700"
+                        : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600"
+                    }`}
+                  >
+                    👍 LIKE ({post.likes})
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="flex-1 py-3 text-base font-semibold bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600"
+                  >
+                    💬 COMMENT ({post.comments})
+                  </Button>
+                </div>
               </CardContent>
             </Card>
-          ) : (
-            posts.map((post) => (
-              <Card key={post.id} className="bg-gray-800 border-gray-700">
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="font-semibold text-white text-lg">{post.userName}</h3>
-                      <p className="text-blue-400 font-medium">{post.movieTitle}</p>
-                      <p className="text-gray-400 text-sm">{formatDate(post.createdAt)}</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-300 leading-relaxed mb-4 text-base">{post.comment}</p>
-                  
-                  {/* Like and Comment Actions */}
-                  <div className="flex items-center gap-4 pt-4 border-t border-gray-700">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleLike(post.id)}
-                      className={`flex items-center gap-2 ${
-                        likedPosts.has(post.id) 
-                          ? "text-red-500 hover:text-red-400" 
-                          : "text-gray-400 hover:text-red-500"
-                      }`}
-                    >
-                      <Heart size={16} fill={likedPosts.has(post.id) ? "currentColor" : "none"} />
-                      Like
-                    </Button>
-                    
-                    <div className="flex items-center gap-2 flex-1">
-                      <Input
-                        value={commentTexts[post.id] || ""}
-                        onChange={(e) => handleCommentChange(post.id, e.target.value)}
-                        placeholder="Add a comment..."
-                        className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 text-sm h-8"
-                      />
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-gray-400 hover:text-white h-8 px-2"
-                        onClick={() => {
-                          // Simple comment display (could be enhanced to save to backend)
-                          if (commentTexts[post.id]?.trim()) {
-                            toast({
-                              title: "Comment added!",
-                              description: "Your comment has been noted.",
-                            });
-                            setCommentTexts(prev => ({ ...prev, [post.id]: "" }));
-                          }
-                        }}
-                      >
-                        <MessageCircle size={14} />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          )}
+          ))}
         </div>
       </div>
       
