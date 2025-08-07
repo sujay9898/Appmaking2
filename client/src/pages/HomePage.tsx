@@ -15,17 +15,20 @@ export default function HomePage() {
   });
 
   // Organize movies into 2 sections
-  const today = new Date().toISOString().split('T')[0];
+  const now = new Date();
+  const today = now.toISOString().split('T')[0];
+  const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
   
-  // Today trending movies (movies with reminders for today or popular ones)
-  const todayTrendingMovies = movies.filter(movie => {
-    return movie.reminderDate === today;
-  });
+  // Today trending movies - show movies with upcoming reminders (next 7 days) or recently added
+  const trendingMovies = movies.filter(movie => {
+    const reminderDate = new Date(movie.reminderDate);
+    return reminderDate >= now && reminderDate <= nextWeek;
+  }).slice(0, 10);
   
-  // If no movies for today, show first half of movies as trending
-  const trendingMovies = todayTrendingMovies.length > 0 
-    ? todayTrendingMovies 
-    : movies.slice(0, Math.ceil(movies.length / 2));
+  // If no upcoming movies, show the most recently added ones as trending
+  const finalTrendingMovies = trendingMovies.length > 0 
+    ? trendingMovies 
+    : movies.slice(0, Math.min(6, movies.length));
   
   // Recently added movies (sorted by creation date)
   const recentlyAddedMovies = [...movies]
@@ -115,7 +118,7 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="space-y-8">
-            <MovieRow title="Today Trending Movies" movies={trendingMovies} />
+            <MovieRow title="Today Trending Movies" movies={finalTrendingMovies} />
             <MovieRow title="Recently Added Movies" movies={recentlyAddedMovies} />
           </div>
         )}
