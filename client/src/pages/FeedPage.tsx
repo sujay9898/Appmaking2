@@ -305,7 +305,7 @@ export default function FeedPage() {
                 </div>
 
                 {/* Bold Caption */}
-                <h4 className="font-bold text-white mb-3 text-lg">{post.caption}</h4>
+                <h4 className="text-white mb-3 text-lg">{post.caption}</h4>
 
                 {/* Movie Poster and Content */}
                 {post.moviePoster ? (
