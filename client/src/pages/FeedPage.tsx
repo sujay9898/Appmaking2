@@ -258,7 +258,7 @@ export default function FeedPage() {
     <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
-      <div className="pt-24 cred-container cred-section">
+      <div className="cred-container cred-section">
         {/* Feed Box */}
         <div className="mb-12 cred-fade-in">
           <h2 className="text-heading font-['Poppins'] font-semibold text-white mb-6 tracking-tight">Feed</h2>
