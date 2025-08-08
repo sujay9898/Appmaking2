@@ -116,9 +116,11 @@ export default function AddMovieModal({ isOpen, onClose }: AddMovieModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto" data-testid="modal-add-movie">
+      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-2 duration-300" data-testid="modal-add-movie">
         <DialogHeader>
-          <DialogTitle>Add to Watchlist</DialogTitle>
+          <DialogTitle className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            Add to Watchlist
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">

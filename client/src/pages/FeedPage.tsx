@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Heart, MessageCircle, User, Plus } from "lucide-react";
+import { Heart, MessageCircle, User, Plus, Edit3 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
@@ -75,6 +75,7 @@ export default function FeedPage() {
   const [isUserDashboardOpen, setIsUserDashboardOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
+  const [isCreateButtonVisible, setIsCreateButtonVisible] = useState(true);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [, setLocation] = useLocation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -434,6 +435,38 @@ export default function FeedPage() {
         postCaption={posts.find(p => p.id === selectedPostId)?.caption}
       />
       <FooterNavigation />
+      
+      {/* Floating Create Post Button */}
+      <div className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ease-out ${
+        isCreateButtonVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-16 opacity-0 scale-75'
+      }`}>
+        <button
+          onClick={() => setIsAddModalOpen(true)}
+          className="group relative w-16 h-16 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 hover:from-purple-500 hover:via-blue-500 hover:to-indigo-600 rounded-2xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-110 hover:-translate-y-1 active:scale-95"
+        >
+          {/* Animated Background Glow */}
+          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl"></div>
+          
+          {/* Icon Container */}
+          <div className="relative flex items-center justify-center w-full h-full">
+            <Edit3 
+              size={24} 
+              className="text-white transform transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 group-active:scale-90" 
+            />
+          </div>
+          
+          {/* Ripple Effect on Click */}
+          <div className="absolute inset-0 rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-white/20 rounded-2xl scale-0 group-active:scale-100 transition-transform duration-200"></div>
+          </div>
+          
+          {/* Tooltip */}
+          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-black/80 text-white text-sm px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap backdrop-blur-sm">
+            Create Post
+            <div className="absolute left-full top-1/2 -translate-y-1/2 border-4 border-transparent border-l-black/80"></div>
+          </div>
+        </button>
+      </div>
     </div>
   );
 }
