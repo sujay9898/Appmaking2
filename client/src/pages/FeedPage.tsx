@@ -256,7 +256,7 @@ export default function FeedPage() {
         {/* Feed Posts */}
         <div className="space-y-8 cred-slide-up">
           {posts.map((post) => (
-            <Card key={post.id} className="cred-card-premium group relative ml-[-31px] mr-[-31px] bg-[#000000]">
+            <Card key={post.id} className="cred-card-premium group relative ml-[-31px] mr-[-31px] bg-[#23252f]">
               <CardContent className="cred-spacing-md cred-spacing-md pt-0 cred-spacing-lg text-left mt-[0px] mb-[0px] pl-[52px] pr-[52px] relative ml-[57px] mr-[57px]">
                 {/* Add to Watchlist Button - Only show for movie posts */}
                 {post.moviePoster && (
