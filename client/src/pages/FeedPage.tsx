@@ -233,7 +233,7 @@ export default function FeedPage() {
 
         {/* Movie Cards */}
         <section className="modern-section">
-          <h3 className="text-white mb-4 text-[40px] font-bold">Hi Cinephile</h3>
+          <h3 className="text-white mb-4 text-[40px] font-bold">Hi <span className="text-[#3c595d] font-bold italic">Cinephile</span></h3>
           <div className="overflow-hidden bg-[#3c595d] border border-[#3c595d] rounded-[2px] p-4">
             <div 
               ref={movieScrollRef}
