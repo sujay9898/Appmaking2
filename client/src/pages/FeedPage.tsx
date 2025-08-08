@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, MessageCircle, Send, User, ArrowRight, Image } from "lucide-react";
+import { Heart, MessageCircle, Send, User, ArrowRight, Image, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
@@ -321,8 +321,17 @@ export default function FeedPage() {
         {/* Feed Posts */}
         <div className="space-y-8 cred-slide-up">
           {posts.map((post) => (
-            <Card key={post.id} className="cred-card-premium group">
-              <CardContent className="cred-spacing-md pt-0 cred-spacing-lg text-left mt-[0px] mb-[0px] ml-[-19px] mr-[-19px] pl-[47px] pr-[47px]">
+            <Card key={post.id} className="cred-card-premium group relative">
+              <CardContent className="cred-spacing-md pt-0 cred-spacing-lg text-left mt-[0px] mb-[0px] ml-[-19px] mr-[-19px] pl-[47px] pr-[47px] relative">
+                {/* Add to Watchlist Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="absolute top-4 right-4 px-2 py-1 text-xs bg-[#161616] border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] text-[#A1A1A1] hover:text-[#EAEAEA] transition-all duration-200"
+                >
+                  <Plus size={12} className="mr-1" />
+                  Add
+                </Button>
                 {/* Profile and Username */}
                 <div className="flex items-center mb-4">
                   <div 
