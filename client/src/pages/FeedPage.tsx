@@ -437,7 +437,7 @@ export default function FeedPage() {
       <FooterNavigation />
       
       {/* Floating Create Post Button */}
-      <div className={`fixed bottom-6 right-6 z-50 transition-all duration-500 ease-out ${
+      <div className={`fixed bottom-20 right-6 z-50 transition-all duration-500 ease-out ${
         isCreateButtonVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-16 opacity-0 scale-75'
       }`}>
         <button
