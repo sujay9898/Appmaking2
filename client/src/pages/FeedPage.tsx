@@ -257,8 +257,7 @@ export default function FeedPage() {
   return (
     <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
-      
-      <div className="cred-container cred-section">
+      <div className="cred-container cred-section pt-[49px] pb-[49px] text-[18px] font-normal">
         {/* Feed Box */}
         <div className="mb-12 cred-fade-in">
           <h2 className="text-heading font-['Poppins'] font-semibold text-white tracking-tight">Feed</h2>
@@ -410,25 +409,21 @@ export default function FeedPage() {
           ))}
         </div>
       </div>
-      
       <AddMovieModal 
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
       />
-      
       <UserDashboardOverlay
         isOpen={isUserDashboardOpen}
         onClose={closeUserDashboard}
         username={selectedUsername || ""}
       />
-      
       <CommentSheet
         isOpen={isCommentSheetOpen}
         onClose={closeCommentSheet}
         postId={selectedPostId || ""}
         postCaption={posts.find(p => p.id === selectedPostId)?.caption}
       />
-      
       <FooterNavigation />
     </div>
   );
