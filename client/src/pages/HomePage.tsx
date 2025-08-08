@@ -103,22 +103,29 @@ export default function HomePage() {
           <ShareAboutMovies />
         </section>
         
+        {/* Hi Cinephile Heading - Ensure maximum visibility */}
+        <div className="w-full bg-[#000000]" style={{ padding: '20px' }}>
+          <h2 
+            style={{ 
+              fontSize: '1.8em', 
+              fontWeight: 'bold',
+              fontStyle: 'italic',
+              color: '#ffffff',
+              marginBottom: '15px', 
+              marginLeft: '10px',
+              display: 'block',
+              visibility: 'visible',
+              lineHeight: '1.2',
+              fontFamily: 'inherit'
+            }}
+          >
+            Hi Cinephile
+          </h2>
+        </div>
+
         {/* Always show trending content and genres */}
         <div className="space-y-0">
           <section className="modern-section">
-            {/* Hi Cinephile Heading */}
-            <h2 
-              className="font-bold italic text-[#ffffff]" 
-              style={{ 
-                fontSize: '1.8em', 
-                marginBottom: '15px', 
-                marginLeft: '10px',
-                display: 'block',
-                visibility: 'visible'
-              }}
-            >
-              Hi Cinephile
-            </h2>
             <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
           </section>
           <section className="modern-section">
