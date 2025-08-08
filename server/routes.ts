@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { tmdbService } from "./services/tmdb";
 import { reminderScheduler } from "./services/reminderScheduler";
-import { insertMovieSchema, insertMovieCommentSchema, insertFeedCommentSchema } from "@shared/schema";
+import { insertMovieSchema, insertMovieCommentSchema, insertFeedCommentSchema, insertFeedPostSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -246,6 +246,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(posts);
     } catch (error) {
       console.error("Error fetching posts:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/posts", async (req, res) => {
+    try {
+      const validatedData = insertFeedPostSchema.parse(req.body);
+      const post = await storage.createFeedPost(validatedData);
+      res.status(201).json(post);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Validation error", 
+          errors: error.errors 
+        });
+      }
+      console.error("Error creating post:", error);
       res.status(500).json({ message: "Internal server error" });
     }
   });

@@ -8,9 +8,11 @@ import { useLocation } from "wouter";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
 import Navigation from "@/components/Navigation";
 import AddMovieModal from "@/components/AddMovieModal";
+import CreatePostModal from "@/components/CreatePostModal";
 import FooterNavigation from "@/components/FooterNavigation";
 import UserDashboardOverlay from "@/components/UserDashboardOverlay";
 import CommentSheet from "@/components/CommentSheet";
+import type { FeedPost } from "@shared/schema";
 
 interface TrendingMovie {
   tmdbId: string;
@@ -20,56 +22,71 @@ interface TrendingMovie {
   overview?: string;
 }
 
-interface FeedPost {
-  id: string;
+interface FeedPostWithExtras extends FeedPost {
   username: string;
-  caption: string;
-  content: string;
   timestamp: string;
-  likes: number;
   comments: number;
-  moviePoster?: string | null;
-  movieTitle?: string;
-  movieYear?: string;
-  movieInfo?: string;
-  image?: string | null;
 }
 
 // Dummy data for posts
-const dummyPosts: FeedPost[] = [
+const dummyPosts: FeedPostWithExtras[] = [
   {
     id: "1",
+    userId: "dummy1",
     username: "moviebuff23",
     caption: "Just watched this masterpiece!",
     content: "Inception blew my mind! The layers of dreams within dreams were perfectly executed. Nolan really outdid himself with this one. Anyone else think the ending was ambiguous on purpose?",
     timestamp: "2 hours ago",
     likes: 12,
-    comments: 5
+    comments: 5,
+    commentsCount: 5,
+    image: null,
+    moviePoster: null,
+    movieTitle: null,
+    movieYear: null,
+    movieInfo: null,
+    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000)
   },
   {
     id: "2", 
+    userId: "dummy2",
     username: "cinephile_sarah",
     caption: "Weekend movie recommendation",
     content: "If you haven't seen Parasite yet, you're missing out! The cinematography, the story, the social commentary - everything is perfection. Bong Joon-ho is a genius.",
     timestamp: "4 hours ago",
     likes: 28,
-    comments: 9
+    comments: 9,
+    commentsCount: 9,
+    image: null,
+    moviePoster: null,
+    movieTitle: null,
+    movieYear: null,
+    movieInfo: null,
+    createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000)
   },
   {
     id: "3",
+    userId: "dummy3",
     username: "film_critic_joe",
     caption: "Unpopular opinion alert",
     content: "I think Marvel movies are getting repetitive. Don't get me wrong, the action is great, but I miss when superhero movies had more depth like The Dark Knight.",
     timestamp: "6 hours ago", 
     likes: 7,
-    comments: 15
+    comments: 15,
+    commentsCount: 15,
+    image: null,
+    moviePoster: null,
+    movieTitle: null,
+    movieYear: null,
+    movieInfo: null,
+    createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000)
   }
 ];
 
 export default function FeedPage() {
-  const [posts, setPosts] = useState<FeedPost[]>(dummyPosts);
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isCreatePostModalOpen, setIsCreatePostModalOpen] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [selectedUsername, setSelectedUsername] = useState<string | null>(null);
   const [isUserDashboardOpen, setIsUserDashboardOpen] = useState(false);
@@ -88,6 +105,20 @@ export default function FeedPage() {
     queryKey: ["/api/movies/trending-all"],
     staleTime: 1000 * 60 * 30, // Cache for 30 minutes
   });
+
+  // Fetch posts from API
+  const { data: apiPosts = [], isLoading: isLoadingPosts } = useQuery<FeedPost[]>({
+    queryKey: ["/api/posts"],
+    select: (data) => data.map(post => ({
+      ...post,
+      username: post.userId === "user1" ? "you" : `user_${post.userId.slice(0, 8)}`,
+      timestamp: new Date(post.createdAt!).toLocaleString(),
+      comments: post.commentsCount || 0
+    } as FeedPostWithExtras)).sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime())
+  });
+
+  // Combine API posts with dummy posts for now
+  const posts: FeedPostWithExtras[] = [...(apiPosts || []), ...dummyPosts];
 
 
 
@@ -118,19 +149,9 @@ export default function FeedPage() {
     return () => clearInterval(scrollInterval);
   }, []);
 
-  // Load saved posts from localStorage and listen for new posts
+  // Listen for new feed posts from watchlist additions
   useEffect(() => {
-    const savedPosts = JSON.parse(localStorage.getItem('feedPosts') || '[]');
-    if (savedPosts.length > 0) {
-      setPosts(prevPosts => [...savedPosts, ...prevPosts]);
-      localStorage.removeItem('feedPosts'); // Clear after loading
-    }
-
-    // Listen for new feed posts from watchlist additions
     const handleNewFeedPost = (event: CustomEvent) => {
-      const newPost = event.detail;
-      setPosts(prevPosts => [newPost, ...prevPosts]);
-      
       toast({
         title: "Added to feed!",
         description: "Your movie has been posted to your feed.",
@@ -156,18 +177,7 @@ export default function FeedPage() {
       }
       return newSet;
     });
-
-    // Update like count
-    setPosts(prevPosts => 
-      prevPosts.map(post => 
-        post.id === postId 
-          ? { 
-              ...post, 
-              likes: likedPosts.has(postId) ? post.likes - 1 : post.likes + 1 
-            }
-          : post
-      )
-    );
+    // TODO: Add API call to update like count on server
   };
 
   const handleProfileClick = (username: string) => {
@@ -426,6 +436,10 @@ export default function FeedPage() {
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
       />
+      <CreatePostModal 
+        isOpen={isCreatePostModalOpen}
+        onClose={() => setIsCreatePostModalOpen(false)}
+      />
       <UserDashboardOverlay
         isOpen={isUserDashboardOpen}
         onClose={closeUserDashboard}
@@ -435,7 +449,7 @@ export default function FeedPage() {
         isOpen={isCommentSheetOpen}
         onClose={closeCommentSheet}
         postId={selectedPostId || ""}
-        postCaption={posts.find(p => p.id === selectedPostId)?.caption}
+        postCaption={posts.find(p => p.id === selectedPostId)?.caption || undefined}
       />
       <FooterNavigation />
       {/* Floating Create Post Button */}
@@ -443,7 +457,7 @@ export default function FeedPage() {
         isCreateButtonVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-16 opacity-0 scale-75'
       }`}>
         <button
-          onClick={() => setIsAddModalOpen(true)}
+          onClick={() => setIsCreatePostModalOpen(true)}
           className="group relative w-16 h-16 bg-[#284145] hover:bg-[#334c52] rounded-md shadow-2xl hover:shadow-[#284145]/25 transition-all duration-300 hover:scale-110 hover:-translate-y-1 active:scale-95"
         >
           {/* Animated Background Glow */}
