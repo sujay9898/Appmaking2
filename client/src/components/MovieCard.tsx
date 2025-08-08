@@ -84,7 +84,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200" data-testid={`card-movie-${movie.id}`}>
+    <div className="bg-white shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200" style={{borderRadius: '2px'}} data-testid={`card-movie-${movie.id}`}>
       <div className="relative">
         <img 
           src={movie.posterPath || "https://via.placeholder.com/400x600?text=No+Poster"} 

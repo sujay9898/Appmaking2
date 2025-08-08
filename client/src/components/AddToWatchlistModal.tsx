@@ -139,7 +139,7 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
             <img
               src={movie.posterPath || "https://via.placeholder.com/80x120?text=No+Poster"}
               alt={movie.title}
-              className="w-16 h-24 object-cover rounded"
+              className="w-16 h-24 object-cover" style={{borderRadius: '2px'}}
             />
             <div className="flex-1 min-w-0">
               <h3 className="font-medium text-gray-900 truncate">{movie.title}</h3>

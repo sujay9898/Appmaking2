@@ -167,7 +167,7 @@ export default function AddMovieModal({ isOpen, onClose }: AddMovieModalProps) {
                       <img 
                         src={movie.posterPath || "https://via.placeholder.com/48x72?text=No+Poster"} 
                         alt={movie.title} 
-                        className="w-12 h-18 object-cover rounded"
+                        className="w-12 h-18 object-cover" style={{borderRadius: '2px'}}
                       />
                       <div>
                         <p className="font-medium text-gray-900">{movie.title}</p>
@@ -187,7 +187,7 @@ export default function AddMovieModal({ isOpen, onClose }: AddMovieModalProps) {
                 <img 
                   src={selectedMovie.posterPath || "https://via.placeholder.com/64x96?text=No+Poster"} 
                   alt={selectedMovie.title} 
-                  className="w-16 h-24 object-cover rounded"
+                  className="w-16 h-24 object-cover" style={{borderRadius: '2px'}}
                 />
                 <div>
                   <h4 className="font-medium text-gray-900">{selectedMovie.title}</h4>

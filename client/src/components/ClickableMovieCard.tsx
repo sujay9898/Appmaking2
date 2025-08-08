@@ -31,7 +31,7 @@ export default function ClickableMovieCard({ movie, size = "medium" }: Clickable
         onMouseEnter={() => setShowAddButton(true)}
         onMouseLeave={() => setShowAddButton(false)}
       >
-        <div className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200 relative">
+        <div className="bg-gray-800 overflow-hidden hover:scale-105 transition-transform duration-200 relative" style={{borderRadius: '2px'}}>
           <img 
             src={movie.posterPath || "https://via.placeholder.com/300x450?text=No+Poster"} 
             alt={movie.title}
