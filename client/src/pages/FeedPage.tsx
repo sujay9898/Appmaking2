@@ -267,7 +267,7 @@ export default function FeedPage() {
         </div>
 
         {/* Feed Posts */}
-        <div className="space-y-8 cred-slide-up"></div>
+        <div className="space-y-8 cred-slide-up">
           {posts.map((post) => (
             <Card key={post.id} className="cred-card-premium group relative">
               <CardContent className="cred-spacing-md pt-0 cred-spacing-lg text-left mt-[0px] mb-[0px] ml-[-19px] mr-[-19px] pl-[47px] pr-[47px] relative">
