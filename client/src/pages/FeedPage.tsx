@@ -213,6 +213,23 @@ export default function FeedPage() {
     <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       <div className="cred-container cred-section pt-[49px] pb-[49px] text-[18px] font-normal">
+        {/* What you wanna watch today? Section */}
+        <div className="mb-16 cred-fade-in">
+          <div className="text-center py-12">
+            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none mb-4">
+              What you wanna
+            </h2>
+            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#D4AF37] via-[#FFFFFF] to-[#D4AF37] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none mb-6">
+              watch today?
+            </h2>
+            <div className="flex justify-center items-center gap-2 mb-4">
+              <div className="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent w-16"></div>
+              <span className="text-2xl">👀</span>
+              <div className="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent w-16"></div>
+            </div>
+          </div>
+        </div>
+
         {/* Movie Cards */}
         <div className="mb-12 cred-fade-in">
           <h2 className="text-heading font-['Poppins'] font-semibold text-white tracking-tight">Feed</h2>
@@ -242,23 +259,6 @@ export default function FeedPage() {
                   )}
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-
-        {/* What you wanna watch today? Section */}
-        <div className="mb-16 cred-fade-in">
-          <div className="text-center py-12">
-            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none mb-4">
-              What you wanna
-            </h2>
-            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#D4AF37] via-[#FFFFFF] to-[#D4AF37] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none mb-6">
-              watch today?
-            </h2>
-            <div className="flex justify-center items-center gap-2 mb-4">
-              <div className="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent w-16"></div>
-              <span className="text-2xl">👀</span>
-              <div className="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent w-16"></div>
             </div>
           </div>
         </div>
