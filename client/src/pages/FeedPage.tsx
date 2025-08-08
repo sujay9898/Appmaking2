@@ -221,7 +221,7 @@ export default function FeedPage() {
         </div>
 
         {/* Movie Cards */}
-        <div className="mb-12 cred-fade-in">
+        <div className="cred-fade-in ml-[0px] mr-[0px] mt-[18px] mb-[18px] pl-[35px] pr-[35px]">
           <h2 className="font-['Poppins'] font-semibold text-white tracking-tight text-[20px]">What you wanna watch today?</h2>
           <div className="mt-[23px] mb-[23px] min-h-[80px] overflow-hidden bg-[#0a0809] border border-[#2A2A2A]" style={{borderRadius: '2px'}}>
             <div 
