@@ -232,7 +232,7 @@ export default function FeedPage() {
 
         {/* Movie Cards */}
         <div className="mb-12 cred-fade-in">
-          <h2 className="text-heading font-['Poppins'] font-semibold text-white tracking-tight">Feed</h2>
+          <h2 className="font-['Poppins'] font-semibold text-white tracking-tight text-[20px]">What you wanna watch today?</h2>
           <div className="mt-[23px] mb-[23px] min-h-[80px] overflow-hidden bg-[#0a0809] border border-[#2A2A2A]" style={{borderRadius: '2px'}}>
             <div 
               ref={movieScrollRef}
