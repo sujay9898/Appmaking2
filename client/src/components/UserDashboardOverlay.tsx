@@ -122,7 +122,7 @@ export default function UserDashboardOverlay({ isOpen, onClose, username }: User
                   <div className="text-heading font-['Poppins'] font-semibold text-[#EAEAEA] mb-1">
                     {userData.user.likesCount}
                   </div>
-                  <div className="text-body-sm text-[#A1A1A1] font-['Inter']">Likes</div>
+                  <div className="text-body-sm text-[#A1A1A1] font-['Inter']">Post</div>
                 </CardContent>
               </Card>
             </div>
