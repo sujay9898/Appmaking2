@@ -215,7 +215,7 @@ export default function FeedPage() {
       <div className="cred-container cred-section pt-[49px] pb-[49px] text-[18px] font-normal">
         {/* What you wanna watch today? Section */}
         <div className="mb-12 cred-fade-in">
-          <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none mb-4 text-center">
+          <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none ml-[0px] mr-[0px] mt-[-25px] mb-[-25px] pl-[0px] pr-[0px] pt-[0px] pb-[0px] text-left">
             What you wanna watch today?
           </h2>
         </div>
