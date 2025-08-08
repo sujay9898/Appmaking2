@@ -323,7 +323,7 @@ export default function FeedPage() {
                   </div>
                 ) : post.content ? (
                   <div className="mb-6">
-                    <p className="text-[#B8B8B8] leading-relaxed whitespace-pre-line font-['Inter'] text-base">{post.content}</p>
+                    <p className="text-[#B8B8B8] whitespace-pre-line font-['Inter'] text-base text-justify">{post.content}</p>
                   </div>
                 ) : null}
 
