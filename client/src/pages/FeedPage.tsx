@@ -346,7 +346,7 @@ export default function FeedPage() {
                               </h4>
                             </div>
                             {post.movieInfo && (
-                              <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
+                              <p className="text-gray-300 text-sm">
                                 {post.movieInfo}
                               </p>
                             )}
