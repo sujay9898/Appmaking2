@@ -260,9 +260,6 @@ export default function FeedPage() {
               <span className="text-2xl">👀</span>
               <div className="h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent w-16"></div>
             </div>
-            <p className="text-[#A1A1A1] font-['Inter'] text-lg max-w-md mx-auto leading-relaxed">
-              Drop your vibe check below and let the community help you find your next binge
-            </p>
           </div>
         </div>
 
