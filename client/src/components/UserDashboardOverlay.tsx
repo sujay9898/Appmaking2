@@ -106,7 +106,7 @@ export default function UserDashboardOverlay({ isOpen, onClose, username }: User
                   <div className="text-heading font-['Poppins'] font-semibold text-[#EAEAEA] mb-1">
                     {userData.user.postsCount}
                   </div>
-                  <div className="text-body-sm text-[#A1A1A1] font-['Inter']">Posts</div>
+                  <div className="text-body-sm text-[#A1A1A1] font-['Inter']">Watchlist</div>
                 </CardContent>
               </Card>
               <Card className="cred-card text-center">
