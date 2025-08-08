@@ -234,7 +234,7 @@ export default function FeedPage() {
               }}
             >
               {trendingAll.concat(trendingAll).map((movie, index) => (
-                <div key={`${movie.tmdbId}-${index}`} className="flex-shrink-0 w-16 h-20 sm:w-24 sm:h-32 cursor-pointer hover:scale-105 transition-transform duration-200">
+                <div key={`${movie.tmdbId}-${index}`} className="flex-shrink-0 w-20 h-28 sm:w-28 sm:h-36 cursor-pointer hover:scale-105 transition-transform duration-200">
                   {movie.posterPath ? (
                     <img
                       src={`https://image.tmdb.org/t/p/w154${movie.posterPath}`}
