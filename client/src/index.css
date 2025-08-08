@@ -6,41 +6,65 @@
 @tailwind utilities;
 
 :root {
-  /* Premium Dark Theme */
-  --background: #090708;
-  --background-gradient: linear-gradient(135deg, #090708 0%, #0C0A0B 50%, #090708 100%);
-  --foreground: #EAEAEA; /* High-contrast off-white */
-  --foreground-muted: #A1A1A1; /* Muted gray for secondary text */
-  --foreground-subtle: #7A7A7A;
+  /* Two-Color Theme: #000000 (background) and #3c595d (interactive) */
+  --background: #000000;
+  --background-gradient: linear-gradient(135deg, #000000 0%, #000000 50%, #000000 100%);
+  --foreground: #ffffff; /* White text for readability */
+  --foreground-muted: #e0e0e0; /* Light gray for secondary text */
+  --foreground-subtle: #cccccc;
   
-  /* Card & Surface Colors */
-  --card: #121011; /* Slightly lighter dark tone */
-  --card-hover: #151214;
-  --card-foreground: #EAEAEA;
-  --surface: #121011;
-  --surface-hover: #151214;
+  /* Card & Surface Colors - Using black background */
+  --card: #000000;
+  --card-hover: #3c595d; /* Interactive color on hover */
+  --card-foreground: #ffffff;
+  --surface: #000000;
+  --surface-hover: #3c595d;
   
-  /* Premium Accent Colors */
-  --primary: #EAEAEA;
-  --primary-hover: #FFFFFF;
-  --primary-foreground: #090708;
-  --secondary: #A1A1A1;
-  --secondary-hover: #EAEAEA;
-  --secondary-foreground: #090708;
+  /* Interactive Colors - Using #3c595d */
+  --primary: #3c595d;
+  --primary-hover: #4a6b70;
+  --primary-foreground: #ffffff;
+  --secondary: #3c595d;
+  --secondary-hover: #4a6b70;
+  --secondary-foreground: #ffffff;
   
-  /* Neutral Grays */
-  --muted: #121011;
-  --muted-foreground: #A1A1A1;
-  --border: #1E1C1D;
-  --border-subtle: #171516;
-  --input: #121011;
-  --input-border: #1E1C1D;
+  /* Neutral Elements */
+  --muted: #3c595d;
+  --muted-foreground: #ffffff;
+  --border: #3c595d;
+  --border-subtle: #3c595d;
+  --input: #3c595d;
+  --input-border: #3c595d;
   
   /* States */
   --destructive: #DC2626;
-  --destructive-foreground: #EAEAEA;
+  --destructive-foreground: #ffffff;
   --success: #16A34A;
   --warning: #EA580C;
+  
+  /* Additional color mappings for shadcn/ui compatibility */
+  --accent: #3c595d;
+  --accent-foreground: #ffffff;
+  --popover: #3c595d;
+  --popover-foreground: #ffffff;
+  --ring: #3c595d;
+  
+  /* Chart colors using variations of #3c595d */
+  --chart-1: #3c595d;
+  --chart-2: #4a6b70;
+  --chart-3: #587d83;
+  --chart-4: #669096;
+  --chart-5: #74a2a9;
+  
+  /* Sidebar colors */
+  --sidebar-background: #000000;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #3c595d;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #3c595d;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #3c595d;
+  --sidebar-ring: #3c595d;
   
   /* Minimal radius */
   --radius: 2px;
@@ -50,11 +74,11 @@
   --font-heading: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  /* Subtle Shadows */
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
-  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 20px rgba(234, 234, 234, 0.1);
+  /* Subtle Shadows using theme colors */
+  --shadow-subtle: 0 1px 3px rgba(60, 89, 93, 0.2);
+  --shadow-medium: 0 4px 12px rgba(60, 89, 93, 0.3);
+  --shadow-large: 0 8px 32px rgba(60, 89, 93, 0.4);
+  --shadow-glow: 0 0 20px rgba(60, 89, 93, 0.1);
 }
 
 /* Dark mode inherits night theme - no separate dark mode needed */
@@ -152,8 +176,8 @@
   
   input:focus, textarea:focus, select:focus {
     outline: none;
-    border-color: var(--foreground);
-    box-shadow: 0 0 0 2px rgba(234, 234, 234, 0.1);
+    border-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(60, 89, 93, 0.3);
   }
   
   label {
@@ -262,7 +286,7 @@
 }
 
 .text-premium {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  background: linear-gradient(135deg, #3c595d 0%, #4a6b70 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -365,7 +389,7 @@
 }
 
 .cred-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
+  background: #ffffff;
 }
 
 .scrollbar-hide {

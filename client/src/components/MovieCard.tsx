@@ -32,11 +32,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const getTimeColor = () => {
     const timeUntil = getTimeUntilReminder();
     switch (timeUntil) {
-      case "Today": return "bg-green-500";
-      case "Tomorrow": return "bg-amber-500";
-      case "This Week": return "bg-blue-500";
-      case "Past": return "bg-gray-500";
-      default: return "bg-gray-400";
+      case "Today": return "bg-[#3c595d]";
+      case "Tomorrow": return "bg-[#4a6b70]";
+      case "This Week": return "bg-[#587d83]";
+      case "Past": return "bg-[#669096]";
+      default: return "bg-[#74a2a9]";
     }
   };
 
@@ -104,12 +104,12 @@ export default function MovieCard({ movie }: MovieCardProps) {
           <Button
             variant="outline"
             size="icon-sm"
-            className="bg-[#0B0B0B]/80 hover:bg-[#FF4757] border-[#2A2A2A] hover:border-[#FF4757] backdrop-blur-sm"
+            className="bg-[#000000]/80 hover:bg-[#DC2626] border-[#3c595d] hover:border-[#DC2626] backdrop-blur-sm"
             onClick={handleDelete}
             disabled={deleteMovieMutation.isPending}
             data-testid={`button-remove-${movie.id}`}
           >
-            <X className="text-[#B8B8B8] group-hover:text-white" size={16} />
+            <X className="text-white group-hover:text-white" size={16} />
           </Button>
         </div>
       </div>

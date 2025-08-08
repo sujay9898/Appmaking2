@@ -9,14 +9,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#EAEAEA] text-[#090708] hover:bg-[#FFFFFF] hover:shadow-[0_0_10px_rgba(234,234,234,0.2)] hover:scale-[1.01] active:scale-[0.99] font-medium",
-        secondary: "bg-transparent border border-[#A1A1A1] text-[#A1A1A1] hover:bg-[#A1A1A1] hover:text-[#090708] hover:scale-[1.01] active:scale-[0.99] font-medium",
+        default: "bg-[#3c595d] text-[#ffffff] hover:bg-[#4a6b70] hover:shadow-[0_0_10px_rgba(60,89,93,0.3)] hover:scale-[1.01] active:scale-[0.99] font-medium",
+        secondary: "bg-transparent border border-[#3c595d] text-[#ffffff] hover:bg-[#3c595d] hover:text-[#ffffff] hover:scale-[1.01] active:scale-[0.99] font-medium",
         destructive:
-          "bg-[#DC2626] text-[#EAEAEA] hover:bg-[#B91C1C] hover:scale-[1.01] active:scale-[0.99] font-medium",
+          "bg-[#DC2626] text-[#ffffff] hover:bg-[#B91C1C] hover:scale-[1.01] active:scale-[0.99] font-medium",
         outline:
-          "border border-[#1E1C1D] bg-transparent text-[#A1A1A1] hover:bg-[#121011] hover:text-[#EAEAEA] hover:border-[#EAEAEA] hover:scale-[1.01] active:scale-[0.99] font-medium",
-        ghost: "bg-transparent text-[#A1A1A1] hover:bg-[#121011] hover:text-[#EAEAEA] hover:scale-[1.01] active:scale-[0.99]",
-        link: "text-[#EAEAEA] underline-offset-4 hover:underline hover:text-[#FFFFFF] font-medium",
+          "border border-[#3c595d] bg-transparent text-[#ffffff] hover:bg-[#3c595d] hover:text-[#ffffff] hover:border-[#4a6b70] hover:scale-[1.01] active:scale-[0.99] font-medium",
+        ghost: "bg-transparent text-[#ffffff] hover:bg-[#3c595d] hover:text-[#ffffff] hover:scale-[1.01] active:scale-[0.99]",
+        link: "text-[#ffffff] underline-offset-4 hover:underline hover:text-[#e0e0e0] font-medium",
       },
       size: {
         default: "h-11 px-6 py-2.5 text-sm rounded-[2px]",
