@@ -46,9 +46,11 @@ export default function HomePage() {
     if (rowMovies.length === 0) return null;
     
     return (
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4 px-4">{title}</h2>
-        <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
+      <div className="mb-12">
+        <div className="cred-container">
+          <h2 className="text-heading font-['Poppins'] font-semibold text-white mb-6 tracking-tight">{title}</h2>
+        </div>
+        <div className="flex overflow-x-auto pb-6 px-6 cred-gap-md scrollbar-hide cred-scrollbar">
           {rowMovies.map((movie) => (
             <ClickableMovieCard key={movie.tmdbId} movie={movie} size="medium" />
           ))}
@@ -62,12 +64,14 @@ export default function HomePage() {
     if (rowMovies.length === 0) return null;
     
     return (
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4 px-4">{title}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-          {rowMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
+      <div className="mb-12">
+        <div className="cred-container">
+          <h2 className="text-heading font-['Poppins'] font-semibold text-white mb-8 tracking-tight">{title}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cred-gap-lg">
+            {rowMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -75,15 +79,15 @@ export default function HomePage() {
 
   if (isLoading || isLoadingTrendingAll) {
     return (
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-[#0B0B0B] page-transition">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
-        <div className="pt-20">
+        <div className="pt-24 cred-container">
           {[1, 2, 3].map(i => (
-            <div key={i} className="mb-8 px-4">
-              <div className="h-6 bg-gray-700 rounded w-48 mb-4 animate-pulse"></div>
-              <div className="flex space-x-4">
+            <div key={i} className="mb-12">
+              <div className="h-8 bg-[#161616] rounded-[2px] w-48 mb-6 animate-pulse"></div>
+              <div className="flex cred-gap-md overflow-x-auto scrollbar-hide">
                 {[1, 2, 3, 4, 5].map(j => (
-                  <div key={j} className="flex-none w-48 aspect-[2/3] bg-gray-700 rounded-lg animate-pulse"></div>
+                  <div key={j} className="flex-none w-48 aspect-[2/3] bg-[#161616] rounded-[2px] animate-pulse"></div>
                 ))}
               </div>
             </div>
@@ -94,21 +98,29 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 pb-20">
+    <div className="min-h-screen bg-[#0B0B0B] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
-      <div className="pt-20">
+      <div className="pt-24">
         {/* Share About Movies Section */}
-        <ShareAboutMovies />
+        <div className="cred-fade-in">
+          <ShareAboutMovies />
+        </div>
         
         {/* Always show trending content and genres */}
-        <div className="space-y-8">
-          <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
-          <GenreSection />
+        <div className="cred-section space-y-12">
+          <div className="cred-slide-up">
+            <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
+          </div>
+          <div className="cred-slide-up" style={{animationDelay: '0.2s'}}>
+            <GenreSection />
+          </div>
           
           {/* Show recently added movies if any */}
           {movies.length > 0 && (
-            <WatchlistMovieSection title="Recently Added Movies" movies={recentlyAddedMovies} />
+            <div className="cred-slide-up" style={{animationDelay: '0.4s'}}>
+              <WatchlistMovieSection title="Recently Added Movies" movies={recentlyAddedMovies} />
+            </div>
           )}
         </div>
       </div>

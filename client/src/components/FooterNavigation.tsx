@@ -1,31 +1,32 @@
 import { Link, useLocation } from "wouter";
-import { FileText, Film, User } from "lucide-react";
+import { Home, Film, PlayCircle, User } from "lucide-react";
 
 export default function FooterNavigation() {
   const [location] = useLocation();
 
   const navItems = [
-    { icon: FileText, label: "Home", path: "/" },
+    { icon: Home, label: "Home", path: "/" },
     { icon: Film, label: "Pick Movie", path: "/movies" },
-    { icon: Film, label: "Watchlist", path: "/watchlist" },
+    { icon: PlayCircle, label: "Watchlist", path: "/watchlist" },
     { icon: User, label: "Profile", path: "/profile" }
   ];
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 bg-card/90 backdrop-blur-sm border-t border-border z-50">
-      <div className="max-w-md mx-auto px-4 py-2">
+    <footer className="fixed bottom-0 left-0 right-0 bg-[#0B0B0B]/95 backdrop-blur-xl border-t border-[#1A1A1A] z-50">
+      <div className="max-w-md mx-auto cred-spacing-sm">
         <nav className="flex justify-around items-center">
           {navItems.map(({ icon: Icon, label, path }) => (
             <Link key={path} href={path}>
               <button
-                className={`flex flex-col items-center space-y-1 py-2 px-3 rounded-lg transition-all night-button ${
+                className={`flex flex-col items-center cred-gap-xs py-3 px-4 transition-all duration-400 font-['Inter'] ${
                   location === path
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                    ? "text-[#D4AF37] scale-110"
+                    : "text-[#888888] hover:text-[#00E5FF] hover:scale-105"
                 }`}
+                style={{borderRadius: '2px'}}
               >
-                <Icon size={20} />
-                <span className="text-caption font-medium">{label}</span>
+                <Icon size={22} className="transition-transform duration-300" />
+                <span className="text-xs font-medium tracking-tight">{label}</span>
               </button>
             </Link>
           ))}

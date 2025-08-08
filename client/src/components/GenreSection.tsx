@@ -42,30 +42,33 @@ export default function GenreSection() {
 
   if (isLoadingGenres) {
     return (
-      <div className="mb-8">
-        <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 animate-spin text-white" />
-          <span className="ml-2 text-white">Loading genres...</span>
+      <div className="mb-12">
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-6 w-6 animate-spin text-[#D4AF37]" />
+          <span className="ml-3 text-[#B8B8B8] font-['Inter'] text-sm">Loading genres...</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="mb-8">
-      <h2 className="text-xl font-semibold text-white mb-4 px-4">Browse by Genre</h2>
+    <div className="mb-12">
+      <div className="cred-container">
+        <h2 className="text-heading font-['Poppins'] font-semibold text-white mb-6 tracking-tight">Browse by Genre</h2>
+      </div>
       
       {/* Genre Pills */}
-      <div className="flex overflow-x-auto pb-2 px-4 space-x-2 scrollbar-hide mb-4">
+      <div className="flex overflow-x-auto pb-4 px-6 cred-gap-sm scrollbar-hide cred-scrollbar mb-6">
         {genres.map((genre) => (
           <Button
             key={genre.id}
             onClick={() => setSelectedGenre(genre)}
             variant={selectedGenre?.id === genre.id ? "default" : "outline"}
-            className={`flex-none px-4 py-2 text-sm whitespace-nowrap transition-colors ${
+            size="sm"
+            className={`flex-none whitespace-nowrap font-semibold tracking-tight font-['Inter'] transition-all duration-400 ${
               selectedGenre?.id === genre.id
-                ? "bg-red-600 hover:bg-red-700 text-white"
-                : "bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                ? "shadow-[0_0_20px_rgba(212,175,55,0.3)] scale-105"
+                : "hover:scale-105"
             }`}
           >
             {genre.name}
@@ -76,23 +79,25 @@ export default function GenreSection() {
       {/* Movies for Selected Genre */}
       {selectedGenre && (
         <div>
-          <h3 className="text-lg font-medium text-white mb-3 px-4">
-            {selectedGenre.name} Movies
-          </h3>
+          <div className="cred-container">
+            <h3 className="text-subheading font-['Poppins'] font-medium text-white mb-4 tracking-tight">
+              {selectedGenre.name} Movies
+            </h3>
+          </div>
           
           {isLoadingMovies ? (
-            <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-5 w-5 animate-spin text-white" />
-              <span className="ml-2 text-white">Loading movies...</span>
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-5 w-5 animate-spin text-[#D4AF37]" />
+              <span className="ml-3 text-[#B8B8B8] font-['Inter'] text-sm">Loading movies...</span>
             </div>
           ) : (
-            <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
+            <div className="flex overflow-x-auto pb-6 px-6 cred-gap-md scrollbar-hide cred-scrollbar">
               {genreMovies.map((movie) => (
                 <ClickableMovieCard key={movie.tmdbId} movie={movie} size="medium" />
               ))}
               {genreMovies.length === 0 && (
-                <div className="text-center py-8 w-full">
-                  <p className="text-gray-400">No movies found for this genre</p>
+                <div className="text-center py-12 w-full">
+                  <p className="text-[#888888] font-['Inter']">No movies found for this genre</p>
                 </div>
               )}
             </div>

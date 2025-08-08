@@ -1,10 +1,14 @@
 export default function ShareAboutMovies() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
+    <div className="cred-container cred-section">
       {/* Pick your movie section */}
-      <div className="text-center">
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Pick your movie</h1>
-        <p className="text-gray-400 text-lg">and add to your watch list</p>
+      <div className="text-center cred-fade-in">
+        <h1 className="text-display font-['Poppins'] font-bold text-white mb-4 tracking-tight">
+          Pick your <span className="text-premium">movie</span>
+        </h1>
+        <p className="text-body-lg text-[#B8B8B8] font-['Inter'] max-w-md mx-auto leading-relaxed">
+          and add to your watch list
+        </p>
       </div>
     </div>
   );

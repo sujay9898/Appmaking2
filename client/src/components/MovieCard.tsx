@@ -84,71 +84,72 @@ export default function MovieCard({ movie }: MovieCardProps) {
   };
 
   return (
-    <div className="bg-white shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200" style={{borderRadius: '2px'}} data-testid={`card-movie-${movie.id}`}>
+    <div className="cred-card group cursor-pointer transition-all duration-400 hover:scale-[1.02] cred-fade-in" data-testid={`card-movie-${movie.id}`}>
       <div className="relative">
         <img 
           src={movie.posterPath || "https://via.placeholder.com/400x600?text=No+Poster"} 
           alt={`${movie.title} poster`} 
-          className="w-full h-64 object-cover"
+          className="w-full h-64 object-cover transition-transform duration-400 group-hover:scale-[1.05]"
+          style={{borderRadius: '2px'}}
           data-testid={`img-poster-${movie.id}`}
         />
         
         <div className="absolute top-3 right-3">
-          <div className={`${getTimeColor()} text-white px-2 py-1 rounded-full text-xs font-medium`}>
+          <div className={`${getTimeColor()} text-white px-3 py-1.5 text-xs font-medium font-['Inter'] tracking-wide`} style={{borderRadius: '2px'}}>
             {getTimeUntilReminder()}
           </div>
         </div>
         
         <div className="absolute top-3 left-3">
           <Button
-            variant="secondary"
-            size="sm"
-            className="bg-white/90 hover:bg-white p-2 rounded-full shadow-sm h-8 w-8"
+            variant="outline"
+            size="icon-sm"
+            className="bg-[#0B0B0B]/80 hover:bg-[#FF4757] border-[#2A2A2A] hover:border-[#FF4757] backdrop-blur-sm"
             onClick={handleDelete}
             disabled={deleteMovieMutation.isPending}
             data-testid={`button-remove-${movie.id}`}
           >
-            <X className="text-gray-600" size={16} />
+            <X className="text-[#B8B8B8] group-hover:text-white" size={16} />
           </Button>
         </div>
       </div>
       
-      <div className="p-5">
-        <h3 className="font-semibold text-gray-900 mb-2" data-testid={`text-title-${movie.id}`}>
+      <div className="cred-spacing-md">
+        <h3 className="font-['Poppins'] font-semibold text-white mb-3 text-lg tracking-tight" data-testid={`text-title-${movie.id}`}>
           {movie.title}
         </h3>
         
-        <div className="space-y-2 text-sm text-gray-600">
-          <div className="flex items-center space-x-2">
-            <Calendar className="text-gray-400" size={16} />
-            <span data-testid={`text-date-${movie.id}`}>{formatDate(movie.reminderDate)}</span>
+        <div className="space-y-3 text-[#888888] font-['Inter']">
+          <div className="flex items-center cred-gap-sm">
+            <Calendar className="text-[#D4AF37]" size={16} />
+            <span className="text-sm" data-testid={`text-date-${movie.id}`}>{formatDate(movie.reminderDate)}</span>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <Clock className="text-gray-400" size={16} />
-            <span data-testid={`text-time-${movie.id}`}>{formatTime(movie.reminderTime)}</span>
+          <div className="flex items-center cred-gap-sm">
+            <Clock className="text-[#00E5FF]" size={16} />
+            <span className="text-sm" data-testid={`text-time-${movie.id}`}>{formatTime(movie.reminderTime)}</span>
           </div>
           
-          <div className="flex items-center space-x-2">
-            <Mail className="text-gray-400" size={16} />
-            <span className="truncate" data-testid={`text-email-${movie.id}`}>{movie.userEmail}</span>
+          <div className="flex items-center cred-gap-sm">
+            <Mail className="text-[#888888]" size={16} />
+            <span className="truncate text-sm" data-testid={`text-email-${movie.id}`}>{movie.userEmail}</span>
           </div>
         </div>
         
-        <div className="mt-4 flex justify-between items-center">
+        <div className="mt-6 flex justify-between items-center">
           <Button
-            variant="ghost"
-            className="text-primary-600 hover:text-primary-700 text-sm font-medium p-0 h-auto"
+            variant="link"
+            className="text-[#D4AF37] hover:text-[#F0C646] text-sm font-medium p-0 h-auto font-['Inter'] tracking-tight"
             data-testid={`button-edit-${movie.id}`}
           >
-            <Edit className="mr-1" size={14} />
+            <Edit className="mr-2" size={14} />
             Edit Reminder
           </Button>
           
           <Button
             variant="ghost"
-            size="sm"
-            className="text-gray-400 hover:text-red-600 transition-colors p-2 h-8 w-8"
+            size="icon-sm"
+            className="text-[#888888] hover:text-[#FF4757] hover:bg-[#FF4757]/10 transition-all duration-300"
             onClick={handleDelete}
             disabled={deleteMovieMutation.isPending}
             data-testid={`button-delete-${movie.id}`}

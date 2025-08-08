@@ -31,7 +31,7 @@ export default function ClickableMovieCard({ movie, size = "medium" }: Clickable
         onMouseEnter={() => setShowAddButton(true)}
         onMouseLeave={() => setShowAddButton(false)}
       >
-        <div className="bg-gray-800 overflow-hidden hover:scale-105 transition-transform duration-200 relative" style={{borderRadius: '2px'}}>
+        <div className="cred-card bg-[#161616] overflow-hidden hover:scale-[1.05] transition-all duration-400 relative group">
           <img 
             src={movie.posterPath || "https://via.placeholder.com/300x450?text=No+Poster"} 
             alt={movie.title}
@@ -40,13 +40,14 @@ export default function ClickableMovieCard({ movie, size = "medium" }: Clickable
           
           {/* Overlay with Add to Watchlist button */}
           {showAddButton && (
-            <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-opacity duration-200">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B]/90 via-[#0B0B0B]/50 to-transparent flex items-center justify-center transition-all duration-400 backdrop-blur-sm">
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsModalOpen(true);
                 }}
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 flex items-center gap-2"
+                variant="default"
+                className="font-semibold tracking-tight cred-scale-in"
               >
                 <Plus size={16} />
                 Add to Watchlist
@@ -54,9 +55,9 @@ export default function ClickableMovieCard({ movie, size = "medium" }: Clickable
             </div>
           )}
           
-          <div className="p-3">
-            <h3 className="text-white text-sm font-medium truncate">{movie.title}</h3>
-            <p className="text-gray-400 text-xs mt-1">{movie.releaseYear}</p>
+          <div className="cred-spacing-sm">
+            <h3 className="text-white text-sm font-['Poppins'] font-medium truncate tracking-tight">{movie.title}</h3>
+            <p className="text-[#888888] text-xs mt-1 font-['Inter']">{movie.releaseYear}</p>
           </div>
         </div>
       </div>
