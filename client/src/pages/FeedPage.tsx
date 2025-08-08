@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Heart, MessageCircle, Send, User, ArrowRight, Image, Plus } from "lucide-react";
+import { Heart, MessageCircle, User, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import ClickableMovieCard from "@/components/ClickableMovieCard";
@@ -69,20 +67,19 @@ const dummyPosts: FeedPost[] = [
 ];
 
 export default function FeedPage() {
-  const [feedText, setFeedText] = useState("");
   const [posts, setPosts] = useState<FeedPost[]>(dummyPosts);
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedUsername, setSelectedUsername] = useState<string | null>(null);
   const [isUserDashboardOpen, setIsUserDashboardOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
   const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const [, setLocation] = useLocation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const movieScrollRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   // Fetch trending movies & series from TMDB
@@ -100,6 +97,24 @@ export default function FeedPage() {
         clearTimeout(scrollTimeoutRef.current);
       }
     };
+  }, []);
+
+  // Auto-scroll movie cards
+  useEffect(() => {
+    const scrollInterval = setInterval(() => {
+      setScrollPosition(prev => {
+        const container = movieScrollRef.current;
+        if (!container) return prev;
+        
+        const containerWidth = container.scrollWidth / 2; // Since we duplicate the array
+        const newPosition = prev + 1;
+        
+        // Reset to start when we've scrolled through half the content
+        return newPosition >= containerWidth ? 0 : newPosition;
+      });
+    }, 50); // Smooth 50ms intervals
+
+    return () => clearInterval(scrollInterval);
   }, []);
 
   // Load saved posts from localStorage and listen for new posts
@@ -128,47 +143,7 @@ export default function FeedPage() {
     };
   }, [toast]);
 
-  const handleSend = () => {
-    if (!feedText.trim() && !selectedImage) return;
 
-    const newPost: FeedPost = {
-      id: Date.now().toString(),
-      username: "you",
-      caption: feedText.trim(),
-      content: "",
-      timestamp: "just now",
-      likes: 0,
-      comments: 0,
-      image: selectedImage
-    };
-
-    setPosts([newPost, ...posts]);
-    setFeedText("");
-    setSelectedImage(null);
-    
-    toast({
-      title: "Post shared!",
-      description: "Your post has been added to the feed.",
-    });
-  };
-
-  const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const removeImage = () => {
-    setSelectedImage(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
 
   const handleLike = (postId: string) => {
     setLikedPosts(prev => {
@@ -214,11 +189,6 @@ export default function FeedPage() {
     setSelectedPostId(null);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSend();
-    }
-  };
 
   // Handle scroll detection for "See More" button
   const handleScroll = () => {
@@ -243,62 +213,35 @@ export default function FeedPage() {
     <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       <div className="cred-container cred-section pt-[49px] pb-[49px] text-[18px] font-normal">
-        {/* Feed Box */}
+        {/* Movie Cards */}
         <div className="mb-12 cred-fade-in">
           <h2 className="text-heading font-['Poppins'] font-semibold text-white tracking-tight">Feed</h2>
-          <div className="relative">
-            <Textarea
-              value={feedText}
-              onChange={(e) => setFeedText(e.target.value)}
-              placeholder="What's happening?"
-              rows={4}
-              className="flex min-h-[80px] rounded-md py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full bg-[#0a0809] border border-[#2A2A2A] text-white placeholder-[#888888] resize-none focus:border-[#D4AF37] transition-all duration-300 font-['Inter'] text-base px-4 pl-[16px] pr-[16px] pt-[8px] pb-[8px] mt-[23px] mb-[23px]"
-              style={{borderRadius: '2px'}}
-            />
-            
-            {/* Image Preview */}
-            {selectedImage && (
-              <div className="mt-2 relative inline-block">
-                <img 
-                  src={selectedImage} 
-                  alt="Selected" 
-                  className="w-24 h-24 object-cover rounded border border-border"
-                />
-                <Button
-                  onClick={removeImage}
-                  size="sm"
-                  className="absolute -top-2 -right-2 bg-destructive hover:bg-destructive/90 p-1 h-6 w-6 rounded-full night-button"
-                >
-                  ×
-                </Button>
-              </div>
-            )}
-            
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageSelect}
-              accept="image/*"
-              className="hidden"
-            />
-            
-            <div className="absolute right-4 bottom-4 flex cred-gap-sm">
-              <Button
-                onClick={() => fileInputRef.current?.click()}
-                variant="outline"
-                size="icon-sm"
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transition-all duration-200 ease-in-out font-['Inter'] tracking-tight border text-[#A1A1A1] hover:text-[#EAEAEA] hover:scale-[1.01] active:scale-[0.99] font-medium h-9 w-9 rounded-[2px] bg-[#161616] border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] ml-[0px] mr-[0px] mt-[4px] mb-[4px] pt-[6px] pb-[6px] pl-[15px] pr-[15px]"
-              >
-                <Image size={16} />
-              </Button>
-              <Button
-                onClick={handleSend}
-                variant="default"
-                size="icon"
-                className="font-semibold"
-              >
-                <Send size={16} />
-              </Button>
+          <div className="mt-[23px] mb-[23px] min-h-[80px] overflow-hidden bg-[#0a0809] border border-[#2A2A2A]" style={{borderRadius: '2px'}}>
+            <div 
+              ref={movieScrollRef}
+              className="flex gap-4 h-full items-center animate-scroll"
+              style={{
+                transform: `translateX(-${scrollPosition}px)`,
+                transition: 'transform 0.5s linear',
+                width: 'max-content'
+              }}
+            >
+              {trendingAll.concat(trendingAll).map((movie, index) => (
+                <div key={`${movie.tmdbId}-${index}`} className="flex-shrink-0 w-16 h-20 cursor-pointer hover:scale-105 transition-transform duration-200">
+                  {movie.posterPath ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w154${movie.posterPath}`}
+                      alt={movie.title}
+                      className="w-full h-full object-cover"
+                      style={{borderRadius: '2px'}}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center" style={{borderRadius: '2px'}}>
+                      <span className="text-[#888888] text-xs text-center p-1 font-['Inter']">{movie.title}</span>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
