@@ -9,7 +9,7 @@ export default function Navigation({ onAddMovie }: NavigationProps) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#090708]/95 backdrop-blur-xl border-b border-[#1E1C1D] cred-fade-in">
       <div className="cred-container">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-20 ml-[-13px] mr-[-13px] mt-[0px] mb-[0px] pl-[23px] pr-[23px]">
           <div></div>
           <div className="bg-[#121011] p-3 rounded-[2px] shadow-lg border border-[#1E1C1D]">
             <Clapperboard className="text-[#EAEAEA]" size={22} />
