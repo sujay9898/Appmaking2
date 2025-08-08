@@ -268,7 +268,7 @@ export default function FeedPage() {
               onChange={(e) => setFeedText(e.target.value)}
               placeholder={placeholders[currentPlaceholder]}
               rows={4}
-              className="w-full bg-[#161616] border border-[#2A2A2A] text-white placeholder-[#888888] resize-none focus:border-[#D4AF37] transition-all duration-300 font-['Inter'] text-base p-4"
+              className="w-full bg-[#0a0809] border border-[#2A2A2A] text-white placeholder-[#888888] resize-none focus:border-[#D4AF37] transition-all duration-300 font-['Inter'] text-base p-4"
               style={{borderRadius: '2px'}}
             />
             
