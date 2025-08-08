@@ -391,7 +391,7 @@ export default function FeedPage() {
                     />
                   </div>
                 ) : post.content ? (
-                  <div className="mb-4 p-4 bg-gray-700 rounded-lg">
+                  <div className="mb-4">
                     <p className="text-gray-300 leading-relaxed whitespace-pre-line">{post.content}</p>
                   </div>
                 ) : null}
