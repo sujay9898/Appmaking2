@@ -219,7 +219,6 @@ export default function FeedPage() {
             style={{ 
               fontSize: '1.8em', 
               fontWeight: 'bold',
-              fontStyle: 'italic',
               color: '#ffffff',
               marginBottom: '15px', 
               marginLeft: '10px',
@@ -228,7 +227,7 @@ export default function FeedPage() {
               lineHeight: '1.2'
             }}
           >
-            Hi Cinephile
+            Hi <span style={{ color: '#3c595d', fontStyle: 'italic' }}>Cinephile</span>
           </h2>
         </div>
 

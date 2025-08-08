@@ -109,7 +109,6 @@ export default function HomePage() {
             style={{ 
               fontSize: '1.8em', 
               fontWeight: 'bold',
-              fontStyle: 'italic',
               color: '#ffffff',
               marginBottom: '15px', 
               marginLeft: '10px',
@@ -119,7 +118,7 @@ export default function HomePage() {
               fontFamily: 'inherit'
             }}
           >
-            Hi Cinephile
+            Hi <span style={{ color: '#3c595d', fontStyle: 'italic' }}>Cinephile</span>
           </h2>
         </div>
 
