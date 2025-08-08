@@ -266,104 +266,155 @@ export default function FeedPage() {
         {/* Feed Posts */}
         <section className="modern-section">
           <h3 className="text-lg font-semibold text-white mb-6">Recent Posts</h3>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {posts.map((post) => (
-              <Card key={post.id} className="modern-card bg-[#3c595d]">
-                <CardContent className="p-6">
-                {/* Add to Watchlist Button - Only show for movie posts */}
-                {post.moviePoster && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="absolute top-4 right-4 bg-[#000000] hover:bg-[#000000] border-[#ffffff] hover:border-[#ffffff] text-[#ffffff]"
-                  >
-                    <Plus size={12} className="mr-1" />
-                    Watchlist
-                  </Button>
-                )}
-                {/* Profile and Username */}
-                <div className="flex items-center mb-4">
-                  <div 
-                    className="w-10 h-10 bg-[#000000] flex items-center justify-center mr-4 cursor-pointer hover:bg-[#ffffff] hover:text-[#000000] transition-all duration-300 rounded-[2px]"
-                    onClick={() => handleProfileClick(post.username)}
-                  >
-                    <User size={18} className="text-[#ffffff]" />
-                  </div>
-                  <div className="cursor-pointer" onClick={() => handleProfileClick(post.username)}>
-                    <h3 className="font-semibold text-[#ffffff] text-sm hover:text-[#e0e0e0] transition-colors duration-200">@{post.username}</h3>
-                    <p className="text-[#e0e0e0] text-xs">{post.timestamp}</p>
-                  </div>
-                </div>
+              <div key={post.id} className="relative group">
+                {/* Modern Glass Card */}
+                <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-3xl p-6 shadow-2xl hover:shadow-4xl transition-all duration-500 hover:scale-[1.02] hover:bg-gradient-to-br hover:from-white/[0.12] hover:to-white/[0.04]">
+                  
+                  {/* Floating Action Button */}
+                  {post.moviePoster && (
+                    <button className="absolute -top-2 -right-2 w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group/btn">
+                      <Plus size={20} className="text-white group-hover/btn:rotate-90 transition-transform duration-300" />
+                    </button>
+                  )}
 
-                {/* Bold Caption */}
-                <h4 className="text-white mb-4 text-base font-medium">{post.caption}</h4>
+                  {/* Header with Avatar and User Info */}
+                  <div className="flex items-center mb-5">
+                    <div className="relative">
+                      <div 
+                        className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                        onClick={() => handleProfileClick(post.username)}
+                      >
+                        <User size={24} className="text-white" />
+                      </div>
+                      <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white"></div>
+                    </div>
+                    
+                    <div className="ml-4 flex-1">
+                      <div 
+                        className="cursor-pointer group/user"
+                        onClick={() => handleProfileClick(post.username)}
+                      >
+                        <h3 className="font-bold text-white text-base group-hover/user:text-blue-300 transition-colors duration-200">
+                          @{post.username}
+                        </h3>
+                        <p className="text-gray-300 text-sm flex items-center gap-2">
+                          <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                          {post.timestamp}
+                        </p>
+                      </div>
+                    </div>
 
-                {/* Movie Poster and Content */}
-                {post.moviePoster ? (
-                  <div className="mb-6 cred-surface cred-spacing-md">
-                    <div className="flex cred-gap-md">
-                      <img 
-                        src={post.moviePoster} 
-                        alt={post.movieTitle || 'Movie poster'}
-                        className="w-16 h-24 sm:w-20 sm:h-30 object-cover"
-                        style={{borderRadius: '2px'}}
-                      />
-                      {post.movieTitle && (
-                        <div className="flex-1 min-w-0">
-                          <h5 className="font-['Poppins'] font-semibold text-white text-xs sm:text-sm tracking-tight">
-                            {post.movieTitle}
-                            {post.movieYear && (
-                              <span className="text-[#888888] font-normal ml-2 font-['Inter']">({post.movieYear})</span>
-                            )}
-                          </h5>
-                          {post.movieInfo && (
-                            <p className="text-[#888888] text-xs mt-2 whitespace-pre-line font-['Inter'] leading-relaxed">{post.movieInfo}</p>
-                          )}
-                        </div>
-                      )}
+                    <div className="flex gap-2">
+                      <button className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all duration-200">
+                        <svg className="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                ) : post.image ? (
-                  <div className="mb-6">
-                    <img 
-                      src={post.image} 
-                      alt="Post image" 
-                      className="w-full max-w-md"
-                      style={{borderRadius: '2px'}}
-                    />
-                  </div>
-                ) : post.content ? (
-                  <div className="mb-6">
-                    <p className="text-[#B8B8B8] whitespace-pre-line font-['Inter'] text-sm sm:text-base text-justify">{post.content}</p>
-                  </div>
-                ) : null}
 
-                {/* Like and Comment Buttons */}
-                <div className="flex gap-4">
-                  <Button
-                    onClick={() => handleLike(post.id)}
-                    variant={likedPosts.has(post.id) ? "default" : "outline"}
-                    size="lg"
-                    className={`flex-1 py-3 text-sm font-semibold transition-all duration-300 ${
-                      likedPosts.has(post.id)
-                        ? "bg-[#DC2626] hover:bg-[#B91C1C] text-[#ffffff]"
-                        : "bg-transparent border-[#ffffff] text-[#ffffff] hover:bg-[#ffffff] hover:text-[#000000]"
-                    }`}
-                  >
-                    ❤️ {post.likes}
-                  </Button>
-                  <Button
-                    onClick={() => handleCommentClick(post.id)}
-                    variant="outline"
-                    size="lg"
-                    className="flex-1 py-3 text-sm font-semibold bg-transparent border-[#ffffff] text-[#ffffff] hover:bg-[#ffffff] hover:text-[#000000] transition-all duration-300"
-                  >
-                    💬 {post.comments}
-                  </Button>
+                  {/* Content Caption */}
+                  <div className="mb-6">
+                    <p className="text-white text-lg font-medium leading-relaxed">
+                      {post.caption}
+                    </p>
+                  </div>
+
+                  {/* Media Content */}
+                  {post.moviePoster ? (
+                    <div className="mb-6 bg-black/20 rounded-2xl p-4 backdrop-blur-sm">
+                      <div className="flex gap-4">
+                        <div className="relative group/poster">
+                          <img 
+                            src={post.moviePoster} 
+                            alt={post.movieTitle || 'Movie poster'}
+                            className="w-20 h-32 object-cover rounded-xl shadow-lg group-hover/poster:scale-105 transition-transform duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-xl opacity-0 group-hover/poster:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        
+                        {post.movieTitle && (
+                          <div className="flex-1 space-y-3">
+                            <div>
+                              <h4 className="font-bold text-white text-xl leading-tight">
+                                {post.movieTitle}
+                                {post.movieYear && (
+                                  <span className="text-gray-400 font-normal ml-2 text-lg">({post.movieYear})</span>
+                                )}
+                              </h4>
+                            </div>
+                            {post.movieInfo && (
+                              <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
+                                {post.movieInfo}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : post.image ? (
+                    <div className="mb-6 overflow-hidden rounded-2xl">
+                      <img 
+                        src={post.image} 
+                        alt="Post image" 
+                        className="w-full max-w-full object-cover hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  ) : post.content ? (
+                    <div className="mb-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-5 border border-white/5">
+                      <p className="text-gray-200 leading-relaxed text-base">
+                        {post.content}
+                      </p>
+                    </div>
+                  ) : null}
+
+                  {/* Action Bar */}
+                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                    <div className="flex gap-1">
+                      <button
+                        onClick={() => handleLike(post.id)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 group/like ${
+                          likedPosts.has(post.id)
+                            ? "bg-red-500/20 text-red-400"
+                            : "hover:bg-white/10 text-gray-300 hover:text-red-400"
+                        }`}
+                      >
+                        <svg className={`w-5 h-5 transition-transform duration-200 ${likedPosts.has(post.id) ? 'scale-110' : 'group-hover/like:scale-110'}`} fill={likedPosts.has(post.id) ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                        <span className="font-semibold text-sm">{post.likes}</span>
+                      </button>
+
+                      <button
+                        onClick={() => handleCommentClick(post.id)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-gray-300 hover:text-blue-400 transition-all duration-300 group/comment"
+                      >
+                        <svg className="w-5 h-5 group-hover/comment:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <span className="font-semibold text-sm">{post.comments}</span>
+                      </button>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" />
+                        </svg>
+                      </button>
+                      
+                      <button className="w-9 h-9 rounded-full hover:bg-white/10 flex items-center justify-center text-gray-400 hover:text-yellow-400 transition-all duration-200">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            ))}
           </div>
         </section>
       </div>
