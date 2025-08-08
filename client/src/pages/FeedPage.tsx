@@ -323,15 +323,17 @@ export default function FeedPage() {
           {posts.map((post) => (
             <Card key={post.id} className="cred-card-premium group relative">
               <CardContent className="cred-spacing-md pt-0 cred-spacing-lg text-left mt-[0px] mb-[0px] ml-[-19px] mr-[-19px] pl-[47px] pr-[47px] relative">
-                {/* Add to Watchlist Button */}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="absolute top-4 right-4 px-2 py-1 text-xs bg-[#161616] border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] text-[#A1A1A1] hover:text-[#EAEAEA] transition-all duration-200"
-                >
-                  <Plus size={12} className="mr-1" />
-                  Add
-                </Button>
+                {/* Add to Watchlist Button - Only show for movie posts */}
+                {post.moviePoster && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="absolute top-4 right-4 px-2 py-1 text-xs bg-[#161616] border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] text-[#A1A1A1] hover:text-[#EAEAEA] transition-all duration-200"
+                  >
+                    <Plus size={12} className="mr-1" />
+                    Watchlist
+                  </Button>
+                )}
                 {/* Profile and Username */}
                 <div className="flex items-center mb-4">
                   <div 
