@@ -319,57 +319,6 @@ export default function FeedPage() {
           </div>
         </div>
 
-        {/* Pick and Flex Section */}
-        <div className="mb-12 relative cred-slide-up">
-          <h3 className="text-heading font-['Poppins'] font-semibold text-white mb-6 tracking-tight">Pick and Flex</h3>
-          
-          <div className="relative">
-            {isLoadingTrending ? (
-              <div className="flex overflow-x-auto pb-4 px-4 space-x-4 scrollbar-hide">
-                {[1, 2, 3, 4, 5, 6].map(i => (
-                  <div key={i} className="w-40 aspect-[2/3] bg-secondary rounded-lg animate-pulse flex-none"></div>
-                ))}
-              </div>
-            ) : (
-              <>
-                <div 
-                  ref={scrollContainerRef}
-                  className="flex overflow-x-auto pb-6 cred-gap-md scrollbar-hide cred-scrollbar"
-                  onScroll={handleScroll}
-                >
-                  {trendingAll.slice(0, 15).map((movie) => (
-                    <div key={movie.tmdbId} className="w-36 flex-none cursor-pointer group">
-                      <div className="cred-card overflow-hidden hover:scale-[1.05] transition-all duration-400">
-                        <img 
-                          src={movie.posterPath || "https://via.placeholder.com/192x288?text=No+Poster"} 
-                          alt={movie.title}
-                          className="w-full aspect-[2/3] object-cover transition-transform duration-400 group-hover:scale-[1.05]"
-                          style={{borderRadius: '2px'}}
-                        />
-                        <div className="cred-spacing-sm">
-                          <h3 className="text-white text-sm font-['Poppins'] font-medium truncate tracking-tight">{movie.title}</h3>
-                          <p className="text-[#888888] text-xs mt-1 font-['Inter']">{movie.releaseYear}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                {/* See More Button - fades in during scroll */}
-                <div className={`absolute right-6 top-1/2 transform -translate-y-1/2 transition-all duration-400 ${showSeeMore ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-                  <Button
-                    onClick={() => setLocation('/movies')}
-                    variant="outline"
-                    className="bg-[#161616]/90 border-[#2A2A2A] hover:border-[#D4AF37] backdrop-blur-xl font-semibold tracking-tight"
-                  >
-                    See More <ArrowRight size={16} className="ml-2" />
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-
         {/* Feed Posts */}
         <div className="space-y-8 cred-slide-up">
           {posts.map((post) => (
