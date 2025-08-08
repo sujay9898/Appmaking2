@@ -303,7 +303,7 @@ export default function FeedPage() {
                 onClick={() => fileInputRef.current?.click()}
                 variant="outline"
                 size="icon-sm"
-                className="bg-[#161616] border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A]"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 transition-all duration-200 ease-in-out font-['Inter'] tracking-tight border text-[#A1A1A1] hover:text-[#EAEAEA] hover:scale-[1.01] active:scale-[0.99] font-medium h-9 w-9 rounded-[2px] bg-[#161616] border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] ml-[0px] mr-[0px] mt-[4px] mb-[4px] pt-[6px] pb-[6px] pl-[15px] pr-[15px]"
               >
                 <Image size={16} />
               </Button>
