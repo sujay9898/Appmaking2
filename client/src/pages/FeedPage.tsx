@@ -266,8 +266,7 @@ export default function FeedPage() {
 
         {/* Feed Posts */}
         <section className="modern-section">
-          <h3 className="text-lg font-semibold text-white mb-6">Recent Posts</h3>
-          <div className="space-y-4">
+          <div className="space-y-4"></div>
             {posts.map((post) => (
               <div key={post.id} className="relative group">
                 {/* Modern Glass Card */}
