@@ -328,7 +328,7 @@ export default function FeedPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 ease-in-out font-['Inter'] tracking-tight border hover:scale-[1.01] active:scale-[0.99] font-medium h-9 rounded-[2px] absolute top-4 right-4 px-2 py-1 text-xs bg-[#161616] border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] text-[#A1A1A1] hover:text-[#EAEAEA] transition-all duration-200 ml-[20px] mr-[20px] pt-[4px] pb-[4px] mt-[28px] mb-[28px]"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 ease-in-out font-['Inter'] tracking-tight border hover:scale-[1.01] active:scale-[0.99] h-9 rounded-[2px] absolute top-4 right-4 px-2 py-1 border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] hover:text-[#EAEAEA] transition-all duration-200 ml-[20px] mr-[20px] mt-[28px] mb-[28px] pt-[4px] pb-[4px] text-right bg-[#1b1e1f] text-[#dfdcd6] font-bold text-[13px]"
                   >
                     <Plus size={12} className="mr-1" />
                     Watchlist
