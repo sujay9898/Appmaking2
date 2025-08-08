@@ -348,7 +348,7 @@ export default function FeedPage() {
                             {post.movieInfo && (
                               <div className="text-gray-400 text-sm space-y-1">
                                 {post.movieInfo.split('\n').map((line, index) => (
-                                  <p key={index} className="leading-relaxed">
+                                  <p key={index} className="leading-relaxed text-left ml-[0px] mr-[0px] mt-[0px] mb-[0px] pt-[-6px] pb-[-6px]">
                                     {line}
                                   </p>
                                 ))}
@@ -438,7 +438,6 @@ export default function FeedPage() {
         postCaption={posts.find(p => p.id === selectedPostId)?.caption}
       />
       <FooterNavigation />
-      
       {/* Floating Create Post Button */}
       <div className={`fixed bottom-28 right-6 z-50 transition-all duration-500 ease-out ${
         isCreateButtonVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-16 opacity-0 scale-75'
