@@ -6,55 +6,55 @@
 @tailwind utilities;
 
 :root {
-  /* CRED Premium Dark Theme */
-  --background: #0B0B0B; /* Pure CRED dark */
-  --background-gradient: linear-gradient(135deg, #0B0B0B 0%, #111111 50%, #0D0D0D 100%);
-  --foreground: #FFFFFF;
-  --foreground-muted: #B8B8B8;
-  --foreground-subtle: #8A8A8A;
+  /* Premium Dark Theme */
+  --background: #090708;
+  --background-gradient: linear-gradient(135deg, #090708 0%, #0C0A0B 50%, #090708 100%);
+  --foreground: #EAEAEA; /* High-contrast off-white */
+  --foreground-muted: #A1A1A1; /* Muted gray for secondary text */
+  --foreground-subtle: #7A7A7A;
   
   /* Card & Surface Colors */
-  --card: #161616; /* Subtle elevated surface */
-  --card-hover: #1A1A1A;
-  --card-foreground: #FFFFFF;
-  --surface: #141414;
-  --surface-hover: #181818;
+  --card: #121011; /* Slightly lighter dark tone */
+  --card-hover: #151214;
+  --card-foreground: #EAEAEA;
+  --surface: #121011;
+  --surface-hover: #151214;
   
   /* Premium Accent Colors */
-  --primary: #D4AF37; /* Luxurious gold */
-  --primary-hover: #F0C646;
-  --primary-foreground: #0B0B0B;
-  --secondary: #00E5FF; /* Electric teal */
-  --secondary-hover: #1DE9FF;
-  --secondary-foreground: #0B0B0B;
+  --primary: #EAEAEA;
+  --primary-hover: #FFFFFF;
+  --primary-foreground: #090708;
+  --secondary: #A1A1A1;
+  --secondary-hover: #EAEAEA;
+  --secondary-foreground: #090708;
   
   /* Neutral Grays */
-  --muted: #1C1C1C;
-  --muted-foreground: #888888;
-  --border: #222222;
-  --border-subtle: #1A1A1A;
-  --input: #161616;
-  --input-border: #2A2A2A;
+  --muted: #121011;
+  --muted-foreground: #A1A1A1;
+  --border: #1E1C1D;
+  --border-subtle: #171516;
+  --input: #121011;
+  --input-border: #1E1C1D;
   
   /* States */
-  --destructive: #FF4757;
-  --destructive-foreground: #FFFFFF;
-  --success: #2ED573;
-  --warning: #FFA726;
+  --destructive: #DC2626;
+  --destructive-foreground: #EAEAEA;
+  --success: #16A34A;
+  --warning: #EA580C;
   
-  /* Subtle radius for minimal design */
+  /* Minimal radius */
   --radius: 2px;
   
-  /* CRED Typography */
-  --font-primary: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: 'Poppins', 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Modern Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  /* Shadows */
-  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px rgba(212, 175, 55, 0.15);
+  /* Subtle Shadows */
+  --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 20px rgba(234, 234, 234, 0.1);
 }
 
 /* Dark mode inherits night theme - no separate dark mode needed */
@@ -81,6 +81,7 @@
     letter-spacing: -0.01em;
     line-height: 1.6;
     overflow-x: hidden;
+    transition: background-color 200ms ease-in-out;
   }
   
   /* CRED Premium Typography */
@@ -146,13 +147,13 @@
     background: var(--input);
     border: 1px solid var(--input-border);
     color: var(--foreground);
-    transition: all 0.3s ease;
+    transition: all 200ms ease-in-out;
   }
   
   input:focus, textarea:focus, select:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    border-color: var(--foreground);
+    box-shadow: 0 0 0 2px rgba(234, 234, 234, 0.1);
   }
   
   label {
@@ -164,20 +165,20 @@
   }
 }
 
-/* CRED Premium Components */
+/* Premium Dark Components */
 .cred-card {
   background: var(--card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius);
   box-shadow: var(--shadow-subtle);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 200ms ease-in-out;
   overflow: hidden;
 }
 
 .cred-card:hover {
   background: var(--card-hover);
   box-shadow: var(--shadow-medium);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   border-color: var(--border);
 }
 
@@ -189,6 +190,7 @@
   background: var(--surface);
   border-radius: var(--radius);
   border: 1px solid var(--border-subtle);
+  transition: all 200ms ease-in-out;
 }
 
 .cred-surface:hover {
@@ -266,23 +268,23 @@
   background-clip: text;
 }
 
-/* CRED Premium Animations */
+/* Smooth Premium Animations */
 .cred-fade-in {
-  animation: credFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: credFadeIn 400ms ease-in-out forwards;
 }
 
 .cred-slide-up {
-  animation: credSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: credSlideUp 500ms ease-in-out forwards;
 }
 
 .cred-scale-in {
-  animation: credScaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: credScaleIn 300ms ease-in-out forwards;
 }
 
 @keyframes credFadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -293,7 +295,7 @@
 @keyframes credSlideUp {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -304,7 +306,7 @@
 @keyframes credScaleIn {
   from {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
@@ -314,13 +316,13 @@
 
 /* Page Transitions */
 .page-transition {
-  animation: pageTransition 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: pageTransition 300ms ease-in-out forwards;
 }
 
 @keyframes pageTransition {
   from {
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(10px);
   }
   to {
     opacity: 1;

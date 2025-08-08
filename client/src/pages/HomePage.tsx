@@ -48,7 +48,7 @@ export default function HomePage() {
     return (
       <div className="mb-12">
         <div className="cred-container">
-          <h2 className="text-heading font-['Poppins'] font-semibold text-white mb-6 tracking-tight">{title}</h2>
+          <h2 className="text-heading font-['Poppins'] font-semibold text-[#EAEAEA] mb-6 tracking-tight">{title}</h2>
         </div>
         <div className="flex overflow-x-auto pb-6 px-6 cred-gap-md scrollbar-hide cred-scrollbar">
           {rowMovies.map((movie) => (
@@ -66,7 +66,7 @@ export default function HomePage() {
     return (
       <div className="mb-12">
         <div className="cred-container">
-          <h2 className="text-heading font-['Poppins'] font-semibold text-white mb-8 tracking-tight">{title}</h2>
+          <h2 className="text-heading font-['Poppins'] font-semibold text-[#EAEAEA] mb-8 tracking-tight">{title}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cred-gap-lg">
             {rowMovies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
@@ -79,15 +79,15 @@ export default function HomePage() {
 
   if (isLoading || isLoadingTrendingAll) {
     return (
-      <div className="min-h-screen bg-[#0B0B0B] page-transition">
+      <div className="min-h-screen bg-[#090708] page-transition">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
         <div className="pt-24 cred-container">
           {[1, 2, 3].map(i => (
             <div key={i} className="mb-12">
-              <div className="h-8 bg-[#161616] rounded-[2px] w-48 mb-6 animate-pulse"></div>
+              <div className="h-8 bg-[#121011] rounded-[2px] w-48 mb-6 animate-pulse"></div>
               <div className="flex cred-gap-md overflow-x-auto scrollbar-hide">
                 {[1, 2, 3, 4, 5].map(j => (
-                  <div key={j} className="flex-none w-48 aspect-[2/3] bg-[#161616] rounded-[2px] animate-pulse"></div>
+                  <div key={j} className="flex-none w-48 aspect-[2/3] bg-[#121011] rounded-[2px] animate-pulse"></div>
                 ))}
               </div>
             </div>
@@ -98,7 +98,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0B0B] pb-24 page-transition">
+    <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
       <div className="pt-24">
