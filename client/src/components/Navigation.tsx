@@ -1,4 +1,4 @@
-import { Search, Bell, Plus } from "lucide-react";
+import { Clapperboard, Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface NavigationProps {
@@ -12,7 +12,7 @@ export default function Navigation({ onAddMovie }: NavigationProps) {
         <div className="flex justify-between items-center h-20">
           <div></div>
           <div className="bg-[#121011] p-3 rounded-[2px] shadow-lg border border-[#1E1C1D]">
-            <Search className="text-[#EAEAEA]" size={22} />
+            <Clapperboard className="text-[#EAEAEA]" size={22} />
           </div>
           
           <div className="flex items-center cred-gap-md">
@@ -23,7 +23,7 @@ export default function Navigation({ onAddMovie }: NavigationProps) {
               className="font-semibold tracking-tight"
               data-testid="button-add-movie"
             >
-              <Plus size={18} className="mr-2" />
+              <Search size={18} className="mr-2" />
               <span className="hidden sm:inline">Add Movie</span>
             </Button>
             
