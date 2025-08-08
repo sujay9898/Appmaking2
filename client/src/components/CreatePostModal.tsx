@@ -177,18 +177,7 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
             />
           </div>
 
-          {/* Text Post Content */}
-          {postType === "text" && (
-            <div>
-              <Label htmlFor="content" className="text-gray-300">Content</Label>
-              <Textarea
-                id="content"
-                placeholder="Share your thoughts..."
-                {...form.register("content")}
-                className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400 resize-none min-h-[120px]"
-              />
-            </div>
-          )}
+          
 
           {/* Image Upload */}
           {postType === "image" && (
