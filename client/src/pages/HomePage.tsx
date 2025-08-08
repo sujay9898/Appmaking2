@@ -103,16 +103,15 @@ export default function HomePage() {
           <ShareAboutMovies />
         </section>
         
-        {/* Hi Cinephile Header */}
-        <section className="modern-section">
-          <h2 className="text-4xl font-bold italic text-[#ffffff] mb-8 text-center">
-            hi cinephile
-          </h2>
-        </section>
-
         {/* Always show trending content and genres */}
         <div className="space-y-0">
           <section className="modern-section">
+            {/* Hi Cinephile Greeting */}
+            <div className="modern-container mb-4">
+              <h2 className="text-2xl font-bold italic text-[#ffffff] pb-3 text-left" style={{ fontSize: '1.6em' }}>
+                Hi Cinephile
+              </h2>
+            </div>
             <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
           </section>
           <section className="modern-section">
