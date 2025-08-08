@@ -213,6 +213,13 @@ export default function FeedPage() {
     <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       <div className="cred-container cred-section pt-[49px] pb-[49px] text-[18px] font-normal">
+        {/* What you wanna watch today? Section */}
+        <div className="mb-12 cred-fade-in">
+          <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none mb-4 text-center">
+            What you wanna watch today?
+          </h2>
+        </div>
+
         {/* Movie Cards */}
         <div className="mb-12 cred-fade-in">
           <h2 className="font-['Poppins'] font-semibold text-white tracking-tight text-[20px]">What you wanna watch today?</h2>
