@@ -268,7 +268,7 @@ export default function FeedPage() {
               onChange={(e) => setFeedText(e.target.value)}
               placeholder={placeholders[currentPlaceholder]}
               rows={4}
-              className="w-full bg-[#0a0809] border border-[#2A2A2A] text-white placeholder-[#888888] resize-none focus:border-[#D4AF37] transition-all duration-300 font-['Inter'] text-base px-4 pb-4 pt-0"
+              className="flex min-h-[80px] rounded-md py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full bg-[#0a0809] border border-[#2A2A2A] text-white placeholder-[#888888] resize-none focus:border-[#D4AF37] transition-all duration-300 font-['Inter'] text-base px-4 mt-[60px] mb-[60px] pl-[16px] pr-[16px] pt-[8px] pb-[8px]"
               style={{borderRadius: '2px'}}
             />
             
