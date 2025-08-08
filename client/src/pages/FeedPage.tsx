@@ -72,7 +72,6 @@ export default function FeedPage() {
   const [feedText, setFeedText] = useState("");
   const [posts, setPosts] = useState<FeedPost[]>(dummyPosts);
   const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
-  const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -92,21 +91,7 @@ export default function FeedPage() {
     staleTime: 1000 * 60 * 30, // Cache for 30 minutes
   });
 
-  // Cycling placeholder texts
-  const placeholders = [
-    "What you wanna watch today?",
-    "Share your opinion on a movie",
-    "Suggest a movie to others"
-  ];
 
-  // Cycle placeholder text every 1 second
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPlaceholder((prev) => (prev + 1) % placeholders.length);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -265,7 +250,7 @@ export default function FeedPage() {
             <Textarea
               value={feedText}
               onChange={(e) => setFeedText(e.target.value)}
-              placeholder={placeholders[currentPlaceholder]}
+              placeholder="What's happening?"
               rows={4}
               className="flex min-h-[80px] rounded-md py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full bg-[#0a0809] border border-[#2A2A2A] text-white placeholder-[#888888] resize-none focus:border-[#D4AF37] transition-all duration-300 font-['Inter'] text-base px-4 pl-[16px] pr-[16px] pt-[8px] pb-[8px] mt-[23px] mb-[23px]"
               style={{borderRadius: '2px'}}
