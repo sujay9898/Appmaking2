@@ -23,55 +23,55 @@ export default function WatchlistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0B0B] pb-24 page-transition">
+    <div className="min-h-screen bg-[#000000] pb-24">
       <Navigation onAddMovie={() => {}} />
       
-      <div className="pt-24 cred-container cred-section">
-        <div className="mb-12 cred-fade-in">
+      <div className="pt-24 modern-container">
+        <div className="mb-12">
           <Link href="/">
-            <Button variant="link" className="text-[#888888] hover:text-[#D4AF37] mb-6 font-['Inter'] tracking-tight">
+            <Button variant="link" className="text-[#e0e0e0] hover:text-[#ffffff] mb-6">
               <ArrowLeft size={18} className="mr-2" />
               Back to Home
             </Button>
           </Link>
-          <h1 className="text-display font-['Poppins'] font-bold text-white mb-3 tracking-tight">My Watchlist</h1>
-          <p className="text-body-lg text-[#888888] font-['Inter']">Movies you've saved to watch later</p>
+          <h1 className="text-3xl font-bold text-white mb-3">My Watchlist</h1>
+          <p className="text-lg text-[#e0e0e0]">Movies you've saved to watch later</p>
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cred-gap-lg">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <Card key={i} className="cred-card">
-                <CardContent className="cred-spacing-md">
+              <Card key={i} className="modern-card bg-[#3c595d]">
+                <CardContent className="p-6">
                   <div className="animate-pulse">
-                    <div className="aspect-[2/3] bg-[#161616] mb-4" style={{borderRadius: '2px'}}></div>
-                    <div className="h-5 bg-[#161616] mb-2" style={{borderRadius: '2px'}}></div>
-                    <div className="h-4 bg-[#161616] w-2/3" style={{borderRadius: '2px'}}></div>
+                    <div className="aspect-[2/3] bg-[#000000] mb-4 rounded-[2px]"></div>
+                    <div className="h-5 bg-[#000000] mb-2 rounded-[2px]"></div>
+                    <div className="h-4 bg-[#000000] w-2/3 rounded-[2px]"></div>
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         ) : movies.length === 0 ? (
-          <Card className="cred-card text-center cred-fade-in">
-            <CardContent className="cred-spacing-2xl">
-              <div className="w-20 h-20 bg-gradient-to-br from-[#D4AF37] to-[#00E5FF] mx-auto mb-6 flex items-center justify-center" style={{borderRadius: '2px'}}>
-                <Film size={40} className="text-[#0B0B0B]" />
+          <Card className="modern-card bg-[#3c595d] text-center">
+            <CardContent className="p-12">
+              <div className="w-20 h-20 bg-[#000000] mx-auto mb-6 flex items-center justify-center rounded-[2px]">
+                <Film size={40} className="text-[#ffffff]" />
               </div>
-              <h3 className="text-subheading font-['Poppins'] font-semibold text-white mb-3 tracking-tight">Your watchlist is empty</h3>
-              <p className="text-body text-[#888888] mb-8 font-['Inter']">Start adding movies you want to watch!</p>
+              <h3 className="text-xl font-semibold text-white mb-3">Your watchlist is empty</h3>
+              <p className="text-[#e0e0e0] mb-8">Start adding movies you want to watch!</p>
               <Link href="/">
-                <Button variant="default" size="lg" className="font-semibold tracking-tight">
+                <Button variant="default" size="lg" className="font-semibold">
                   Browse Movies
                 </Button>
               </Link>
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cred-gap-lg cred-slide-up">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {movies.map((movie) => (
-              <Card key={movie.id} className="cred-card group cursor-pointer hover:scale-[1.02] transition-all duration-400">
-                <CardContent className="cred-spacing-md">
+              <Card key={movie.id} className="modern-card bg-[#3c595d] group cursor-pointer hover:scale-[1.02] transition-all duration-300">
+                <CardContent className="p-6">
                   <div className="aspect-[2/3] mb-4 overflow-hidden" style={{borderRadius: '2px'}}>
                     {movie.posterPath ? (
                       <img

@@ -210,23 +210,23 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090708] pb-24 page-transition">
+    <div className="min-h-screen bg-[#000000] pb-24">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
-      <div className="cred-container cred-section pt-[49px] pb-[49px] text-[16px] sm:text-[18px] font-normal px-4 sm:px-6">
+      <div className="modern-container pt-20 pb-20">
         {/* What you wanna watch today? Section */}
-        <div className="mb-12 cred-fade-in">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none text-left">
+        <section className="modern-section">
+          <h2 className="text-3xl font-bold text-[#ffffff] mb-6">
             What you wanna watch today?
           </h2>
-        </div>
+        </section>
 
         {/* Movie Cards */}
-        <div className="cred-fade-in mt-[18px] mb-[18px] px-4 sm:px-[35px]">
-          <h2 className="font-['Poppins'] font-semibold text-white tracking-tight text-[18px] sm:text-[20px]">What you wanna watch today?</h2>
-          <div className="mt-[23px] mb-[23px] min-h-[60px] sm:min-h-[80px] overflow-hidden bg-[#0a0809] border border-[#2A2A2A]" style={{borderRadius: '2px'}}>
+        <section className="modern-section">
+          <h3 className="text-lg font-semibold text-white mb-4">Trending Movies</h3>
+          <div className="overflow-hidden bg-[#3c595d] border border-[#3c595d] rounded-[2px] p-4">
             <div 
               ref={movieScrollRef}
-              className="flex gap-4 h-full items-center animate-scroll"
+              className="flex gap-4 items-center animate-scroll"
               style={{
                 transform: `translateX(-${scrollPosition}px)`,
                 transition: 'transform 0.5s linear',
@@ -234,36 +234,37 @@ export default function FeedPage() {
               }}
             >
               {trendingAll.concat(trendingAll).map((movie, index) => (
-                <div key={`${movie.tmdbId}-${index}`} className="flex-shrink-0 w-20 h-28 sm:w-28 sm:h-36 cursor-pointer hover:scale-105 transition-transform duration-200">
+                <div key={`${movie.tmdbId}-${index}`} className="flex-shrink-0 w-24 h-36 cursor-pointer hover:scale-105 transition-transform duration-300">
                   {movie.posterPath ? (
                     <img
                       src={`https://image.tmdb.org/t/p/w154${movie.posterPath}`}
                       alt={movie.title}
-                      className="w-full h-full object-cover"
-                      style={{borderRadius: '2px'}}
+                      className="w-full h-full object-cover rounded-[2px]"
                     />
                   ) : (
-                    <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center" style={{borderRadius: '2px'}}>
-                      <span className="text-[#888888] text-[10px] sm:text-xs text-center p-1 font-['Inter']">{movie.title}</span>
+                    <div className="w-full h-full bg-[#000000] flex items-center justify-center rounded-[2px]">
+                      <span className="text-[#e0e0e0] text-xs text-center p-2">{movie.title}</span>
                     </div>
                   )}
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        </section>
 
         {/* Feed Posts */}
-        <div className="space-y-8 cred-slide-up">
-          {posts.map((post) => (
-            <Card key={post.id} className="cred-card-premium group relative mx-2 sm:ml-[-31px] sm:mr-[-31px] bg-[#23252f]">
-              <CardContent className="pt-[1px] pb-[1px] cred-spacing-md cred-spacing-lg text-left mt-[0px] mb-[0px] px-4 sm:pl-[52px] sm:pr-[52px] relative sm:ml-[13px] sm:mr-[13px]">
+        <section className="modern-section">
+          <h3 className="text-lg font-semibold text-white mb-6">Recent Posts</h3>
+          <div className="space-y-6">
+            {posts.map((post) => (
+              <Card key={post.id} className="modern-card bg-[#3c595d]">
+                <CardContent className="p-6">
                 {/* Add to Watchlist Button - Only show for movie posts */}
                 {post.moviePoster && (
                   <Button
                     variant="outline"
                     size="sm"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 ease-in-out font-['Inter'] tracking-tight border hover:scale-[1.01] active:scale-[0.99] h-9 rounded-[2px] absolute top-4 right-4 px-2 py-1 border-[#2A2A2A] hover:border-[#D4AF37] hover:bg-[#1A1A1A] hover:text-[#EAEAEA] transition-all duration-200 ml-[20px] mr-[20px] mt-[28px] mb-[28px] pt-[4px] pb-[4px] text-right bg-[#1b1e1f] text-[#dfdcd6] font-bold text-[13px]"
+                    className="absolute top-4 right-4 bg-[#000000] hover:bg-[#000000] border-[#ffffff] hover:border-[#ffffff] text-[#ffffff]"
                   >
                     <Plus size={12} className="mr-1" />
                     Watchlist
@@ -272,20 +273,19 @@ export default function FeedPage() {
                 {/* Profile and Username */}
                 <div className="flex items-center mb-4">
                   <div 
-                    className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#EAEAEA] to-[#A1A1A1] flex items-center justify-center mr-3 sm:mr-4 cursor-pointer hover:scale-[1.05] transition-transform duration-200" 
-                    style={{borderRadius: '2px'}}
+                    className="w-10 h-10 bg-[#000000] flex items-center justify-center mr-4 cursor-pointer hover:bg-[#ffffff] hover:text-[#000000] transition-all duration-300 rounded-[2px]"
                     onClick={() => handleProfileClick(post.username)}
                   >
-                    <User size={18} className="text-[#090708] sm:size-[22px]" />
+                    <User size={18} className="text-[#ffffff]" />
                   </div>
                   <div className="cursor-pointer" onClick={() => handleProfileClick(post.username)}>
-                    <h3 className="font-['Poppins'] font-semibold text-[#EAEAEA] text-sm sm:text-base tracking-tight hover:text-[#FFFFFF] transition-colors duration-200">@{post.username}</h3>
-                    <p className="text-[#A1A1A1] text-xs sm:text-sm font-['Inter']">{post.timestamp}</p>
+                    <h3 className="font-semibold text-[#ffffff] text-sm hover:text-[#e0e0e0] transition-colors duration-200">@{post.username}</h3>
+                    <p className="text-[#e0e0e0] text-xs">{post.timestamp}</p>
                   </div>
                 </div>
 
                 {/* Bold Caption */}
-                <h4 className="text-white mb-4 text-base sm:text-lg font-['Poppins'] font-medium tracking-tight">{post.caption}</h4>
+                <h4 className="text-white mb-4 text-base font-medium">{post.caption}</h4>
 
                 {/* Movie Poster and Content */}
                 {post.moviePoster ? (
@@ -328,15 +328,15 @@ export default function FeedPage() {
                 ) : null}
 
                 {/* Like and Comment Buttons */}
-                <div className="flex cred-gap-md">
+                <div className="flex gap-4">
                   <Button
                     onClick={() => handleLike(post.id)}
                     variant={likedPosts.has(post.id) ? "default" : "outline"}
                     size="lg"
-                    className={`flex-1 py-3 sm:py-4 text-sm sm:text-base font-semibold font-['Inter'] tracking-tight transition-all duration-400 ${
+                    className={`flex-1 py-3 text-sm font-semibold transition-all duration-300 ${
                       likedPosts.has(post.id)
-                        ? "bg-[#DC2626] hover:bg-[#B91C1C] text-[#EAEAEA] shadow-[0_0_10px_rgba(220,38,38,0.2)]"
-                        : "bg-transparent border-[#1E1C1D] text-[#A1A1A1] hover:border-[#DC2626] hover:text-[#DC2626] hover:bg-[#DC2626]/5"
+                        ? "bg-[#DC2626] hover:bg-[#B91C1C] text-[#ffffff]"
+                        : "bg-transparent border-[#ffffff] text-[#ffffff] hover:bg-[#ffffff] hover:text-[#000000]"
                     }`}
                   >
                     ❤️ {post.likes}
@@ -345,7 +345,7 @@ export default function FeedPage() {
                     onClick={() => handleCommentClick(post.id)}
                     variant="outline"
                     size="lg"
-                    className="flex-1 py-3 sm:py-4 text-sm sm:text-base font-semibold bg-transparent border-[#1E1C1D] text-[#A1A1A1] hover:border-[#EAEAEA] hover:text-[#EAEAEA] hover:bg-[#121011] transition-all duration-400 font-['Inter'] tracking-tight"
+                    className="flex-1 py-3 text-sm font-semibold bg-transparent border-[#ffffff] text-[#ffffff] hover:bg-[#ffffff] hover:text-[#000000] transition-all duration-300"
                   >
                     💬 {post.comments}
                   </Button>
@@ -353,7 +353,8 @@ export default function FeedPage() {
               </CardContent>
             </Card>
           ))}
-        </div>
+          </div>
+        </section>
       </div>
       <AddMovieModal 
         isOpen={isAddModalOpen}

@@ -84,18 +84,17 @@ export default function MovieCard({ movie }: MovieCardProps) {
   };
 
   return (
-    <div className="cred-card group cursor-pointer transition-all duration-400 hover:scale-[1.02] cred-fade-in" data-testid={`card-movie-${movie.id}`}>
+    <div className="modern-card group cursor-pointer transition-all duration-300 hover:scale-[1.02]" data-testid={`card-movie-${movie.id}`}>
       <div className="relative">
         <img 
           src={movie.posterPath || "https://via.placeholder.com/400x600?text=No+Poster"} 
           alt={`${movie.title} poster`} 
-          className="w-full h-64 object-cover transition-transform duration-400 group-hover:scale-[1.05]"
-          style={{borderRadius: '2px'}}
+          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-[1.05] rounded-[2px]"
           data-testid={`img-poster-${movie.id}`}
         />
         
         <div className="absolute top-3 right-3">
-          <div className={`${getTimeColor()} text-white px-3 py-1.5 text-xs font-medium font-['Inter'] tracking-wide`} style={{borderRadius: '2px'}}>
+          <div className={`${getTimeColor()} text-white px-3 py-1.5 text-xs font-medium rounded-[2px]`}>
             {getTimeUntilReminder()}
           </div>
         </div>
@@ -114,24 +113,24 @@ export default function MovieCard({ movie }: MovieCardProps) {
         </div>
       </div>
       
-      <div className="cred-spacing-md">
-        <h3 className="font-['Poppins'] font-semibold text-white mb-3 text-lg tracking-tight" data-testid={`text-title-${movie.id}`}>
+      <div className="p-6">
+        <h3 className="font-semibold text-white mb-3 text-lg" data-testid={`text-title-${movie.id}`}>
           {movie.title}
         </h3>
         
-        <div className="space-y-3 text-[#888888] font-['Inter']">
-          <div className="flex items-center cred-gap-sm">
-            <Calendar className="text-[#D4AF37]" size={16} />
+        <div className="space-y-3 text-[#e0e0e0]">
+          <div className="flex items-center gap-2">
+            <Calendar className="text-[#3c595d]" size={16} />
             <span className="text-sm" data-testid={`text-date-${movie.id}`}>{formatDate(movie.reminderDate)}</span>
           </div>
           
-          <div className="flex items-center cred-gap-sm">
-            <Clock className="text-[#00E5FF]" size={16} />
+          <div className="flex items-center gap-2">
+            <Clock className="text-[#3c595d]" size={16} />
             <span className="text-sm" data-testid={`text-time-${movie.id}`}>{formatTime(movie.reminderTime)}</span>
           </div>
           
-          <div className="flex items-center cred-gap-sm">
-            <Mail className="text-[#888888]" size={16} />
+          <div className="flex items-center gap-2">
+            <Mail className="text-[#3c595d]" size={16} />
             <span className="truncate text-sm" data-testid={`text-email-${movie.id}`}>{movie.userEmail}</span>
           </div>
         </div>
@@ -139,7 +138,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
         <div className="mt-6 flex justify-between items-center">
           <Button
             variant="link"
-            className="text-[#D4AF37] hover:text-[#F0C646] text-sm font-medium p-0 h-auto font-['Inter'] tracking-tight"
+            className="text-[#ffffff] hover:text-[#e0e0e0] text-sm font-medium p-0 h-auto"
             data-testid={`button-edit-${movie.id}`}
           >
             <Edit className="mr-2" size={14} />
@@ -149,7 +148,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
           <Button
             variant="ghost"
             size="icon-sm"
-            className="text-[#888888] hover:text-[#FF4757] hover:bg-[#FF4757]/10 transition-all duration-300"
+            className="text-[#e0e0e0] hover:text-[#FF4757] hover:bg-[#FF4757]/10 transition-all duration-300"
             onClick={handleDelete}
             disabled={deleteMovieMutation.isPending}
             data-testid={`button-delete-${movie.id}`}

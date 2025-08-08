@@ -9,25 +9,25 @@ import FooterNavigation from "@/components/FooterNavigation";
 
 export default function ProfilePage() {
   return (
-    <div className="min-h-screen bg-gray-900 pb-20">
+    <div className="min-h-screen bg-[#000000] pb-20">
       <Navigation onAddMovie={() => {}} />
       
-      <div className="pt-20 max-w-4xl mx-auto px-4 py-6">
-        <div className="mb-6">
+      <div className="pt-20 modern-container">
+        <div className="mb-8">
           <Link href="/">
-            <Button variant="ghost" className="text-gray-400 hover:text-white mb-4">
+            <Button variant="ghost" className="text-[#e0e0e0] hover:text-white mb-4">
               <ArrowLeft size={16} className="mr-2" />
               Back to Home
             </Button>
           </Link>
           <h1 className="text-3xl font-bold text-white mb-2">Profile</h1>
-          <p className="text-gray-400">Manage your account and preferences</p>
+          <p className="text-[#e0e0e0]">Manage your account and preferences</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Info */}
           <div className="lg:col-span-2 space-y-6">
-            <Card className="bg-gray-800 border-gray-700">
+            <Card className="modern-card bg-[#3c595d]">
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
                   <User size={20} />
@@ -36,7 +36,7 @@ export default function ProfilePage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <div className="w-20 h-20 bg-[#000000] rounded-[2px] flex items-center justify-center">
                     <User size={32} className="text-white" />
                   </div>
                 </div>

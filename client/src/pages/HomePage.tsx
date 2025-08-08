@@ -46,11 +46,9 @@ export default function HomePage() {
     if (rowMovies.length === 0) return null;
     
     return (
-      <div className="mb-12">
-        <div className="cred-container">
-          <h2 className="text-heading font-['Poppins'] font-semibold text-[#EAEAEA] mb-6 tracking-tight">{title}</h2>
-        </div>
-        <div className="flex overflow-x-auto pb-6 px-6 cred-gap-md scrollbar-hide cred-scrollbar">
+      <div className="modern-container">
+        <h2 className="text-xl font-semibold text-[#ffffff] mb-6">{title}</h2>
+        <div className="flex overflow-x-auto pb-6 gap-6 scrollbar-hide">
           {rowMovies.map((movie) => (
             <ClickableMovieCard key={movie.tmdbId} movie={movie} size="medium" />
           ))}
@@ -64,14 +62,12 @@ export default function HomePage() {
     if (rowMovies.length === 0) return null;
     
     return (
-      <div className="mb-12">
-        <div className="cred-container">
-          <h2 className="text-heading font-['Poppins'] font-semibold text-[#EAEAEA] mb-8 tracking-tight">{title}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 cred-gap-lg">
-            {rowMovies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
-          </div>
+      <div className="modern-container">
+        <h2 className="text-xl font-semibold text-[#ffffff] mb-8">{title}</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {rowMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
         </div>
       </div>
     );
@@ -79,18 +75,18 @@ export default function HomePage() {
 
   if (isLoading || isLoadingTrendingAll) {
     return (
-      <div className="min-h-screen bg-[#090708] page-transition">
+      <div className="min-h-screen bg-[#000000]">
         <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
-        <div className="pt-24 cred-container">
+        <div className="pt-24 modern-container">
           {[1, 2, 3].map(i => (
-            <div key={i} className="mb-12">
-              <div className="h-8 bg-[#121011] rounded-[2px] w-48 mb-6 animate-pulse"></div>
-              <div className="flex cred-gap-md overflow-x-auto scrollbar-hide">
+            <section key={i} className="modern-section">
+              <div className="h-8 bg-[#3c595d] rounded-[2px] w-48 mb-6 animate-pulse"></div>
+              <div className="flex gap-6 overflow-x-auto scrollbar-hide">
                 {[1, 2, 3, 4, 5].map(j => (
-                  <div key={j} className="flex-none w-48 aspect-[2/3] bg-[#121011] rounded-[2px] animate-pulse"></div>
+                  <div key={j} className="flex-none w-48 aspect-[2/3] bg-[#3c595d] rounded-[2px] animate-pulse"></div>
                 ))}
               </div>
-            </div>
+            </section>
           ))}
         </div>
       </div>
@@ -98,29 +94,29 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#090708] pb-24 page-transition">
+    <div className="min-h-screen bg-[#000000] pb-24">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
       <div className="pt-24">
         {/* Share About Movies Section */}
-        <div className="cred-fade-in">
+        <section className="modern-section">
           <ShareAboutMovies />
-        </div>
+        </section>
         
         {/* Always show trending content and genres */}
-        <div className="cred-section space-y-12">
-          <div className="cred-slide-up">
+        <div className="space-y-0">
+          <section className="modern-section">
             <TrendingMovieRow title="Today Trending Movies & Series" movies={trendingAll} />
-          </div>
-          <div className="cred-slide-up" style={{animationDelay: '0.2s'}}>
+          </section>
+          <section className="modern-section">
             <GenreSection />
-          </div>
+          </section>
           
           {/* Show recently added movies if any */}
           {movies.length > 0 && (
-            <div className="cred-slide-up" style={{animationDelay: '0.4s'}}>
+            <section className="modern-section">
               <WatchlistMovieSection title="Recently Added Movies" movies={recentlyAddedMovies} />
-            </div>
+            </section>
           )}
         </div>
       </div>
