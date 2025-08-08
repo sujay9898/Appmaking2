@@ -261,7 +261,7 @@ export default function FeedPage() {
       <div className="cred-container cred-section">
         {/* Feed Box */}
         <div className="mb-12 cred-fade-in">
-          <h2 className="text-heading font-['Poppins'] font-semibold text-white mb-6 tracking-tight">Feed</h2>
+          <h2 className="text-heading font-['Poppins'] font-semibold text-white tracking-tight">Feed</h2>
           <div className="relative">
             <Textarea
               value={feedText}
