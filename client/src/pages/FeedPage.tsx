@@ -213,12 +213,7 @@ export default function FeedPage() {
     <div className="min-h-screen bg-[#000000] pb-24">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       <div className="modern-container pt-20 pb-20">
-        {/* What you wanna watch today? Section */}
-        <section className="modern-section">
-          <h2 className="text-3xl font-bold text-[#ffffff] mb-6">
-            What you wanna watch today?
-          </h2>
-        </section>
+        
 
         {/* Movie Cards */}
         <section className="modern-section">
