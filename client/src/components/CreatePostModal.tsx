@@ -14,7 +14,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { insertFeedPostSchema } from "@shared/schema";
 
 const formSchema = insertFeedPostSchema.extend({
-  postType: z.enum(["text", "image", "movie"]),
+  postType: z.enum(["image", "movie"]),
   imageFile: z.any().optional(),
 });
 
@@ -24,7 +24,7 @@ interface CreatePostModalProps {
 }
 
 export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProps) {
-  const [postType, setPostType] = useState<"text" | "image" | "movie">("text");
+  const [postType, setPostType] = useState<"image" | "movie">("image");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -40,7 +40,7 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
       movieTitle: "",
       movieYear: "",
       movieInfo: "",
-      postType: "text",
+      postType: "image",
     },
   });
 
@@ -89,15 +89,6 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
   };
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    if (postType === "text" && !data.content && !data.caption) {
-      toast({
-        title: "Please add some content",
-        description: "Your post needs either a caption or content",
-        variant: "destructive",
-      });
-      return;
-    }
-    
     if (postType === "image" && !data.image && !data.caption) {
       toast({
         title: "Please add an image or caption",
@@ -123,7 +114,7 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
     onClose();
     form.reset();
     setImagePreview(null);
-    setPostType("text");
+    setPostType("image");
   };
 
   return (
@@ -138,14 +129,6 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Post Type Selection */}
           <div className="flex gap-2">
-            <Button
-              type="button"
-              variant={postType === "text" ? "default" : "outline"}
-              onClick={() => setPostType("text")}
-              className={`flex-1 ${postType === "text" ? "bg-[#284145] text-white" : "border-white/20 text-gray-300 hover:bg-white/10"}`}
-            >
-              Text
-            </Button>
             <Button
               type="button"
               variant={postType === "image" ? "default" : "outline"}
