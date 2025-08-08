@@ -212,18 +212,18 @@ export default function FeedPage() {
   return (
     <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
-      <div className="cred-container cred-section pt-[49px] pb-[49px] text-[18px] font-normal">
+      <div className="cred-container cred-section pt-[49px] pb-[49px] text-[16px] sm:text-[18px] font-normal px-4 sm:px-6">
         {/* What you wanna watch today? Section */}
         <div className="mb-12 cred-fade-in">
-          <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none ml-[0px] mr-[0px] mt-[-25px] mb-[-25px] pl-[0px] pr-[0px] pt-[0px] pb-[0px] text-left">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-[#FFFFFF] via-[#D4AF37] to-[#FFFFFF] bg-clip-text text-transparent font-['Poppins'] tracking-tight leading-none text-left">
             What you wanna watch today?
           </h2>
         </div>
 
         {/* Movie Cards */}
-        <div className="cred-fade-in ml-[0px] mr-[0px] mt-[18px] mb-[18px] pl-[35px] pr-[35px]">
-          <h2 className="font-['Poppins'] font-semibold text-white tracking-tight text-[20px]">What you wanna watch today?</h2>
-          <div className="mt-[23px] mb-[23px] min-h-[80px] overflow-hidden bg-[#0a0809] border border-[#2A2A2A]" style={{borderRadius: '2px'}}>
+        <div className="cred-fade-in mt-[18px] mb-[18px] px-4 sm:px-[35px]">
+          <h2 className="font-['Poppins'] font-semibold text-white tracking-tight text-[18px] sm:text-[20px]">What you wanna watch today?</h2>
+          <div className="mt-[23px] mb-[23px] min-h-[60px] sm:min-h-[80px] overflow-hidden bg-[#0a0809] border border-[#2A2A2A]" style={{borderRadius: '2px'}}>
             <div 
               ref={movieScrollRef}
               className="flex gap-4 h-full items-center animate-scroll"
@@ -234,7 +234,7 @@ export default function FeedPage() {
               }}
             >
               {trendingAll.concat(trendingAll).map((movie, index) => (
-                <div key={`${movie.tmdbId}-${index}`} className="flex-shrink-0 w-24 h-32 cursor-pointer hover:scale-105 transition-transform duration-200">
+                <div key={`${movie.tmdbId}-${index}`} className="flex-shrink-0 w-16 h-20 sm:w-24 sm:h-32 cursor-pointer hover:scale-105 transition-transform duration-200">
                   {movie.posterPath ? (
                     <img
                       src={`https://image.tmdb.org/t/p/w154${movie.posterPath}`}
@@ -244,7 +244,7 @@ export default function FeedPage() {
                     />
                   ) : (
                     <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center" style={{borderRadius: '2px'}}>
-                      <span className="text-[#888888] text-xs text-center p-1 font-['Inter']">{movie.title}</span>
+                      <span className="text-[#888888] text-[10px] sm:text-xs text-center p-1 font-['Inter']">{movie.title}</span>
                     </div>
                   )}
                 </div>
@@ -256,8 +256,8 @@ export default function FeedPage() {
         {/* Feed Posts */}
         <div className="space-y-8 cred-slide-up">
           {posts.map((post) => (
-            <Card key={post.id} className="cred-card-premium group relative ml-[-31px] mr-[-31px] bg-[#23252f]">
-              <CardContent className="pt-[1px] pb-[1px] cred-spacing-md cred-spacing-lg text-left mt-[0px] mb-[0px] pl-[52px] pr-[52px] relative ml-[13px] mr-[13px]">
+            <Card key={post.id} className="cred-card-premium group relative mx-2 sm:ml-[-31px] sm:mr-[-31px] bg-[#23252f]">
+              <CardContent className="pt-[1px] pb-[1px] cred-spacing-md cred-spacing-lg text-left mt-[0px] mb-[0px] px-4 sm:pl-[52px] sm:pr-[52px] relative sm:ml-[13px] sm:mr-[13px]">
                 {/* Add to Watchlist Button - Only show for movie posts */}
                 {post.moviePoster && (
                   <Button
@@ -272,20 +272,20 @@ export default function FeedPage() {
                 {/* Profile and Username */}
                 <div className="flex items-center mb-4">
                   <div 
-                    className="w-12 h-12 bg-gradient-to-br from-[#EAEAEA] to-[#A1A1A1] flex items-center justify-center mr-4 cursor-pointer hover:scale-[1.05] transition-transform duration-200" 
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#EAEAEA] to-[#A1A1A1] flex items-center justify-center mr-3 sm:mr-4 cursor-pointer hover:scale-[1.05] transition-transform duration-200" 
                     style={{borderRadius: '2px'}}
                     onClick={() => handleProfileClick(post.username)}
                   >
-                    <User size={22} className="text-[#090708]" />
+                    <User size={18} className="text-[#090708] sm:size-[22px]" />
                   </div>
                   <div className="cursor-pointer" onClick={() => handleProfileClick(post.username)}>
-                    <h3 className="font-['Poppins'] font-semibold text-[#EAEAEA] text-base tracking-tight hover:text-[#FFFFFF] transition-colors duration-200">@{post.username}</h3>
-                    <p className="text-[#A1A1A1] text-sm font-['Inter']">{post.timestamp}</p>
+                    <h3 className="font-['Poppins'] font-semibold text-[#EAEAEA] text-sm sm:text-base tracking-tight hover:text-[#FFFFFF] transition-colors duration-200">@{post.username}</h3>
+                    <p className="text-[#A1A1A1] text-xs sm:text-sm font-['Inter']">{post.timestamp}</p>
                   </div>
                 </div>
 
                 {/* Bold Caption */}
-                <h4 className="text-white mb-4 text-lg font-['Poppins'] font-medium tracking-tight">{post.caption}</h4>
+                <h4 className="text-white mb-4 text-base sm:text-lg font-['Poppins'] font-medium tracking-tight">{post.caption}</h4>
 
                 {/* Movie Poster and Content */}
                 {post.moviePoster ? (
@@ -294,12 +294,12 @@ export default function FeedPage() {
                       <img 
                         src={post.moviePoster} 
                         alt={post.movieTitle || 'Movie poster'}
-                        className="w-20 h-30 object-cover"
+                        className="w-16 h-24 sm:w-20 sm:h-30 object-cover"
                         style={{borderRadius: '2px'}}
                       />
                       {post.movieTitle && (
                         <div className="flex-1 min-w-0">
-                          <h5 className="font-['Poppins'] font-semibold text-white text-sm tracking-tight">
+                          <h5 className="font-['Poppins'] font-semibold text-white text-xs sm:text-sm tracking-tight">
                             {post.movieTitle}
                             {post.movieYear && (
                               <span className="text-[#888888] font-normal ml-2 font-['Inter']">({post.movieYear})</span>
@@ -323,7 +323,7 @@ export default function FeedPage() {
                   </div>
                 ) : post.content ? (
                   <div className="mb-6">
-                    <p className="text-[#B8B8B8] whitespace-pre-line font-['Inter'] text-base text-justify">{post.content}</p>
+                    <p className="text-[#B8B8B8] whitespace-pre-line font-['Inter'] text-sm sm:text-base text-justify">{post.content}</p>
                   </div>
                 ) : null}
 
@@ -333,7 +333,7 @@ export default function FeedPage() {
                     onClick={() => handleLike(post.id)}
                     variant={likedPosts.has(post.id) ? "default" : "outline"}
                     size="lg"
-                    className={`flex-1 py-4 text-base font-semibold font-['Inter'] tracking-tight transition-all duration-400 ${
+                    className={`flex-1 py-3 sm:py-4 text-sm sm:text-base font-semibold font-['Inter'] tracking-tight transition-all duration-400 ${
                       likedPosts.has(post.id)
                         ? "bg-[#DC2626] hover:bg-[#B91C1C] text-[#EAEAEA] shadow-[0_0_10px_rgba(220,38,38,0.2)]"
                         : "bg-transparent border-[#1E1C1D] text-[#A1A1A1] hover:border-[#DC2626] hover:text-[#DC2626] hover:bg-[#DC2626]/5"
@@ -345,7 +345,7 @@ export default function FeedPage() {
                     onClick={() => handleCommentClick(post.id)}
                     variant="outline"
                     size="lg"
-                    className="flex-1 py-4 text-base font-semibold bg-transparent border-[#1E1C1D] text-[#A1A1A1] hover:border-[#EAEAEA] hover:text-[#EAEAEA] hover:bg-[#121011] transition-all duration-400 font-['Inter'] tracking-tight"
+                    className="flex-1 py-3 sm:py-4 text-sm sm:text-base font-semibold bg-transparent border-[#1E1C1D] text-[#A1A1A1] hover:border-[#EAEAEA] hover:text-[#EAEAEA] hover:bg-[#121011] transition-all duration-400 font-['Inter'] tracking-tight"
                   >
                     💬 {post.comments}
                   </Button>

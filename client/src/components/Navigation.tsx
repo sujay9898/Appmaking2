@@ -9,27 +9,27 @@ export default function Navigation({ onAddMovie }: NavigationProps) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#090708]/95 backdrop-blur-xl border-b border-[#1E1C1D] cred-fade-in">
       <div className="cred-container">
-        <div className="flex justify-between items-center h-20 px-6">
+        <div className="flex justify-between items-center h-16 sm:h-20 px-4 sm:px-6">
           <div className="flex-1"></div>
-          <div className="bg-[#121011] p-3 rounded-[2px] shadow-lg border border-[#1E1C1D]">
-            <Clapperboard className="text-[#EAEAEA]" size={22} />
+          <div className="bg-[#121011] p-2 sm:p-3 rounded-[2px] shadow-lg border border-[#1E1C1D]">
+            <Clapperboard className="text-[#EAEAEA]" size={18} />
           </div>
           
-          <div className="flex-1 flex items-center justify-end gap-4">
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4">
             <Button 
               onClick={onAddMovie}
               variant="default"
-              size="lg"
+              size="sm"
               className="font-semibold tracking-tight"
               data-testid="button-add-movie"
             >
-              <Search size={18} className="mr-2" />
-              <span className="hidden sm:inline">Add Movie</span>
+              <Search size={16} className="mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Add</span>
             </Button>
             
-            <div className="flex items-center cred-gap-sm text-[#A1A1A1] hover:text-[#EAEAEA] transition-colors duration-200">
-              <Bell size={18} />
-              <span className="text-body-sm hidden md:inline font-['Inter']">Reminders active</span>
+            <div className="flex items-center gap-1 sm:gap-2 text-[#A1A1A1] hover:text-[#EAEAEA] transition-colors duration-200">
+              <Bell size={14} className="sm:size-4" />
+              <span className="text-xs sm:text-sm hidden sm:inline font-['Inter']">Active</span>
             </div>
           </div>
         </div>
