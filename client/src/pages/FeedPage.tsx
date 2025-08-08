@@ -346,9 +346,13 @@ export default function FeedPage() {
                               </h4>
                             </div>
                             {post.movieInfo && (
-                              <p className="text-gray-400 text-sm leading-relaxed">
-                                {post.movieInfo}
-                              </p>
+                              <div className="text-gray-400 text-sm space-y-1">
+                                {post.movieInfo.split('\n').map((line, index) => (
+                                  <p key={index} className="leading-relaxed">
+                                    {line}
+                                  </p>
+                                ))}
+                              </div>
                             )}
                           </div>
                         )}
