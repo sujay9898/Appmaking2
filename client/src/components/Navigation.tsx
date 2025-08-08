@@ -10,14 +10,9 @@ export default function Navigation({ onAddMovie }: NavigationProps) {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#090708]/95 backdrop-blur-xl border-b border-[#1E1C1D] cred-fade-in">
       <div className="cred-container">
         <div className="flex justify-between items-center h-20">
-          <div className="flex items-center cred-gap-sm">
-            <div className="bg-[#121011] p-3 rounded-[2px] shadow-lg border border-[#1E1C1D]">
-              <Clapperboard className="text-[#EAEAEA]" size={22} />
-            </div>
-            <div>
-              <h1 className="text-subheading font-['Poppins'] font-semibold text-[#EAEAEA] tracking-tight">MovieWatch</h1>
-              <p className="text-caption text-[#A1A1A1] hidden sm:block font-['Inter']">Your Personal Watchlist</p>
-            </div>
+          <div></div>
+          <div className="bg-[#121011] p-3 rounded-[2px] shadow-lg border border-[#1E1C1D]">
+            <Clapperboard className="text-[#EAEAEA]" size={22} />
           </div>
           
           <div className="flex items-center cred-gap-md">
