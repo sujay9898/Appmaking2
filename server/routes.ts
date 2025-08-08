@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { tmdbService } from "./services/tmdb";
 import { reminderScheduler } from "./services/reminderScheduler";
-import { insertMovieSchema, insertMovieCommentSchema } from "@shared/schema";
+import { insertMovieSchema, insertMovieCommentSchema, insertFeedCommentSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -210,6 +210,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(comments);
     } catch (error) {
       console.error("Error fetching movie comments:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // User routes
+  app.get("/api/users/:username", async (req, res) => {
+    try {
+      const { username } = req.params;
+      const user = await storage.getUserByUsername(username);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // Get user's posts and watchlist
+      const posts = await storage.getUserFeedPosts(user.id);
+      const watchlist = await storage.getAllMovies(); // In a real app, this would be user-specific
+      
+      res.json({
+        user,
+        posts: posts.slice(0, 10), // Limit to recent posts
+        watchlist: watchlist.slice(0, 12), // Limit to recent watchlist items
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Feed post routes
+  app.get("/api/posts", async (req, res) => {
+    try {
+      const posts = await storage.getAllFeedPosts();
+      res.json(posts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  // Feed comments routes
+  app.get("/api/posts/:postId/comments", async (req, res) => {
+    try {
+      const { postId } = req.params;
+      const comments = await storage.getPostComments(postId);
+      
+      // Add username to each comment (simulated - in a real app, this would be a JOIN)
+      const commentsWithUsernames = comments.map(comment => ({
+        ...comment,
+        username: comment.userId === "current-user" ? "you" : `user_${comment.userId.slice(0, 8)}`,
+        userProfilePicture: null
+      }));
+      
+      res.json(commentsWithUsernames);
+    } catch (error) {
+      console.error("Error fetching post comments:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/posts/:postId/comments", async (req, res) => {
+    try {
+      const { postId } = req.params;
+      const validatedData = insertFeedCommentSchema.parse({ ...req.body, postId });
+      const comment = await storage.createFeedComment(validatedData);
+      
+      // Return comment with username
+      const commentWithUsername = {
+        ...comment,
+        username: comment.userId === "current-user" ? "you" : `user_${comment.userId.slice(0, 8)}`,
+        userProfilePicture: null
+      };
+      
+      res.status(201).json(commentWithUsername);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          message: "Validation error", 
+          errors: error.errors 
+        });
+      }
+      console.error("Error creating comment:", error);
       res.status(500).json({ message: "Internal server error" });
     }
   });

@@ -11,6 +11,8 @@ import ClickableMovieCard from "@/components/ClickableMovieCard";
 import Navigation from "@/components/Navigation";
 import AddMovieModal from "@/components/AddMovieModal";
 import FooterNavigation from "@/components/FooterNavigation";
+import UserDashboardOverlay from "@/components/UserDashboardOverlay";
+import CommentSheet from "@/components/CommentSheet";
 
 interface TrendingMovie {
   tmdbId: string;
@@ -74,6 +76,10 @@ export default function FeedPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showSeeMore, setShowSeeMore] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedUsername, setSelectedUsername] = useState<string | null>(null);
+  const [isUserDashboardOpen, setIsUserDashboardOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [isCommentSheetOpen, setIsCommentSheetOpen] = useState(false);
   const [, setLocation] = useLocation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -203,6 +209,26 @@ export default function FeedPage() {
     );
   };
 
+  const handleProfileClick = (username: string) => {
+    setSelectedUsername(username);
+    setIsUserDashboardOpen(true);
+  };
+
+  const handleCommentClick = (postId: string) => {
+    setSelectedPostId(postId);
+    setIsCommentSheetOpen(true);
+  };
+
+  const closeUserDashboard = () => {
+    setIsUserDashboardOpen(false);
+    setSelectedUsername(null);
+  };
+
+  const closeCommentSheet = () => {
+    setIsCommentSheetOpen(false);
+    setSelectedPostId(null);
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSend();
@@ -229,7 +255,7 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0B0B] pb-24 page-transition">
+    <div className="min-h-screen bg-[#090708] pb-24 page-transition">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
       <div className="pt-24 cred-container cred-section">
@@ -351,12 +377,16 @@ export default function FeedPage() {
               <CardContent className="cred-spacing-lg">
                 {/* Profile and Username */}
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#D4AF37] to-[#00E5FF] flex items-center justify-center mr-4" style={{borderRadius: '2px'}}>
-                    <User size={22} className="text-[#0B0B0B]" />
+                  <div 
+                    className="w-12 h-12 bg-gradient-to-br from-[#EAEAEA] to-[#A1A1A1] flex items-center justify-center mr-4 cursor-pointer hover:scale-[1.05] transition-transform duration-200" 
+                    style={{borderRadius: '2px'}}
+                    onClick={() => handleProfileClick(post.username)}
+                  >
+                    <User size={22} className="text-[#090708]" />
                   </div>
-                  <div>
-                    <h3 className="font-['Poppins'] font-semibold text-white text-base tracking-tight">{post.username}</h3>
-                    <p className="text-[#888888] text-sm font-['Inter']">{post.timestamp}</p>
+                  <div className="cursor-pointer" onClick={() => handleProfileClick(post.username)}>
+                    <h3 className="font-['Poppins'] font-semibold text-[#EAEAEA] text-base tracking-tight hover:text-[#FFFFFF] transition-colors duration-200">@{post.username}</h3>
+                    <p className="text-[#A1A1A1] text-sm font-['Inter']">{post.timestamp}</p>
                   </div>
                 </div>
 
@@ -411,16 +441,17 @@ export default function FeedPage() {
                     size="lg"
                     className={`flex-1 py-4 text-base font-semibold font-['Inter'] tracking-tight transition-all duration-400 ${
                       likedPosts.has(post.id)
-                        ? "bg-[#FF4757] hover:bg-[#FF3742] text-white shadow-[0_0_20px_rgba(255,71,87,0.3)]"
-                        : "bg-transparent border-[#2A2A2A] text-[#888888] hover:border-[#FF4757] hover:text-[#FF4757] hover:bg-[#FF4757]/5"
+                        ? "bg-[#DC2626] hover:bg-[#B91C1C] text-[#EAEAEA] shadow-[0_0_10px_rgba(220,38,38,0.2)]"
+                        : "bg-transparent border-[#1E1C1D] text-[#A1A1A1] hover:border-[#DC2626] hover:text-[#DC2626] hover:bg-[#DC2626]/5"
                     }`}
                   >
                     ❤️ {post.likes}
                   </Button>
                   <Button
+                    onClick={() => handleCommentClick(post.id)}
                     variant="outline"
                     size="lg"
-                    className="flex-1 py-4 text-base font-semibold bg-transparent border-[#2A2A2A] text-[#888888] hover:border-[#00E5FF] hover:text-[#00E5FF] hover:bg-[#00E5FF]/5 transition-all duration-400 font-['Inter'] tracking-tight"
+                    className="flex-1 py-4 text-base font-semibold bg-transparent border-[#1E1C1D] text-[#A1A1A1] hover:border-[#EAEAEA] hover:text-[#EAEAEA] hover:bg-[#121011] transition-all duration-400 font-['Inter'] tracking-tight"
                   >
                     💬 {post.comments}
                   </Button>
@@ -434,6 +465,19 @@ export default function FeedPage() {
       <AddMovieModal 
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+      />
+      
+      <UserDashboardOverlay
+        isOpen={isUserDashboardOpen}
+        onClose={closeUserDashboard}
+        username={selectedUsername || ""}
+      />
+      
+      <CommentSheet
+        isOpen={isCommentSheetOpen}
+        onClose={closeCommentSheet}
+        postId={selectedPostId || ""}
+        postCaption={posts.find(p => p.id === selectedPostId)?.caption}
       />
       
       <FooterNavigation />
