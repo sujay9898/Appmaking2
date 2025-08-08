@@ -442,10 +442,10 @@ export default function FeedPage() {
       }`}>
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="group relative w-16 h-16 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 hover:from-purple-500 hover:via-blue-500 hover:to-indigo-600 rounded-2xl shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 hover:scale-110 hover:-translate-y-1 active:scale-95"
+          className="group relative w-16 h-16 bg-gradient-to-br from-green-600 via-emerald-600 to-teal-700 hover:from-green-500 hover:via-emerald-500 hover:to-teal-600 rounded-lg shadow-2xl hover:shadow-green-500/25 transition-all duration-300 hover:scale-110 hover:-translate-y-1 active:scale-95"
         >
           {/* Animated Background Glow */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl"></div>
+          <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-green-400 to-emerald-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl"></div>
           
           {/* Icon Container */}
           <div className="relative flex items-center justify-center w-full h-full">
@@ -456,8 +456,8 @@ export default function FeedPage() {
           </div>
           
           {/* Ripple Effect on Click */}
-          <div className="absolute inset-0 rounded-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-white/20 rounded-2xl scale-0 group-active:scale-100 transition-transform duration-200"></div>
+          <div className="absolute inset-0 rounded-lg overflow-hidden">
+            <div className="absolute inset-0 bg-white/20 rounded-lg scale-0 group-active:scale-100 transition-transform duration-200"></div>
           </div>
           
           {/* Tooltip */}
