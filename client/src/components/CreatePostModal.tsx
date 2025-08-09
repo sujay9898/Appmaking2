@@ -127,114 +127,16 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* Post Type Selection */}
-          <div className="flex gap-2">
-            <Button
-              type="button"
-              variant={postType === "image" ? "default" : "outline"}
-              onClick={() => setPostType("image")}
-              className={`flex-1 ${postType === "image" ? "bg-[#284145] text-white" : "border-white/20 text-gray-300 hover:bg-white/10"}`}
-            >
-              <ImagePlus size={16} className="mr-2" />
-              Image
-            </Button>
-            <Button
-              type="button"
-              variant={postType === "movie" ? "default" : "outline"}
-              onClick={() => setPostType("movie")}
-              className={`flex-1 ${postType === "movie" ? "bg-[#284145] text-white" : "border-white/20 text-gray-300 hover:bg-white/10"}`}
-            >
-              <Film size={16} className="mr-2" />
-              Movie
-            </Button>
-          </div>
-
-          {/* Caption (common for all types) */}
+          {/* Text Post Only */}
           <div>
-            <Label htmlFor="caption" className="text-gray-300">Caption</Label>
+            <Label htmlFor="caption" className="text-gray-300">What's on your mind?</Label>
             <Textarea
               id="caption"
-              placeholder="What's on your mind?"
+              placeholder="Share your thoughts about movies..."
               {...form.register("caption")}
-              className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400 resize-none min-h-[100px]"
+              className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400 resize-none min-h-[120px]"
             />
           </div>
-
-          
-
-          {/* Image Upload */}
-          {postType === "image" && (
-            <div>
-              <Label htmlFor="image" className="text-gray-300">Upload Image</Label>
-              <div className="mt-2">
-                <input
-                  id="image"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="image"
-                  className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-white/20 rounded-lg cursor-pointer bg-white/5 hover:bg-white/10 transition-colors"
-                >
-                  {imagePreview ? (
-                    <img src={imagePreview} alt="Preview" className="max-h-28 max-w-full object-cover rounded" />
-                  ) : (
-                    <>
-                      <ImagePlus size={32} className="text-gray-400 mb-2" />
-                      <span className="text-gray-400">Click to upload image</span>
-                    </>
-                  )}
-                </label>
-              </div>
-            </div>
-          )}
-
-          {/* Movie Fields */}
-          {postType === "movie" && (
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="movieTitle" className="text-gray-300">Movie Title</Label>
-                <Input
-                  id="movieTitle"
-                  placeholder="Enter movie title"
-                  {...form.register("movieTitle")}
-                  className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400"
-                />
-              </div>
-              
-              <div>
-                <Label htmlFor="movieYear" className="text-gray-300">Release Year</Label>
-                <Input
-                  id="movieYear"
-                  placeholder="2024"
-                  {...form.register("movieYear")}
-                  className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="moviePoster" className="text-gray-300">Poster URL (optional)</Label>
-                <Input
-                  id="moviePoster"
-                  placeholder="https://image.url"
-                  {...form.register("moviePoster")}
-                  className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400"
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="movieInfo" className="text-gray-300">Movie Info</Label>
-                <Textarea
-                  id="movieInfo"
-                  placeholder="Added to watchlist&#10;Watching on: [Date]"
-                  {...form.register("movieInfo")}
-                  className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400 resize-none min-h-[80px]"
-                />
-              </div>
-            </div>
-          )}
 
           {/* Form Actions */}
           <div className="flex space-x-3 pt-4 border-t border-white/10">
