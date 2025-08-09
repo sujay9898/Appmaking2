@@ -132,6 +132,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const movie = await storage.createMovie(validatedData);
       
       // Also create a feed post when movie is added to watchlist
+      const formatWatchingDate = (reminderDate: string, reminderTime: string) => {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        const reminderDateObj = new Date(reminderDate);
+        
+        const todayStr = today.toISOString().split('T')[0];
+        const tomorrowStr = tomorrow.toISOString().split('T')[0];
+        
+        if (reminderDate === todayStr) {
+          return `today at ${reminderTime}`;
+        } else if (reminderDate === tomorrowStr) {
+          return `tomorrow at ${reminderTime}`;
+        } else {
+          // Format as readable date
+          const options: Intl.DateTimeFormatOptions = { 
+            month: 'short', 
+            day: 'numeric'
+          };
+          const dateStr = reminderDateObj.toLocaleDateString('en-US', options);
+          return `${dateStr} at ${reminderTime}`;
+        }
+      };
+
       const feedPost = {
         userId: "user1", // Using the same user ID pattern as other posts
         content: "",
@@ -140,7 +164,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         moviePoster: movie.posterPath || "",
         movieTitle: movie.title,
         movieYear: movie.releaseYear,
-        movieInfo: `Reminder set for ${movie.reminderDate} at ${movie.reminderTime}`,
+        movieInfo: `Added to watchlist\nWatching on: ${formatWatchingDate(movie.reminderDate, movie.reminderTime)}`,
       };
       
       await storage.createFeedPost(feedPost);
