@@ -283,7 +283,7 @@ export default function FeedPage() {
             {posts.map((post) => (
               <div key={post.id} className="relative group">
                 {/* Modern Glass Card */}
-                <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-3xl p-6 shadow-2xl hover:shadow-4xl transition-all duration-500 hover:scale-[1.02] hover:bg-gradient-to-br hover:from-white/[0.12] hover:to-white/[0.04]">
+                <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-xl p-6 shadow-2xl hover:shadow-4xl transition-all duration-500 hover:scale-[1.02] hover:bg-gradient-to-br hover:from-white/[0.12] hover:to-white/[0.04]">
                   
                   {/* Floating Action Button */}
                   {post.moviePoster && (
