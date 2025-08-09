@@ -3,10 +3,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { z } from "zod";
-import { X, Search, Film } from "lucide-react";
+import { Film } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -24,22 +24,11 @@ interface CreatePostModalProps {
 }
 
 export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProps) {
-  const [movieSearchQuery, setMovieSearchQuery] = useState("");
-  const [selectedMovie, setSelectedMovie] = useState<any>(null);
-  const [showMovieSearch, setShowMovieSearch] = useState(false);
+  
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Movie search query
-  const { data: searchResults } = useQuery({
-    queryKey: ["/api/movies/search", movieSearchQuery],
-    queryFn: async () => {
-      if (!movieSearchQuery.trim()) return [];
-      const response = await fetch(`/api/movies/search?q=${encodeURIComponent(movieSearchQuery)}`);
-      return response.json();
-    },
-    enabled: movieSearchQuery.length > 2,
-  });
+  
 
   const form = useForm({
     defaultValues: {
@@ -54,10 +43,10 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
         content: data.caption,
         caption: data.caption,
         image: "",
-        moviePoster: selectedMovie?.posterPath || "",
-        movieTitle: selectedMovie?.title || "",
-        movieYear: selectedMovie?.releaseYear || "",
-        movieInfo: selectedMovie ? `Thoughts about: ${selectedMovie.title}` : "",
+        moviePoster: "",
+        movieTitle: "",
+        movieYear: "",
+        movieInfo: "",
       };
       return await apiRequest("POST", "/api/posts", postData);
     },
@@ -106,9 +95,6 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
 
   const handleClose = () => {
     form.reset();
-    setMovieSearchQuery("");
-    setSelectedMovie(null);
-    setShowMovieSearch(false);
     onClose();
   };
 
@@ -134,87 +120,7 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
             />
           </div>
 
-          {/* Optional Movie Search */}
-          <div className="border-t border-white/10 pt-4">
-            <div className="flex items-center justify-between mb-3">
-              <Label className="text-gray-300 text-sm">Attach a specific movie to your post (optional)</Label>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowMovieSearch(!showMovieSearch)}
-                className="text-xs text-gray-400 hover:text-white"
-              >
-                <Film size={14} className="mr-1" />
-                {showMovieSearch ? "Hide" : "Search Movies"}
-              </Button>
-            </div>
-
-            {showMovieSearch && (
-              <div className="space-y-3">
-                <div className="relative">
-                  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                  <Input
-                    value={movieSearchQuery}
-                    onChange={(e) => setMovieSearchQuery(e.target.value)}
-                    placeholder="Search for a movie..."
-                    className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-gray-400"
-                  />
-                </div>
-
-                {/* Selected Movie Display */}
-                {selectedMovie && (
-                  <div className="flex items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10">
-                    <img
-                      src={selectedMovie.posterPath || "https://via.placeholder.com/40x60?text=No+Poster"}
-                      alt={selectedMovie.title}
-                      className="w-10 h-15 object-cover rounded"
-                    />
-                    <div className="flex-1">
-                      <p className="text-white font-medium text-sm">{selectedMovie.title}</p>
-                      <p className="text-gray-400 text-xs">{selectedMovie.releaseYear}</p>
-                    </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setSelectedMovie(null)}
-                      className="text-gray-400 hover:text-red-400"
-                    >
-                      <X size={14} />
-                    </Button>
-                  </div>
-                )}
-
-                {/* Search Results */}
-                {searchResults && searchResults.length > 0 && !selectedMovie && (
-                  <div className="max-h-40 overflow-y-auto space-y-2 border border-white/10 rounded-lg">
-                    {searchResults.slice(0, 5).map((movie: any) => (
-                      <button
-                        key={movie.tmdbId}
-                        type="button"
-                        onClick={() => {
-                          setSelectedMovie(movie);
-                          setMovieSearchQuery("");
-                        }}
-                        className="w-full flex items-center gap-3 p-2 hover:bg-white/10 transition-colors text-left"
-                      >
-                        <img
-                          src={movie.posterPath || "https://via.placeholder.com/32x48?text=No+Poster"}
-                          alt={movie.title}
-                          className="w-8 h-12 object-cover rounded"
-                        />
-                        <div>
-                          <p className="text-white text-sm">{movie.title}</p>
-                          <p className="text-gray-400 text-xs">{movie.releaseYear}</p>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          
 
           {/* Form Actions */}
           <div className="flex space-x-3 pt-4 border-t border-white/10">
