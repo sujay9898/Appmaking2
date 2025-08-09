@@ -7,11 +7,6 @@ export default function Navigation({}: NavigationProps) {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#000000]/95 backdrop-blur-xl cred-fade-in">
       <div className="w-full">
         <div className="flex justify-between items-center h-16 sm:h-20 px-0">
-          <div className="flex-1"></div>
-          <div className="bg-[#3c595d] p-2 sm:p-3 rounded-[2px] shadow-lg border border-[#3c595d]">
-            <Clapperboard className="text-[#ffffff]" size={18} />
-          </div>
-          
           <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4">
             <div className="flex items-center gap-1 sm:gap-2 text-[#e0e0e0] hover:text-[#ffffff] transition-colors duration-200">
               <Bell size={14} className="sm:size-4" />
