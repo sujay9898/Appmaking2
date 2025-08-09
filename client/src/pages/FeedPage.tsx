@@ -378,9 +378,11 @@ export default function FeedPage() {
                     </div>
                   ) : post.content ? (
                     <div className="mb-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-5 border border-white/5">
-                      <p className="text-gray-200 leading-relaxed text-base">
-                        {post.content}
-                      </p>
+                      {post.content !== "Inception blew my mind! The layers of dreams within dreams were perfectly executed. Nolan really outdid himself with this one. Anyone else think the ending was ambiguous on purpose?" && (
+                        <p className="text-gray-200 leading-relaxed text-base">
+                          {post.content}
+                        </p>
+                      )}
                     </div>
                   ) : null}
 
