@@ -97,14 +97,15 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#000000] pb-24">
       <Navigation onAddMovie={() => setIsAddModalOpen(true)} />
       
-      <div className="pt-24">
+      {/* Green Background Top Banner Section */}
+      <div className="bg-[#22c55e] pt-24 pb-8">
         {/* Share About Movies Section */}
         <section className="modern-section">
           <ShareAboutMovies />
         </section>
         
         {/* Hi Cinephile Heading - Ensure maximum visibility */}
-        <div className="w-full bg-[#000000]" style={{ padding: '20px' }}>
+        <div className="w-full" style={{ padding: '20px' }}>
           <h2 
             style={{ 
               fontSize: '1.8em', 
@@ -118,9 +119,12 @@ export default function HomePage() {
               fontFamily: 'inherit'
             }}
           >
-            Hi <span style={{ color: '#3c595d', fontStyle: 'italic' }}>Cinephile</span>
+            Hi <span style={{ color: '#ffffff', fontStyle: 'italic', textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}>Cinephile</span>
           </h2>
         </div>
+      </div>
+      
+      <div>
 
         {/* Always show trending content and genres */}
         <div className="space-y-0">
