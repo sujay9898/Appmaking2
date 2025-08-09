@@ -8,10 +8,10 @@ export default function Navigation({}: NavigationProps) {
       <div className="w-full">
         <div className="flex justify-between items-center h-16 sm:h-20 px-4">
           <div className="flex items-center pl-4">
-            <div className="flex flex-col gap-1">
-              <div className="w-4 h-0.5 bg-[#3c595d]"></div>
-              <div className="w-4 h-0.5 bg-[#3c595d]"></div>
-              <div className="w-4 h-0.5 bg-[#3c595d]"></div>
+            <div className="flex flex-col gap-0.5">
+              <div className="w-5 h-[3px] bg-[#3c595d] rounded-sm"></div>
+              <div className="w-5 h-[3px] bg-[#3c595d] rounded-sm"></div>
+              <div className="w-5 h-[3px] bg-[#3c595d] rounded-sm"></div>
             </div>
           </div>
           
