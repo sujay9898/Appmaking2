@@ -327,7 +327,7 @@ export default function FeedPage() {
 
                   {/* Content Caption */}
                   <div className="mb-6">
-                    <p className="text-white text-lg font-medium leading-relaxed">
+                    <p className="text-white font-extralight text-[17px]">
                       {post.caption}
                     </p>
                   </div>
