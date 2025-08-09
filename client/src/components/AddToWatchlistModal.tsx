@@ -61,9 +61,10 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/movies"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
       toast({
         title: "Movie added!",
-        description: "Movie has been added to your watchlist",
+        description: "Movie has been added to your watchlist and posted to your feed",
       });
       onClose();
       form.reset();
@@ -80,46 +81,9 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     console.log("Form submitted with data:", data);
     addMovieMutation.mutate(data);
-    
-    // Auto-post to feed when movie is added
-    createFeedPost(data);
   };
 
-  const createFeedPost = (data: z.infer<typeof formSchema>) => {
-    const feedPost = {
-      id: Date.now().toString(),
-      username: "you",
-      caption: data.note ? `📝 ${data.note}` : "",
-      content: "",
-      timestamp: "just now",
-      likes: 0,
-      comments: 0,
-      moviePoster: movie.posterPath || null,
-      movieTitle: movie.title,
-      movieYear: movie.releaseYear,
-      movieInfo: `Added to watchlist\nWatching on: ${formatDateTime(data.reminderDate, data.reminderTime)}`
-    };
-    
-    // Store in localStorage to be picked up by FeedPage
-    const existingPosts = JSON.parse(localStorage.getItem('feedPosts') || '[]');
-    existingPosts.unshift(feedPost);
-    localStorage.setItem('feedPosts', JSON.stringify(existingPosts));
-    
-    // Dispatch custom event to notify FeedPage
-    window.dispatchEvent(new CustomEvent('newFeedPost', { detail: feedPost }));
-  };
 
-  const formatDateTime = (date: string, time: string) => {
-    const dateObj = new Date(`${date}T${time}`);
-    const options: Intl.DateTimeFormatOptions = {
-      month: 'short', 
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    };
-    return dateObj.toLocaleDateString('en-US', options);
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
