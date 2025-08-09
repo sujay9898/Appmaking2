@@ -14,8 +14,6 @@ import { apiRequest } from "@/lib/queryClient";
 import { insertMovieSchema } from "@shared/schema";
 
 const formSchema = insertMovieSchema.extend({
-  reminderDate: z.string().min(1, "Reminder date is required"),
-  reminderTime: z.string().min(1, "Reminder time is required"),
   note: z.string().optional(),
 });
 
@@ -37,6 +35,12 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
+  };
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,8 +48,9 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
       title: movie.title,
       posterPath: movie.posterPath,
       releaseYear: movie.releaseYear,
-      reminderDate: "",
-      reminderTime: "",
+      reminderDate: getTomorrowDate(),
+      reminderTime: "19:00",
+      userEmail: "user@moviewatch.com",
       note: "",
     },
   });
@@ -73,6 +78,7 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
+    console.log("Form submitted with data:", data);
     addMovieMutation.mutate(data);
     
     // Auto-post to feed when movie is added
@@ -113,12 +119,6 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
       hour12: true
     };
     return dateObj.toLocaleDateString('en-US', options);
-  };
-
-  const getTomorrowDate = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
   };
 
   return (
