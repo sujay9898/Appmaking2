@@ -84,8 +84,8 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        setImagePreview(result);
-        form.setValue("image", result);
+        // Image upload functionality can be implemented later
+        console.log("Image uploaded:", result);
       };
       reader.readAsDataURL(file);
     }
@@ -94,8 +94,8 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
   const onSubmit = (data: any) => {
     if (!data.caption.trim()) {
       toast({
-        title: "Please add your thoughts",
-        description: "Share what's on your mind",
+        title: "Please write about movies",
+        description: "Share your thoughts, reviews, or recommendations about movies",
         variant: "destructive",
       });
       return;
@@ -117,17 +117,18 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto animate-in fade-in-0 zoom-in-95 slide-in-from-bottom-4 duration-300 bg-[#0f1419] border-white/10 text-white">
         <DialogHeader className="border-b border-white/10 pb-4">
           <DialogTitle className="text-xl font-bold text-white flex items-center gap-2">
-            Create New Post
+            <Film className="w-5 h-5 text-[#284145]" />
+            Write About Movies
           </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           {/* Text Area */}
           <div>
-            <Label htmlFor="caption" className="text-gray-300">What's on your mind?</Label>
+            <Label htmlFor="caption" className="text-gray-300">Write about movies</Label>
             <Textarea
               id="caption"
-              placeholder="Share your thoughts about movies..."
+              placeholder="Share your thoughts about your favorite movies, recent watches, or movie recommendations..."
               {...form.register("caption")}
               className="mt-2 bg-white/5 border-white/10 text-white placeholder:text-gray-400 resize-none min-h-[120px]"
             />
@@ -136,7 +137,7 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
           {/* Optional Movie Search */}
           <div className="border-t border-white/10 pt-4">
             <div className="flex items-center justify-between mb-3">
-              <Label className="text-gray-300 text-sm">Add a movie (optional)</Label>
+              <Label className="text-gray-300 text-sm">Attach a specific movie to your post (optional)</Label>
               <Button
                 type="button"
                 variant="ghost"
