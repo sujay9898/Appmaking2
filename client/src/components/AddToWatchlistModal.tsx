@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
-import { Calendar, Clock, Mail, X } from "lucide-react";
+import { Calendar, Clock, X } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,6 @@ import { insertMovieSchema } from "@shared/schema";
 const formSchema = insertMovieSchema.extend({
   reminderDate: z.string().min(1, "Reminder date is required"),
   reminderTime: z.string().min(1, "Reminder time is required"),
-  userEmail: z.string().email("Valid email is required"),
   note: z.string().optional(),
 });
 
@@ -47,7 +46,6 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
       releaseYear: movie.releaseYear,
       reminderDate: "",
       reminderTime: "",
-      userEmail: "",
       note: "",
     },
   });
@@ -196,22 +194,7 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="userEmail" className="flex items-center gap-2 text-sm font-medium">
-                <Mail size={14} />
-                Email for reminder
-              </Label>
-              <Input
-                id="userEmail"
-                type="email"
-                placeholder="your@email.com"
-                {...form.register("userEmail")}
-                className="mt-1"
-              />
-              {form.formState.errors.userEmail && (
-                <p className="text-xs text-red-500 mt-1">{form.formState.errors.userEmail.message}</p>
-              )}
-            </div>
+            
 
             <div>
               <Label htmlFor="note" className="flex items-center gap-2 text-sm font-medium">
