@@ -135,7 +135,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const feedPost = {
         userId: "user1", // Using the same user ID pattern as other posts
         content: "",
-        caption: `Added "${movie.title}" to my watchlist! Can't wait to watch this ${movie.releaseYear} movie.`,
+        caption: "",
         image: "",
         moviePoster: movie.posterPath || "",
         movieTitle: movie.title,
