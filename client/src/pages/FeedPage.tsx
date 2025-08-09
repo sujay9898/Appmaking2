@@ -117,8 +117,11 @@ export default function FeedPage() {
     } as FeedPostWithExtras)).sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime())
   });
 
-  // Combine API posts with dummy posts for now
-  const posts: FeedPostWithExtras[] = [...(apiPosts || []), ...dummyPosts];
+  // Combine API posts with dummy posts for now, filtering out test content
+  const posts: FeedPostWithExtras[] = [...(apiPosts || []), ...dummyPosts].filter(post => 
+    !post.content?.includes('6g6gh7hh6u6yh') && 
+    !post.caption?.includes('6g6gh7hh6u6yh')
+  );
 
 
 
