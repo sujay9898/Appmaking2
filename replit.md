@@ -54,3 +54,9 @@ Preferred communication style: Simple, everyday language.
 - **Error Handling**: Comprehensive error boundaries and API error management
 - **Build Process**: Separate client and server builds with esbuild for server bundling
 - **Environment**: Support for both development and production configurations
+
+## Recent Enhancements (August 2025)
+- **Feed Integration**: Adding movies to watchlist now automatically creates feed posts
+- **UI Improvements**: Reduced card corner radius for less curved appearance
+- **Duplicate Content Fix**: Resolved issue where post content appeared twice in feed
+- **Create Post Enhancement**: Improved "Write About Movies" modal with clearer messaging
