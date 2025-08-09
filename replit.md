@@ -56,8 +56,8 @@ Preferred communication style: Simple, everyday language.
 - **Environment**: Support for both development and production configurations
 
 ## Recent Enhancements (August 2025)
-- **Disabled Auto-Feed Posts**: Removed automatic feed post creation when adding movies to watchlist
+- **Feed Integration**: Adding movies to watchlist automatically creates feed posts
 - **UI Improvements**: Reduced card corner radius for less curved appearance  
 - **Duplicate Content Fix**: Resolved issue where post content appeared twice in feed
 - **Create Post Enhancement**: Improved "Write About Movies" modal with clearer messaging
-- **Feed Separation**: Watchlist and feed are now completely separate features
+- **User Attribution Fix**: Watchlist posts correctly appear under user's name (@you)

@@ -61,9 +61,10 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/movies"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
       toast({
         title: "Movie added!",
-        description: "Movie has been added to your watchlist",
+        description: "Movie has been added to your watchlist and posted to your feed",
       });
       onClose();
       form.reset();

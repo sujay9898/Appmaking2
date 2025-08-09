@@ -131,6 +131,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertMovieSchema.parse(req.body);
       const movie = await storage.createMovie(validatedData);
       
+      // Also create a feed post when movie is added to watchlist
+      const feedPost = {
+        userId: "user1", // Using the same user ID pattern as other posts
+        content: "",
+        caption: `Added "${movie.title}" to my watchlist! Can't wait to watch this ${movie.releaseYear} movie.`,
+        image: "",
+        moviePoster: movie.posterPath || "",
+        movieTitle: movie.title,
+        movieYear: movie.releaseYear,
+        movieInfo: `Reminder set for ${movie.reminderDate} at ${movie.reminderTime}`,
+      };
+      
+      await storage.createFeedPost(feedPost);
+      
       res.status(201).json(movie);
     } catch (error) {
       if (error instanceof z.ZodError) {
