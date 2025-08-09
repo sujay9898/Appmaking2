@@ -141,10 +141,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         const todayStr = today.toISOString().split('T')[0];
         const tomorrowStr = tomorrow.toISOString().split('T')[0];
         
+        // Convert 24-hour time to 12-hour format with AM/PM
+        const formatTime12Hour = (time24: string) => {
+          const [hours, minutes] = time24.split(':');
+          const hour24 = parseInt(hours);
+          const hour12 = hour24 === 0 ? 12 : hour24 > 12 ? hour24 - 12 : hour24;
+          const ampm = hour24 >= 12 ? 'PM' : 'AM';
+          return `${hour12}:${minutes} ${ampm}`;
+        };
+        
+        const formattedTime = formatTime12Hour(reminderTime);
+        
         if (reminderDate === todayStr) {
-          return `today at ${reminderTime}`;
+          return `today at ${formattedTime}`;
         } else if (reminderDate === tomorrowStr) {
-          return `tomorrow at ${reminderTime}`;
+          return `tomorrow at ${formattedTime}`;
         } else {
           // Format as readable date
           const options: Intl.DateTimeFormatOptions = { 
@@ -152,7 +163,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             day: 'numeric'
           };
           const dateStr = reminderDateObj.toLocaleDateString('en-US', options);
-          return `${dateStr} at ${reminderTime}`;
+          return `${dateStr} at ${formattedTime}`;
         }
       };
 
