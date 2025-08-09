@@ -40,7 +40,7 @@ export default function CreatePostModal({ isOpen, onClose }: CreatePostModalProp
     mutationFn: async (data: any) => {
       const postData = {
         userId: "user1",
-        content: data.caption,
+        content: "",
         caption: data.caption,
         image: "",
         moviePoster: "",

@@ -379,14 +379,6 @@ export default function FeedPage() {
                         className="w-full max-w-full object-cover hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                  ) : post.content ? (
-                    <div className="mb-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-5 border border-white/5">
-                      {post.content !== "Inception blew my mind! The layers of dreams within dreams were perfectly executed. Nolan really outdid himself with this one. Anyone else think the ending was ambiguous on purpose?" && (
-                        <p className="text-gray-200 leading-relaxed text-base">
-                          {post.content}
-                        </p>
-                      )}
-                    </div>
                   ) : null}
 
                   {/* Action Bar */}
