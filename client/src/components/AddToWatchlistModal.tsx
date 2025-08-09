@@ -223,7 +223,7 @@ export default function AddToWatchlistModal({ isOpen, onClose, movie }: AddToWat
               <Button
                 type="submit"
                 disabled={addMovieMutation.isPending}
-                className="flex-1 bg-red-600 hover:bg-red-700"
+                className="flex-1 bg-[#284145] hover:bg-[#334c52] text-white"
               >
                 {addMovieMutation.isPending ? "Adding..." : "Add to Watchlist"}
               </Button>
