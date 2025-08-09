@@ -218,11 +218,6 @@
 
 .modern-section {
   padding: var(--spacing-2xl) 0;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.modern-section:last-child {
-  border-bottom: none;
 }
 
 .modern-container {
