@@ -7,7 +7,7 @@ interface NavigationProps {
 
 export default function Navigation({ onAddMovie }: NavigationProps) {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#000000]/95 backdrop-blur-xl border-b border-[#3c595d] cred-fade-in">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#000000]/95 backdrop-blur-xl cred-fade-in">
       <div className="w-full">
         <div className="flex justify-between items-center h-16 sm:h-20 px-0">
           <div className="flex-1"></div>
