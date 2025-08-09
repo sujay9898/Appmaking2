@@ -75,6 +75,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Search movies from TMDB
+  app.get("/api/movies/search", async (req, res) => {
+    try {
+      const query = req.query.q as string;
+      if (!query || query.trim().length < 2) {
+        return res.json([]);
+      }
+
+      const movies = await tmdbService.searchMovies(query);
+      
+      // Transform the data for frontend
+      const transformedMovies = movies.map(movie => ({
+        tmdbId: movie.id.toString(),
+        title: movie.title,
+        posterPath: tmdbService.getImageUrl(movie.poster_path),
+        releaseYear: movie.release_date ? new Date(movie.release_date).getFullYear().toString() : '',
+        overview: movie.overview || '',
+      }));
+
+      res.json(transformedMovies);
+    } catch (error) {
+      console.error("Error searching movies:", error);
+      res.status(500).json({ message: "Failed to search movies" });
+    }
+  });
+
   // Get trending movies & series from TMDB
   app.get("/api/movies/trending-all", async (req, res) => {
     try {
@@ -97,31 +123,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Search movies using TMDB API
-  app.get("/api/movies/search", async (req, res) => {
-    try {
-      const query = req.query.q as string;
-      
-      if (!query) {
-        return res.status(400).json({ message: "Query parameter 'q' is required" });
-      }
 
-      const movies = await tmdbService.searchMovies(query);
-      
-      // Transform the data for frontend
-      const transformedMovies = movies.map(movie => ({
-        tmdbId: movie.id.toString(),
-        title: movie.title,
-        posterPath: tmdbService.getImageUrl(movie.poster_path),
-        releaseYear: movie.release_date ? new Date(movie.release_date).getFullYear().toString() : '',
-      }));
-
-      res.json(transformedMovies);
-    } catch (error) {
-      console.error("Error searching movies:", error);
-      res.status(500).json({ message: "Failed to search movies" });
-    }
-  });
 
   // Add movie to watchlist
   app.post("/api/movies", async (req, res) => {
